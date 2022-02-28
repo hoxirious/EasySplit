@@ -5,8 +5,8 @@ import { UsersService } from "./users.service";
 
 @Controller("users")
 export class UsersController {
-  @Get()
   // add jwt in parameter
+  @Get()
   async getUser(): Promise<UserInfoSchema> {
     console.log("Getting users...")
     return await UsersService.getUser();
