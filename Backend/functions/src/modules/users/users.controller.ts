@@ -1,17 +1,14 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
-import { PostUserReqDto } from "./dtos/post-user.dto";
 import { UsersService } from "./users.service";
 
 @Controller("user")
 export class UsersController {
-  // add jwt in parameter
+  
+  //Todos: Create custom decorator that extract JWT from the request
   @Get()
   async getUser(): Promise<UserInfoSchema> {
-    console.log("Getting users...")
+    console.log("Getting users...");
     return await UsersService.getUser();
   }
-
-  @Post()
-  async createUser(@Body() req: PostUserReqDto): Promise<void> {}
 }

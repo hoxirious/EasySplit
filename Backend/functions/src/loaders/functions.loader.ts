@@ -5,6 +5,7 @@ import express = require("express");
 import { Response } from "express";
 import { https } from "firebase-functions/v1";
 
+//* Create nest server for given function
 export const createNestServer = async ({
   expressInstance,
   module,
@@ -14,11 +15,12 @@ export const createNestServer = async ({
     new ExpressAdapter(expressInstance),
     { logger: ["error", "warn"] }
   );
-
   app.enableCors();
   return app.init();
 };
 
+
+//* Create Function 
 export const createFunction =
   (module: any) =>
   async (req: https.Request, res: Response<any>): Promise<any> => {
