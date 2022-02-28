@@ -3,7 +3,7 @@ import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
 import { PostUserReqDto } from "./dtos/post-user.dto";
 import { UsersService } from "./users.service";
 
-@Controller("users")
+@Controller("user")
 export class UsersController {
   // add jwt in parameter
   @Get()

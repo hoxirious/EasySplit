@@ -17,5 +17,5 @@ export const dataPoint = <T>(collectionPath: string) =>
   firestoreDb.collection(collectionPath).withConverter(converter<T>());
 
 export const db = {
-  users: dataPoint<UserInfoSchema>("users"),
+  users: dataPoint<UserInfoSchema>("users/"),
 };
