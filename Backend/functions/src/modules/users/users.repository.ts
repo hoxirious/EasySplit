@@ -1,3 +1,4 @@
+import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
 import { db } from "../../firebase/repository.firebase";
 
@@ -6,16 +7,10 @@ export class UsersRepository {
   static async getUser(): Promise<UserInfoSchema> {
     const ToReturn = await db.users.where("userID", "==", "testid").get();
 
-    let result = {
-      email: "",
-      name: "",
-      userID: "",
-      friendList: [],
-    };
-    if (ToReturn.size === 1) {
-      ToReturn.forEach((doc) => (result = doc.data()));
-      return result;
-    }
-    return result;
+    // todos: Handle error
+    const result: UserInfoSchema[] = ToReturn.docs.map(
+      (each: QueryDocumentSnapshot) => each.data() as UserInfoSchema
+    );
+    return result[0];
   }
 }
