@@ -1,4 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from "@nestjs/common";
+import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
+import { UsersService } from "./users.service";
 
-@Controller('users')
-export class UsersController {}
+@Controller("user")
+export class UsersController {
+  
+  //Todos: Create custom decorator that extract JWT from the request
+  @Get()
+  async getUser(): Promise<UserInfoSchema> {
+    console.log("Getting users...");
+    return await UsersService.getUser();
+  }
+}
