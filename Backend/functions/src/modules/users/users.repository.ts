@@ -13,4 +13,10 @@ export class UsersRepository {
     );
     return result[0];
   }
+
+  static async postUser(
+    user: UserInfoSchema
+  ): Promise<FirebaseFirestore.WriteResult> {
+    return await db.users.doc().set(user);
+  }
 }
