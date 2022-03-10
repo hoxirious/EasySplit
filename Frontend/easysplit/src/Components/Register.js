@@ -3,24 +3,29 @@ import easysplitlogo from '../Resources/divided.png'
 function Register() {
     return (
         <div className="register-container">
+            <nav id="mainNavbar" className="navbar navbar-dark bg-dark py-0 px-0 fixed-top d-flex">
+                <div className="nav-btns">
+                    <button className="btn btn-success my-2 mx-2 login-btn">Log In</button>
+                </div>
+            </nav>
             <div className="container-fluid register-content">
                 <img src={easysplitlogo} alt="easysplitlogo" className="img-fluid logo" />
-                <h1>Register</h1>
+                <h1>Sign Up</h1>
                 <form action="none">
-                    <div class="form-group register">
-                        <label for="name">Full Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="ligma" />
+                    <div className="form-group register">
+                        <label htmlFor="name">Full Name</label>
+                        <input type="name" className="form-control" id="name" placeholder="ligma" />
                     </div>
-                    <div class="form-group register">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="" />
+                    <div className="form-group register">
+                        <label htmlFor="email">Email</label>
+                        <input type="email" className="form-control" id="email" placeholder="" />
                     </div>
-                    <div class="form-group register">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="" />
+                    <div className="form-group register">
+                        <label htmlFor="password">Password</label>
+                        <input type="password" className="form-control" id="password" placeholder="" />
                     </div>
                 </form>
-                <button className="btn btn-success my-2 mx-2 register-btn">Register</button>
+                <button className="btn btn-success my-2 mx-2 register-btn">Sign Up</button>
             </div>
         </div>
 
