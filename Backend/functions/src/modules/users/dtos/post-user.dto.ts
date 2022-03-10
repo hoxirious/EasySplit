@@ -1,5 +1,6 @@
-export declare class PostUserBodyDto {
+export class PostUserBodyDto {
     email: string;
     name: string;
     friendList: string[];
 }
+  

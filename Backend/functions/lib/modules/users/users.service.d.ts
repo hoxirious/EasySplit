@@ -1,4 +1,5 @@
-import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
+import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 export declare class UsersService {
-    static getUser(): Promise<UserInfoSchema>;
+    static getUser(id: string): Promise<UserInfoSchema>;
+    static createUser(user: UserInfoSchema): Promise<FirebaseFirestore.WriteResult>;
 }
