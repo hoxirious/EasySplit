@@ -11,7 +11,6 @@
     "experimentalDecorators" : true,
     "declaration": true,
     "removeComments": true,
-    "baseUrl": "./",
     "incremental": true
   },
   "compileOnSave": true,

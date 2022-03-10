@@ -1,4 +1,5 @@
-export declare class PostUserReqDto {
-    userName: string;
-    userEmail: string;
+export declare class PostUserBodyDto {
+    email: string;
+    name: string;
+    friendList: string[];
 }

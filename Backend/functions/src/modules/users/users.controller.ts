@@ -1,17 +1,17 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
-import { FirebaseUser } from "src/nestjs/decorators/firebase-user.decorator";
-import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
+import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
+import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { PostUserBodyDto } from "./dtos/post-user.dto";
 import { UsersService } from "./users.service";
 
 @Controller("user")
 export class UsersController {
-  //Todos: Create custom decorator that extract JWT from the request
+
   @Get()
-  async getUser(): Promise<UserInfoSchema> {
+  async getUser(@FirebaseUser() user: UserRecord): Promise<UserInfoSchema> {
     console.log("Getting users...");
-    return await UsersService.getUser();
+    return await UsersService.getUser(user.uid);
   }
 
   @Post()
@@ -20,7 +20,6 @@ export class UsersController {
     @Body() body: PostUserBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Creating users...");
-
     const userID = user.uid;
     const userInfo = {
       userID,

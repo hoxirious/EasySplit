@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { UserInfoSchema } from "src/schemas/users/userInfo.schema";
+import { UserInfoSchema } from "../schemas/users/userInfo.schema";
 
 // Initialize our project application
 admin.initializeApp();

@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { extractUserRecordFromBearer } from "src/modules/users/helpers/firebase-user.helper";
+import { extractUserRecordFromBearer } from "../../modules/users/helpers/firebase-user.helper";
 
 export const FirebaseUser = createParamDecorator(
   async (_data: unknown, ctx: ExecutionContext) => {

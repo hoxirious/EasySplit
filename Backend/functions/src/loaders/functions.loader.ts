@@ -1,9 +1,9 @@
 import { NestFactory } from "@nestjs/core";
 import { ExpressAdapter } from "@nestjs/platform-express";
-import { NestServerInfo } from "src/models/nest.model";
 import express = require("express");
 import { Response } from "express";
 import { https } from "firebase-functions/v1";
+import { NestServerInfo } from "../models/nest.model";
 
 //* Create nest server for given function
 export const createNestServer = async ({
