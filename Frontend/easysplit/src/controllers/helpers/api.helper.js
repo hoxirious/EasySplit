@@ -1,5 +1,5 @@
 import { baseURL } from "../data/endpoints.data";
-import { axios } from "axios";
+import axios from "axios";
 
 export const sendRequest = async ({
   endpointInfo,

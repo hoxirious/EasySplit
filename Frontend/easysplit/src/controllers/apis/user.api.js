@@ -9,7 +9,11 @@ export const getUser = async (jwt) => {
   });
 };
 
-// todos add jwt into header
 export const createUser = async (user, jwt) => {
-  return await sendRequest(ENDPOINTS.users.createUser, user, jwt);
+  return await sendRequest({
+    endpointInfo: ENDPOINTS.users.getUser,
+    token: jwt,
+    data: user,
+    method: "put",
+  });
 };

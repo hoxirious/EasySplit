@@ -5,8 +5,6 @@ import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 export class UsersRepository {
   static async getUser(id: string): Promise<UserInfoSchema> {
     const query = await db.users.where("userID", "==", id).get();
-    console.log(query);
-
     let ToReturn: UserInfoSchema = {
       userID: "",
       email: "",
