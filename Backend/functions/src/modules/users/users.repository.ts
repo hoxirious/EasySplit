@@ -5,20 +5,32 @@ import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 export class UsersRepository {
   static async getUser(id: string): Promise<UserInfoSchema> {
     const query = await db.users.where("userID", "==", id).get();
+    console.log(query);
 
-    let ToReturn: UserInfoSchema;
-    query.docs.forEach((each: QueryDocumentSnapshot) => {
-      ToReturn = each.data() as UserInfoSchema;
-    });
-
-    if (ToReturn) return ToReturn;
-    else throw new Error("user/not-found");
+    let ToReturn: UserInfoSchema = {
+      userID: "",
+      email: "",
+      name: "",
+      friendList: [],
+    };
+    if (query.docs)
+      query.docs.forEach((each: QueryDocumentSnapshot) => {
+        if (each.data()) ToReturn = each.data() as UserInfoSchema;
+      });
+    return ToReturn;
   }
 
   static async postUser(
     user: UserInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
-    console.log(user);
-    return await db.users.doc().set(user);
+    let empty: UserInfoSchema = {
+      userID: "",
+      email: "",
+      name: "",
+      friendList: [],
+    };
+    if ((await this.getUser(user.userID)) === empty)
+      return await db.users.doc(user.userID).update(user);
+    else return await db.users.doc(user.userID).set(user);
   }
 }
