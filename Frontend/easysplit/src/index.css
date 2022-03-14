@@ -156,3 +156,123 @@ body {
 .btn-success:hover{
   box-shadow: 0px 0px 5px 5px #8aeba1;
 }
+
+.homeScreenDiv{
+  height: 100vh;
+  background-color: white;
+}
+
+.dashBoardDiv{
+  display: flex;
+}
+
+.firstDiv,.centerDiv, .thirdDiv{
+  display: inline-block;
+  width: 33%;
+  height: 100vh;
+}
+
+.firstDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 1em;
+}
+
+.fdiv-elem{
+  color: #9999b3;
+  font-weight: 500;
+}
+.fdiv-elem:hover{
+  color: #5bc5a7;
+  text-decoration: none;
+}
+
+#dashboard-link{
+  margin-top: 1em;
+}
+#activity-link{
+  margin: 1em 0 1em 0;
+}
+#expenses-link{
+  margin-bottom: 1em;
+}
+
+#group-friends-div{
+  width: 100%;
+  
+}
+
+#gf-g-header,#gf-f-header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-bottom: 1em;
+  background-color: #d6d6f7;
+  border-radius: 4px;
+}
+
+.centerDiv{
+  border-left: 3px solid black;
+  border-right: 3px solid black;
+}
+
+.topbar-group{
+  display: flex;
+  justify-content: space-between;
+  background-color: #eeeeee;
+  padding: 1em;
+}
+
+.topbar-actions-group{
+  display: flex;
+  margin-left: 3em;
+}
+
+#expenses-header{
+  font-size: 1.5em;
+  color: black;
+}
+
+#add-expense-btn, #settleup-btn{
+  border: none;
+  font: inherit;
+  padding: 0.4em;
+  font-size: 1em;
+  color: white;
+  border-radius: 4px;
+}
+
+
+#add-expense-btn{
+  background-color: #ff652f;
+  margin-right: 1em;
+}
+
+#add-expense-btn:hover{
+  background-color: #e65c2a;
+}
+
+#settleup-btn{
+  background-color: #5bc5a7;
+}
+
+#settleup-btn:hover{
+  background-color: #54b499;
+}
+
+@media only screen and (max-width: 920px) {
+  .firstDiv{
+    align-items: center;
+    margin-right: 0em;
+    width: 25.5%;
+  }
+  .centerDiv{
+    width: 49%;
+  }
+  .thirdDiv{
+    width: 25.5%;
+  }
+}

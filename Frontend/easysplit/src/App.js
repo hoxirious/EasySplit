@@ -4,7 +4,8 @@ import Register from "./Components/Register";
 import { UserApi } from "./controllers/apis/user.api";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth,connectAuthEmulator } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import Dashboard from "./Components/Dashboard";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuqfN8W85SXnYiG-7dL3TVw8lBT49UelY",
@@ -21,12 +22,13 @@ export const auth = getAuth(app);
 connectAuthEmulator(auth, "http://localhost:9099");
 
 function App() {
-  
+
   return (
     <div className="App">
       {/* <Home /> */}
       {/* <Login /> */}
-      <Register />
+      {/* <Register /> */}
+      <Dashboard />
     </div>
   );
 }
