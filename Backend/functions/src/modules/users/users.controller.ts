@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
@@ -14,7 +14,7 @@ export class UsersController {
     return await UsersService.getUser(user.uid);
   }
 
-  @Post()
+  @Put()
   async createUser(
     @FirebaseUser() user: UserRecord,
     @Body() body: PostUserBodyDto

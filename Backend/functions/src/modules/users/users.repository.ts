@@ -3,20 +3,32 @@ import { db } from "../../firebase/repository.firebase";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 
 export class UsersRepository {
-
   static async getUser(id: string): Promise<UserInfoSchema> {
-    const ToReturn = await db.users.where("userID", "==", id).get();
-
-    // todos: Handle error
-    const result: UserInfoSchema[] = ToReturn.docs.map(
-      (each: QueryDocumentSnapshot) => each.data() as UserInfoSchema
-    );
-    return result[0];
+    const query = await db.users.where("userID", "==", id).get();
+    let ToReturn: UserInfoSchema = {
+      userID: "",
+      email: "",
+      name: "",
+      friendList: [],
+    };
+    if (query.docs)
+      query.docs.forEach((each: QueryDocumentSnapshot) => {
+        if (each.data()) ToReturn = each.data() as UserInfoSchema;
+      });
+    return ToReturn;
   }
 
   static async postUser(
     user: UserInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await db.users.doc().set(user);
+    let empty: UserInfoSchema = {
+      userID: "",
+      email: "",
+      name: "",
+      friendList: [],
+    };
+    if ((await this.getUser(user.userID)) === empty)
+      return await db.users.doc(user.userID).update(user);
+    else return await db.users.doc(user.userID).set(user);
   }
 }
