@@ -4,4 +4,5 @@ import { PostUserBodyDto } from "./dtos/post-user.dto";
 export declare class UsersController {
     getUser(user: UserRecord): Promise<UserInfoSchema>;
     createUser(user: UserRecord, body: PostUserBodyDto): Promise<FirebaseFirestore.WriteResult>;
+    getFriend(user: UserRecord): Promise<string[]>;
 }

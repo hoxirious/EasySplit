@@ -27,4 +27,11 @@ export class UsersController {
     };
     return UsersService.createUser(userInfo);
   }
+
+  @Get("/allFriends")
+  async getFriend(@FirebaseUser() user: UserRecord): Promise<string[]>{
+    console.log("Getting user friends...");
+    return await UsersService.getFriends(user.uid);
+  }
+
 }
