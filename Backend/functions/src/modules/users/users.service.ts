@@ -12,4 +12,10 @@ export class UsersService {
   ): Promise<FirebaseFirestore.WriteResult> {
     return await UsersRepository.postUser(user);
   }
+
+  //Calls the getUser() method to retrieve user and then retrieves users friendslist
+  static async getFriends(id: string): Promise<string[]> {
+    return (await UsersRepository.getUser(id)).friendList;
+  }
+
 }
