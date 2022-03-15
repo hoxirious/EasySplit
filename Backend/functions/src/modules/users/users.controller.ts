@@ -34,4 +34,10 @@ export class UsersController {
     return await UsersService.getFriends(user.uid);
   }
 
+  @Get("/findUser")
+  async findUser(@FirebaseUser() user: UserRecord): Promise<UserInfoSchema> {
+    console.log("Getting User...");
+    return await UsersService.getUserByEmail(user.email);
+  }
+
 }
