@@ -7,6 +7,10 @@ export class UsersService {
     return await UsersRepository.getUser(id);
   }
 
+  static async getUserByEmail(email: string): Promise<UserInfoSchema> {
+    return await UsersRepository.getUserByEmail(email);
+  }
+
   static async createUser(
     user: UserInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {

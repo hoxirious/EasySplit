@@ -18,6 +18,21 @@ export class UsersRepository {
     return ToReturn;
   }
 
+  static async getUserByEmail(email: string): Promise<UserInfoSchema> {
+    const query = await db.users.where("email", "==", email).get();
+    let ToReturn: UserInfoSchema = {
+      userID: "",
+      email: "",
+      name: "",
+      friendList: [],
+    };
+    if (query.docs)
+      query.docs.forEach((each: QueryDocumentSnapshot) => {
+        if (each.data()) ToReturn = each.data() as UserInfoSchema;
+      });
+    return ToReturn;
+  }
+
   static async postUser(
     user: UserInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
