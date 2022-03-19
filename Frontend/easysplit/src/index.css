@@ -235,7 +235,7 @@ body {
   color: black;
 }
 
-#add-expense-btn, #settleup-btn, #save-group-btn{
+#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn{
   border: none;
   font: inherit;
   padding: 0.4em;
@@ -246,12 +246,12 @@ body {
 }
 
 
-#add-expense-btn, #save-group-btn{
+#add-expense-btn, #save-group-btn, #add-friend-btn{
   background-color: #ff652f;
   margin-right: 1em;
 }
 
-#add-expense-btn:hover, #save-group-btn:hover{
+#add-expense-btn:hover, #save-group-btn:hover, #add-friend-btn:hover{
   background-color: #e65c2a;
 }
 
@@ -277,7 +277,7 @@ body {
 
 .modal-content{
   width: 300px;
-	height: 150px;
+	height: 240px;
 	background-color: white;
   color: black;
 	border-radius: 7px;
@@ -295,13 +295,23 @@ body {
 
 .modal-content img:nth-child(2){
   width: 4em;
-  margin-left: 6.5em;
+  align-self: center;
 }
 
-.modal-content a{
-  padding-top: 1em;
-  text-decoration: none;
-  color: black;
+#add-friend-btn{
+  margin: 0;
+  width: 6em;
+  margin-top: 1em;
+}
+
+.addFriendform{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addFriendform input{
+  margin-top: 0.6em;
 }
 
 .friends-list, .groups-list{
@@ -343,6 +353,10 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+
+
+
 
 @media only screen and (max-width: 920px) {
   .firstDiv{

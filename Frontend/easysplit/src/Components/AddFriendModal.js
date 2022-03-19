@@ -20,7 +20,14 @@ function AddFriendModal(props) {
             <div className="modal-content">
                 <img src={close} onClick={() => { props.toggleAddFriendModal(false) }} />
                 <img src={emailLogo} />
-                <a href="#">Add friends with email address</a>
+                <h6>Add friends</h6>
+                <form className="addFriendform">
+                    <input type="email"
+                        className="form-control"
+                        id="email"
+                        placeholder="Enter your friend's email address" />
+                    <button id="add-friend-btn" onClick={() => { props.toggleAddFriendModal(false) }}>Add Friend</button>
+                </form>
             </div>
         </div>
     )
