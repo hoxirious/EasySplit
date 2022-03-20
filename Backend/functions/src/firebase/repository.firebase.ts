@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import { ExpenseInfoSchema } from "../schemas/expenses/expenseInfo.schema";
 import { UserInfoSchema } from "../schemas/users/userInfo.schema";
 
 // Initialize our project application
@@ -19,4 +20,5 @@ export const dataPoint = <T>(collectionPath: string) =>
 
 export const db = {
   users: dataPoint<UserInfoSchema>("users/"),
+  expenses: dataPoint<ExpenseInfoSchema>("expenses/"),
 };
