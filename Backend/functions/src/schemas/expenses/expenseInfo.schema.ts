@@ -2,10 +2,9 @@ import { ExpenseState } from "../../modules/expenses/definitions/expenses-info.d
 import { UserExpenseInfoSchema } from "./userExpense.schema";
 
 export interface ExpenseInfoSchema {
-  expenseID: string;
   groupRefence?: string;
   description: string;
-  timeStamp: Date;
+  timeStamp: string;
   totalExpense: number;
   splitDetail: UserExpenseInfoSchema[];
   expenseState: ExpenseState;
