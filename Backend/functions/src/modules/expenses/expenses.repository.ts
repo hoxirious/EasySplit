@@ -4,6 +4,7 @@ import { ExpenseState } from "./definitions/expenses-info.definition";
 
 export class ExpensesRepository {
   static EMPTY_EXPENSE: {
+    expenseID: "";
     groupRefence: "";
     description: "";
     timeStamp: "";
@@ -19,6 +20,6 @@ export class ExpensesRepository {
   static async postExpense(
     expenseInfo: ExpenseInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await db.expenses.doc().set(expenseInfo);
+    return await db.expenses.doc(expenseInfo.expenseID).set(expenseInfo);
   }
 }
