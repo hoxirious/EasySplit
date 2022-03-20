@@ -3,6 +3,7 @@ import * as admin from "firebase-admin";
 import { UsersRepository } from "../modules/users/users.repository";
 import { UserInfoSchema } from "../schemas/users/userInfo.schema";
 
+// Mocking users
 const mockerUserList = [
   {
     account: {
@@ -50,22 +51,30 @@ const mockerUserList = [
   },
 ];
 
+// Seeding mocking users
 const seedUser = async () => {
   const auth = admin.auth();
   await Promise.all(
     mockerUserList.map(async (user) => {
+      // Create user on Firebase auth with email and password
       const uid = (await auth.createUser(user.account)).uid;
+
+      // Add user id into user data
       const userInfo: UserInfoSchema = {
         ...user.info,
         userID: uid,
       };
+      
+      // Create user
       await UsersRepository.postUser(userInfo);
     })
   );
 };
 
+// Seeding mocking data
 export const seedStuff = async () => {
   console.info("seeding...");
+  
   await seedUser();
   console.info("seeding done o.O");
 };

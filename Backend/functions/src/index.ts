@@ -3,7 +3,6 @@ import { createFunction } from "./loaders/functions.loader";
 import { seedStuff } from "./loaders/mocking.loader";
 import { UsersModule } from "./modules/users/users.module";
 
-// * Initialize App
 
 seedStuff();
 //* Create user function
