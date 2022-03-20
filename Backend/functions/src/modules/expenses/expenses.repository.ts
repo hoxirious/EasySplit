@@ -14,7 +14,7 @@ export class ExpensesRepository {
 
   static async getExpenseByID(id: string): Promise<ExpenseInfoSchema> {
     const query = await db.expenses.doc(id).get();
-    return query.data() ?? this.EMPTY_EXPENSE;
+    return query.data() ?? this.EMPTY_EXPENSE; // If (query.data() !== null && query.data() !== undefined) return query.data() else return EMPTY_EXPENSE
   }
   static async postExpense(
     expenseInfo: ExpenseInfoSchema

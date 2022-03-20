@@ -8,11 +8,7 @@ import { ExpensesService } from "./expenses.service";
 @Controller("expense")
 export class ExpensesController {
 
-  // @Get("/user_expenses")
-  // async getUserExpenses(@FirebaseUser() user: UserRecord): Promise<>{
-
-  // }
-
+  
   @Get("/:expenseID")
   async getExpenseByID(@Param("expenseID") expenseID: string): Promise<ExpenseInfoSchema>{
     console.log("Getting expense by ID...");
