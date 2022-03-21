@@ -16,10 +16,7 @@ export class UsersController {
   }
 
   @Put()
-  async createUser(
-    @FirebaseUser() user: UserRecord,
-    @Body() body: PostUserBodyDto
-  ): Promise<FirebaseFirestore.WriteResult> {
+  async createUser( @FirebaseUser() user: UserRecord, @Body() body: PostUserBodyDto ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Creating users...");
     const userID = user.uid;
     const userInfo = {
@@ -39,6 +36,15 @@ export class UsersController {
   async findUser(@Body() body: GetUserByEmailDto): Promise<UserInfoSchema> {
     console.log("Getting User by their email...");
     return await UsersService.getUserByEmail(body.userEmail);
+  }
+
+  //Not sure if we will remove friends one by one, or get them in a group
+
+  // body is the email of the deleting target
+  @Delete("/delete/friend")
+  async removeFriend(@FirebaseUser() user: UserRecord, @Body() body: string): Promise<FirebaseFirestore.WriteResult>{
+    console.log("Removing user's friend...");
+    return await UsersService.deleteFriend(user.id, body);
   }
 
 }
