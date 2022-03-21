@@ -1,4 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Put } from '@nestjs/common';
 
 @Controller('groups')
-export class GroupsController {}
+export class GroupsController {
+    @Put("/addMembers")
+    async addMember() {}
+}
