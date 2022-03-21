@@ -21,6 +21,15 @@ export class UsersService {
     return (await UsersRepository.getUser(id)).friendList;
   }
 
+
+  static async deleteFriend(
+    userID: string,
+    email: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const target = this.getUserByEmail(email);
+    //repository sending my userID and target.userID
+    return await UsersRepository.deleteFriend(userID, (await target).userID);
+
   static async addFriend(
     id: string,
     friendEmail: string,

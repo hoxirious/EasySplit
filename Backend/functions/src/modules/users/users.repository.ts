@@ -47,6 +47,16 @@ export class UsersRepository {
     else return await db.users.doc(user.userID).set(user);
   }
 
+
+  //Get user name saved in friend list
+  static async deleteFriend(myUserID: string, targetUserID: string) {
+    const me = await UsersRepository.getUser(myUserID);
+    const myFriendList = me.friendList;
+    const newFriendList = myFriendList.filter( value => value !== targetUserID);
+    return await db.users.doc(myUserID).update({
+      friendList: newFriendList,
+    });
+
   static async addFriend(
     id: string,
     friendEmail: string,
