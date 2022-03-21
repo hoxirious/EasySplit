@@ -7,7 +7,7 @@ export class UsersRepository {
     const query = await db.users.where("userID", "==", id).get();
     let ToReturn: UserInfoSchema = {
       userID: "",
-      email: "",  
+      email: "",
       name: "",
       friendList: [],
     };
@@ -47,6 +47,7 @@ export class UsersRepository {
     else return await db.users.doc(user.userID).set(user);
   }
 
+
   //Get user name saved in friend list
   static async deleteFriend(myUserID: string, targetUserID: string) {
     const me = await UsersRepository.getUser(myUserID);
@@ -55,5 +56,29 @@ export class UsersRepository {
     return await db.users.doc(myUserID).update({
       friendList: newFriendList,
     });
+
+  static async addFriend(
+    id: string,
+    friendEmail: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const friend = await this.getUserByEmail(friendEmail);
+    const user = await this.getUser(id);
+
+    if (
+      friend.userID in user.friendList === false ||
+      user.userID in friend.friendList === false
+    ) {
+      friend.friendList.push(user.userID);
+      user.friendList.push(friend.userID);
+    }
+
+    return (
+      await db.users.doc(user.userID).update({
+        friendList: user.friendList,
+      }),
+      await db.users.doc(friend.userID).update({
+        friendList: friend.friendList,
+      })
+    );
   }
 }

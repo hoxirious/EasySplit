@@ -9,4 +9,5 @@ export declare class UsersController {
     getFriend(user: UserRecord): Promise<string[]>;
     findUser(body: GetUserByEmailDto): Promise<UserInfoSchema>;
     removeFriend(user: UserRecord, body: DeleteFriendListDto): Promise<FirebaseFirestore.WriteResult>;
+    addFriend(user: UserRecord, body: GetUserByEmailDto): Promise<FirebaseFirestore.WriteResult>;
 }

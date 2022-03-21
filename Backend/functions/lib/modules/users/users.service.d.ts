@@ -5,4 +5,5 @@ export declare class UsersService {
     static createUser(user: UserInfoSchema): Promise<FirebaseFirestore.WriteResult>;
     static getFriends(id: string): Promise<string[]>;
     static deleteFriend(userID: string, email: string): Promise<FirebaseFirestore.WriteResult>;
+    static addFriend(id: string, friendEmail: string): Promise<FirebaseFirestore.WriteResult>;
 }
