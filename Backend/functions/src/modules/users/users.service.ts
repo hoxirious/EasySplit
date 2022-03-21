@@ -22,4 +22,9 @@ export class UsersService {
     return (await UsersRepository.getUser(id)).friendList;
   }
 
+  static async addFriend(id: string, 
+    friendEmail: string): Promise<FirebaseFirestore.WriteResult> {
+      return await UsersRepository.addFriend(id, friendEmail);
+    }
+
 }

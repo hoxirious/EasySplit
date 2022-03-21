@@ -1,3 +1,3 @@
 export class GetUserByEmailDto {
-    userEmail: string;
+    email: string;
 }
