@@ -8,7 +8,6 @@ import { UsersService } from "./users.service";
 
 @Controller("user")
 export class UsersController {
-
   @Get()
   async getUser(@FirebaseUser() user: UserRecord): Promise<UserInfoSchema> {
     console.log("Getting users...");
@@ -18,7 +17,7 @@ export class UsersController {
   @Put()
   async createUser(
     @FirebaseUser() user: UserRecord,
-    @Body() body: PostUserBodyDto
+    @Body() body: PostUserBodyDto,
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Creating users...");
     const userID = user.uid;
@@ -30,7 +29,7 @@ export class UsersController {
   }
 
   @Get("/allFriends")
-  async getFriend(@FirebaseUser() user: UserRecord): Promise<string[]>{
+  async getFriend(@FirebaseUser() user: UserRecord): Promise<string[]> {
     console.log("Getting user friends...");
     return await UsersService.getFriends(user.uid);
   }
@@ -42,11 +41,12 @@ export class UsersController {
   }
 
   @Put("/addFriend")
-  async addFriend(@FirebaseUser() user: UserRecord,
-    @Body() body: GetUserByEmailDto): Promise<FirebaseFirestore.WriteResult> {
+  async addFriend(
+    @FirebaseUser() user: UserRecord,
+    @Body() body: GetUserByEmailDto,
+  ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Adding friend...");
     const friendEmail = body.email;
     return await UsersService.addFriend(user.uid, friendEmail);
   }
-
 }

@@ -2,7 +2,6 @@ import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { UsersRepository } from "./users.repository";
 
 export class UsersService {
-
   static async getUser(id: string): Promise<UserInfoSchema> {
     return await UsersRepository.getUser(id);
   }
@@ -12,7 +11,7 @@ export class UsersService {
   }
 
   static async createUser(
-    user: UserInfoSchema
+    user: UserInfoSchema,
   ): Promise<FirebaseFirestore.WriteResult> {
     return await UsersRepository.postUser(user);
   }
@@ -22,9 +21,10 @@ export class UsersService {
     return (await UsersRepository.getUser(id)).friendList;
   }
 
-  static async addFriend(id: string, 
-    friendEmail: string): Promise<FirebaseFirestore.WriteResult> {
-      return await UsersRepository.addFriend(id, friendEmail);
-    }
-
+  static async addFriend(
+    id: string,
+    friendEmail: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
+    return await UsersRepository.addFriend(id, friendEmail);
+  }
 }

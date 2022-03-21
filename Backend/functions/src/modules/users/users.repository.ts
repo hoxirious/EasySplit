@@ -34,7 +34,7 @@ export class UsersRepository {
   }
 
   static async postUser(
-    user: UserInfoSchema
+    user: UserInfoSchema,
   ): Promise<FirebaseFirestore.WriteResult> {
     let empty: UserInfoSchema = {
       userID: "",
@@ -47,22 +47,28 @@ export class UsersRepository {
     else return await db.users.doc(user.userID).set(user);
   }
 
-  static async addFriend(id: string, friendEmail: string): Promise<FirebaseFirestore.WriteResult> {
+  static async addFriend(
+    id: string,
+    friendEmail: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
     const friend = await this.getUserByEmail(friendEmail);
     const user = await this.getUser(id);
 
-    if ((friend.userID in user.friendList) === false || (user.userID in friend.friendList) === false) {
+    if (
+      friend.userID in user.friendList === false ||
+      user.userID in friend.friendList === false
+    ) {
       friend.friendList.push(user.userID);
       user.friendList.push(friend.userID);
     }
 
     return (
       await db.users.doc(user.userID).update({
-        "friendList": user.friendList
+        friendList: user.friendList,
       }),
       await db.users.doc(friend.userID).update({
-        "friendList": friend.friendList
+        friendList: friend.friendList,
       })
-    )
+    );
   }
 }
