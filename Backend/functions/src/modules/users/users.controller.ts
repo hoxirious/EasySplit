@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { DeleteFriendListDto } from "./dtos/delete-friendList.dto";
 import { GetUserByEmailDto } from "./dtos/get-user-by-email.dto";
 import { PostUserBodyDto } from "./dtos/post-user.dto";
 import { UsersService } from "./users.service";
@@ -42,9 +43,9 @@ export class UsersController {
 
   // body is the email of the deleting target
   @Delete("/delete/friend")
-  async removeFriend(@FirebaseUser() user: UserRecord, @Body() body: string): Promise<FirebaseFirestore.WriteResult>{
+  async removeFriend(@FirebaseUser() user: UserRecord, @Body() body: DeleteFriendListDto): Promise<FirebaseFirestore.WriteResult>{
     console.log("Removing user's friend...");
-    return await UsersService.deleteFriend(user.id, body);
+    return await UsersService.deleteFriend(user.uid, body.email);
   }
 
 }
