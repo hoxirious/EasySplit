@@ -20,6 +20,21 @@ export class ExpensesRepository {
   static async postExpense(
     expenseInfo: ExpenseInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await db.expenses.doc(expenseInfo.expenseID).set(expenseInfo);
+    console.log(expenseInfo.expenseID);
+    try {
+      return await db.expenses.doc(expenseInfo.expenseID).set(expenseInfo);
+    } catch (error) {
+      throw new Error("cannot post expense!");
+    }
+  }
+
+  static async putExpense(
+    expenseInfo: ExpenseInfoSchema
+  ): Promise<FirebaseFirestore.WriteResult> {
+    try {
+      return await db.expenses.doc(expenseInfo.expenseID).update(expenseInfo);
+    } catch (error) {
+      throw new Error("cannot put expense!");
+    }
   }
 }
