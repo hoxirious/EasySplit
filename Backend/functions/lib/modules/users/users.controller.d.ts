@@ -7,4 +7,5 @@ export declare class UsersController {
     createUser(user: UserRecord, body: PostUserBodyDto): Promise<FirebaseFirestore.WriteResult>;
     getFriend(user: UserRecord): Promise<string[]>;
     findUser(body: GetUserByEmailDto): Promise<UserInfoSchema>;
+    addFriend(user: UserRecord, body: GetUserByEmailDto): Promise<FirebaseFirestore.WriteResult>;
 }
