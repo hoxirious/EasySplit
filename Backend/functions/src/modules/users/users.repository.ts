@@ -7,7 +7,7 @@ export class UsersRepository {
     const query = await db.users.where("userID", "==", id).get();
     let ToReturn: UserInfoSchema = {
       userID: "",
-      email: "",
+      email: "",  
       name: "",
       friendList: [],
     };

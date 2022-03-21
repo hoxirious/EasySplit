@@ -49,6 +49,8 @@ node_modules/
 
 lib/
 
+lib/tsconfig.tsbuildinfo
+
 # Optional npm cache directory
 .npm
 
