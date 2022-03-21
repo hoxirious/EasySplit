@@ -10,6 +10,8 @@ export class UsersRepository {
       email: "",
       name: "",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     };
     if (query.docs)
       query.docs.forEach((each: QueryDocumentSnapshot) => {
@@ -25,6 +27,8 @@ export class UsersRepository {
       email: "",
       name: "",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     };
     if (query.docs)
       query.docs.forEach((each: QueryDocumentSnapshot) => {
@@ -41,6 +45,8 @@ export class UsersRepository {
       email: "",
       name: "",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     };
     if ((await this.getUser(user.userID)) === empty)
       return await db.users.doc(user.userID).update(user);

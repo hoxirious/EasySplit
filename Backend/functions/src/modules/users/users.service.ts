@@ -1,4 +1,6 @@
+import { db } from "../../firebase/repository.firebase";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { PostUserBodyDto } from "./dtos/post-user.dto";
 import { UsersRepository } from "./users.repository";
 
 export class UsersService {
@@ -11,9 +13,18 @@ export class UsersService {
   }
 
   static async createUser(
-    user: UserInfoSchema,
+    user: PostUserBodyDto,
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await UsersRepository.postUser(user);
+    
+    const userID = db.users.doc().id;
+    const userInfo: UserInfoSchema= {
+      ...user,
+      userID,
+      friendList: [],
+      groupList: [] ,
+      expenseList: [],
+    }
+    return await UsersRepository.postUser(userInfo);
   }
 
   //Calls the getUser() method to retrieve user and then retrieves users friendslist
