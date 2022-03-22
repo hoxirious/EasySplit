@@ -62,7 +62,7 @@ export class UsersRepository {
     return await db.users.doc(myUserID).update({
       friendList: newFriendList,
     });
-
+  }
   static async addFriend(
     id: string,
     friendEmail: string,
