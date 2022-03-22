@@ -39,7 +39,7 @@ export class GroupsRepository {
         const user = await UsersRepository.getUser(userID);
 
         if (groupID in user.groupList === false || 
-            userID in group.memberList
+            userID in group.memberList === false
         ) {
             group.memberList.push(userID);
             user.groupList.push(groupID);

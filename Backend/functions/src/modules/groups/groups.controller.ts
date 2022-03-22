@@ -9,7 +9,7 @@ import { GetGroupDto } from './dtos/get-group.dto';
 
 @Controller("group")
 export class GroupsController {
-    @Get()
+    @Get("/getGroup")
     async getGroup(@Body() body: GetGroupDto): Promise<GroupInfoSchema> {
         console.log("Getting group...");
         return await GroupService.getGroup(body.groupID);
