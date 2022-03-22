@@ -14,6 +14,8 @@ const mockerUserList = [
       email: "test1@gmail.com",
       name: "Test1",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     },
   },
   {
@@ -25,6 +27,8 @@ const mockerUserList = [
       email: "test2@gmail.com",
       name: "Test2",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     },
   },
   {
@@ -36,6 +40,8 @@ const mockerUserList = [
       email: "test3@gmail.com",
       name: "Test3",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     },
   },
   {
@@ -47,6 +53,8 @@ const mockerUserList = [
       email: "test4@gmail.com",
       name: "Test4",
       friendList: [],
+      groupList: [],
+      expenseList: [],
     },
   },
 ];

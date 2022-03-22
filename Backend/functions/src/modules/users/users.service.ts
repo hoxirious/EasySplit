@@ -1,6 +1,5 @@
-import { db } from "../../firebase/repository.firebase";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
-import { PostUserBodyDto } from "./dtos/post-user.dto";
+import { PostUserServiceDto } from "./dtos/post-user.dto";
 import { UsersRepository } from "./users.repository";
 
 export class UsersService {
@@ -13,13 +12,11 @@ export class UsersService {
   }
 
   static async createUser(
-    user: PostUserBodyDto,
+    user: PostUserServiceDto,
   ): Promise<FirebaseFirestore.WriteResult> {
     
-    const userID = db.users.doc().id;
     const userInfo: UserInfoSchema= {
       ...user,
-      userID,
       friendList: [],
       groupList: [] ,
       expenseList: [],
@@ -40,7 +37,7 @@ export class UsersService {
     const target = this.getUserByEmail(email);
     //repository sending my userID and target.userID
     return await UsersRepository.deleteFriend(userID, (await target).userID);
-
+  }
   static async addFriend(
     id: string,
     friendEmail: string,
