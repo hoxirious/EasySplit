@@ -4,6 +4,10 @@ import { db } from "../../firebase/repository.firebase";
 import { GroupsRepository } from "./groups.repository";
 
 export class GroupService {
+    static async getGroup(id: string): Promise<GroupInfoSchema> {
+        return await GroupsRepository.getGroup(id);
+    }
+    
     static async createGroup(
         body: PostGroupBodyDto,
         userID: string
@@ -15,5 +19,12 @@ export class GroupService {
             ...body,
         }
         return await GroupsRepository.postGroups(groupInfo, userID)
+    }
+
+    static async addMember(
+        groupID: string, 
+        userID: string
+    ): Promise<FirebaseFirestore.WriteResult> {
+        return await GroupsRepository.addMember(groupID, userID);
     }
 }
