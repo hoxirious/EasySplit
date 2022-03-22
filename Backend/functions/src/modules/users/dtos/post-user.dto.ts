@@ -1,6 +1,7 @@
 export class PostUserBodyDto {
     email: string;
     name: string;
-    friendList: string[];
 }
-  
+export class PostUserServiceDto extends PostUserBodyDto{
+    userID: string;
+}
