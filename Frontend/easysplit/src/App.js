@@ -47,13 +47,14 @@ const PrivateRoute = (props) => {
 };
 
 function App() {
+  
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/login" component={Login}/>
-          <Route exact path="/register"component={Register}/>
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/" component={Home} />
           <PrivateRoute exact path="/dashboard" fallbackRoute="/login">
             <Dashboard />
           </PrivateRoute>
