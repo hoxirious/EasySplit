@@ -15,7 +15,10 @@ export const createNestServer = async ({
     new ExpressAdapter(expressInstance),
     { logger: ["error", "warn"] }
   );
-  app.enableCors();
+  app.enableCors({
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  });
   return app.init();
 };
 

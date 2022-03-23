@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../App";
+import { Link } from "react-router-dom";
 import { createUser } from "../controllers/apis/user.api";
 import easysplitlogo from "../Resources/divided.png";
 
@@ -36,9 +37,9 @@ function Register() {
         className="navbar navbar-dark bg-dark py-0 px-0 fixed-top d-flex"
       >
         <div className="nav-btns">
-          <button className="btn btn-success my-2 mx-2 login-btn">
+          <Link className="btn btn-success my-2 mx-2 login-btn" to={"/login"}>
             Log In
-          </button>
+          </Link>
         </div>
       </nav>
       <div className="container-fluid register-content">
