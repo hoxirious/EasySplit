@@ -6,6 +6,7 @@ import { GroupService } from './groups.service';
 import { AddMemberDto } from './dtos/add-member.dto';
 import { GroupInfoSchema } from '../../schemas/groups/groupInfo.schema';
 import { GetGroupDto } from './dtos/get-group.dto';
+import { RemoveMemberDto } from './dtos/remove-member.dto';
 
 @Controller("group")
 export class GroupsController {
@@ -36,7 +37,7 @@ export class GroupsController {
     }
 
     @Put("/removeMember")
-    async removeMember(@Body() body: AddMemberDto): Promise<FirebaseFirestore.WriteResult> {
+    async removeMember(@Body() body: RemoveMemberDto): Promise<FirebaseFirestore.WriteResult> {
         console.log("Remove an existing member...");
         return await GroupService.removeMember(body.groupID, body.userID);
     }

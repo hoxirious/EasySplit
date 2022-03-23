@@ -54,32 +54,4 @@ export class GroupsRepository {
             })
         );
     }
-
-    static async removeMember(
-        groupID: string,
-        userID: string
-    ): Promise<FirebaseFirestore.WriteResult> {
-        const group = await this.getGroup(groupID);
-        const user = await UsersRepository.getUser(userID);
-        
-        const userIndex = group.memberList.indexOf(userID);
-        const groupIndex = user.groupList.indexOf(groupID);
-        
-        if (userIndex > -1) {
-            group.memberList.splice(userIndex, 1);
-        }
-        
-        if (groupIndex > -1) {
-            user.groupList.splice(groupIndex, 1);
-        }
-
-        return (
-            await db.groups.doc(group.groupID).update({
-                memberList: group.memberList,
-            }),
-            await db.users.doc(user.userID).update({
-                groupList: user.groupList,
-            })
-        );
-    }
 }
