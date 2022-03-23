@@ -27,4 +27,11 @@ export class GroupService {
     ): Promise<FirebaseFirestore.WriteResult> {
         return await GroupsRepository.addMember(groupID, userID);
     }
+
+    static async removeMember(
+        groupID: string,
+        userID: string
+    ): Promise<FirebaseFirestore.WriteResult> {
+        return await GroupsRepository.removeMember(groupID, userID); 
+    }
 }

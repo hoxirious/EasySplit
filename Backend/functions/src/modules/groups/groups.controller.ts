@@ -34,4 +34,10 @@ export class GroupsController {
         console.log("Add new member...");
         return await GroupService.addMember(body.groupID, body.userID);
     }
+
+    @Put("/removeMember")
+    async removeMember(@Body() body: AddMemberDto): Promise<FirebaseFirestore.WriteResult> {
+        console.log("Remove an existing member...");
+        return await GroupService.removeMember(body.groupID, body.userID);
+    }
 }
