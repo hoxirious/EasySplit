@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
+import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { DeleteFriendListDto } from "./dtos/delete-friendList.dto";
 import { GetUserByEmailDto } from "./dtos/get-user-by-email.dto";
@@ -60,6 +61,12 @@ export class UsersController {
     console.log("Adding friend...");
     const friendEmail = body.email;
     return await UsersService.addFriend(user.uid, friendEmail);
+  }
+
+  @Get("/allGroups")
+  async getUserGroupsInfo(@FirebaseUser() user: UserRecord): Promise<GroupInfoSchema[]> {
+    console.log("Getting user groups...");
+    return await UsersService.getUserGroupsInfo(user.uid);
   }
 
 }

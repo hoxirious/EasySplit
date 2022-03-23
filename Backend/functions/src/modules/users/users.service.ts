@@ -1,3 +1,4 @@
+import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { PostUserServiceDto } from "./dtos/post-user.dto";
 import { UsersRepository } from "./users.repository";
@@ -43,5 +44,9 @@ export class UsersService {
     friendEmail: string,
   ): Promise<FirebaseFirestore.WriteResult> {
     return await UsersRepository.addFriend(id, friendEmail);
+  }
+
+  static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
+    return await UsersRepository.getUserGroupsInfo(id);
   }
 }
