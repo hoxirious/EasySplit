@@ -24,5 +24,5 @@ export const db = {
   users: dataPoint<UserInfoSchema>("users/"),
   expenses: dataPoint<ExpenseInfoSchema>("expenses/"),
   groups: dataPoint<GroupInfoSchema>("groups/"),
-  events: dataPoint<StreamInfoSchema[]>("stream/"),
+  events: dataPoint<StreamInfoSchema>("stream/"),
 };
