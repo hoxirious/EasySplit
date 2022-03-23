@@ -3,7 +3,7 @@ import { UserExpenseInfoSchema } from "./userExpense.schema";
 
 export interface ExpenseInfoSchema {
   expenseID: string;
-  groupRefence?: string;
+  groupReference?: string;
   description: string;
   timeStamp: string;
   totalExpense: number;
