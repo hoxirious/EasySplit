@@ -1,6 +1,8 @@
 import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { db } from "../../firebase/repository.firebase";
+import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { GroupsRepository } from "../groups/groups.repository";
 
 export class UsersRepository {
   static async getUser(id: string): Promise<UserInfoSchema> {
@@ -86,5 +88,13 @@ export class UsersRepository {
         friendList: friend.friendList,
       })
     );
+  }
+
+  static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
+    let ToReturn = [];
+    for (const userGroupID of (await this.getUser(id)).groupList) {
+      ToReturn.push(GroupsRepository.getGroup(userGroupID));
+    }
+    return ToReturn;
   }
 }
