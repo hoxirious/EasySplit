@@ -22,7 +22,7 @@ export class ExpensesRepository {
   static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
     const expenseList: ExpenseInfoSchema[] = [];
     const expenseIDList = (await db.groups.doc(id).get()).data().expenseList;
-    for (let expenseID of expenseIDList) {
+    for (const expenseID of expenseIDList) {
       expenseList.push(await this.getExpenseByID(expenseID));
     }
     return expenseList;
