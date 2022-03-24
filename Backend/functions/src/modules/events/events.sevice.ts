@@ -12,6 +12,13 @@ const isExpenseType = (eventType: EventType): boolean =>
   eventType === EventType.ExpenseUpdate;
 
 export class EventsService {
+
+  /**
+   * 
+   * @param eventType 
+   * @param userLentAmount 
+   * @returns the corresponding balance to the EventType
+   */
   static billingAction(eventType: EventType, userLentAmount: number): number {
     switch (eventType) {
       case EventType.ExpenseCreate:
@@ -102,6 +109,8 @@ export class EventsService {
         const userBilling = eventContent.splitDetail.find(
           (user) => user.userID === userID
         );
+
+        //*  Retrieve billing that relates to friendID
         const friendBilling = eventContent.splitDetail.find(
           (user) => user.userID === friendID
         );
