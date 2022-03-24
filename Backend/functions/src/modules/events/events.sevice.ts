@@ -43,13 +43,12 @@ export class EventsService {
     const userStream = await EventsRepository.getUserStream(userID);
     //* Loop through the event list to total up the current balance of the user
     return userStream.eventList.reduce<number>((currentBalance, event) => {
-
       //* Assert event.eventContent type into ExpenseInfoSchema
       const eventContent = event.eventContent as ExpenseInfoSchema;
 
       //* If event has groupReference and its type is expense
       if (
-        eventContent.groupReference &&
+        eventContent.groupReference === groupID &&
         (event.eventType === EventType.ExpenseCreate ||
           event.eventType === EventType.ExpenseDelete ||
           event.eventType === EventType.ExpenseUndelete ||
