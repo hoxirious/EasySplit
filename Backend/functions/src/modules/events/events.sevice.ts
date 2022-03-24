@@ -22,7 +22,7 @@ export class EventsService {
       if (
         event.eventType === EventType.ExpenseCreate ||
         event.eventType === EventType.ExpenseDelete ||
-        event.eventType === EventType.ExpenseRevert ||
+        event.eventType === EventType.ExpenseUndelete ||
         event.eventType === EventType.ExpenseUpdate
       ) {
         //* Assert event.eventContent type into ExpenseInfoSchema to retrieve events that relates to userID

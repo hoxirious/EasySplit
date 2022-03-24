@@ -71,7 +71,7 @@ export class EventsRepository {
       //   break;
       // case EventType.ExpenseDelete:
       //   break;
-      // case EventType.ExpenseRevert:
+      // case EventType.ExpenseUndelete:
       //   break;
       // case EventType.ExpenseUpdate:
       //   break;

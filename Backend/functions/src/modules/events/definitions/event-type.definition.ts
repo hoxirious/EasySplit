@@ -2,9 +2,9 @@ export enum EventType {
   "GroupDelete",
   "GroupCreate",
   "GroupUpdate",
-  "GroupRevert",
+  "GroupUndelete",
   "ExpenseDelete",
   "ExpenseCreate",
   "ExpenseUpdate",
-  "ExpenseRevert",
+  "ExpenseUndelete",
 }
