@@ -9,10 +9,14 @@ function AddExpenseModal(props) {
 
     const [splitMethod, setSplitMethod] = useState("equal");
     const [splitWithArr, setSplitWithArr] = useState([]);
+    const [amountAfterSplit, setAmountAfterSplit] = useState(0.0);
+    const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]);
 
     const modal = useRef();
     const splitInfoDiv = useRef();
     const shareWithInput = useRef();
+    const amount = useRef();
+    const splitBtn = useRef();
 
     function addEmails() {
         let emails = (shareWithInput.current.value).split(",");
@@ -20,19 +24,46 @@ function AddExpenseModal(props) {
         console.log(splitWithArr);
     }
 
+    function computeSplit() {
+        let ul = splitInfoDiv.current.children[0];
+        let exactValues = [];
+        let lis = ul.getElementsByTagName("li");
+        for (let li of lis) {
+            exactValues.push(li.children[1].value)
+        }
+        setExactAmountsAfterSplit(exactValues)
+        console.log(exactAmountsAfterSplit);
+    }
+
     function changeSplitMethod(splitMethod) {
         setSplitMethod(splitMethod);
-        let emailList = splitWithArr.map(email => `<li>${email}</li>`).join('');
         if (splitMethod === 'equal') {
+            splitBtn.current.style.display = 'none';
+            setAmountAfterSplit(() => {
+                if (splitWithArr.length < 2) {
+                    return amount;
+                }
+                else {
+                    return (amount.current.value / splitWithArr.length).toFixed(2);
+                }
+            });
+            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span> <span style='font-weight: 500; color: "black"'>$${(amount.current.value / splitWithArr.length).toFixed(2)}</span></li>`).join('');
             splitInfoDiv.current.innerHTML = `
-            <ul>
+            <ul style="list-style-type:none;margin:0;padding:0">
                 ${emailList}
             </ul>
             `
         }
-        console.log(emailList)
+        else if (splitMethod === 'exact') {
+            splitBtn.current.style.display = 'block';
+            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="$" style='margin: 1em 0 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
+            splitInfoDiv.current.innerHTML = `
+            <ul style="list-style-type:none;margin:0;padding:0">
+                ${emailList}
+            </ul>
+            `
+        }
     }
-
 
     useEffect(() => {
         if (props.isOpen === true) {
@@ -60,16 +91,17 @@ function AddExpenseModal(props) {
                             <button id="add-emails-btn" onClick={addEmails} type="button">Add</button>
                         </span>
                         <input type="text" className="formControl" id="split-desc-input" placeholder="Enter a description"></input>
-                        <span><b>$ </b><input type="number" className="formControl" id="split-amount-input" placeholder="0.00"></input></span>
+                        <span><b>$ </b><input type="number" className="formControl" id="split-amount-input" placeholder="0.00" ref={amount}></input></span>
                         <h5>Choose a split method:</h5>
                         <div className="split-method-imgs">
                             <img className="split-method-img" src={equal} onClick={() => { changeSplitMethod('equal') }} />
-                            <img className="split-method-img" src={shares} onClick={() => { changeSplitMethod('shares') }} />
+                            {/* <img className="split-method-img" src={shares} onClick={() => { changeSplitMethod('shares') }} /> */}
                             <img className="split-method-img" src={exactamount} onClick={() => { changeSplitMethod('exact') }} />
                             <img className="split-method-img" src={percent} onClick={() => { changeSplitMethod('percent') }} />
                         </div>
                         <h4>{splitMethod}</h4>
                         <div className="split-info" ref={splitInfoDiv}></div>
+                        <button id="submit-exact-percentage-btn" onClick={computeSplit} type="button" ref={splitBtn}>Split</button>
                     </form>
                 </div>
             </div>

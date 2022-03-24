@@ -235,7 +235,7 @@ body {
   color: black;
 }
 
-#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn{
+#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn{
   border: none;
   font: inherit;
   padding: 0.4em;
@@ -246,12 +246,12 @@ body {
 }
 
 
-#add-expense-btn, #save-group-btn, #add-friend-btn, #add-emails-btn{
+#add-expense-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn{
   background-color: #ff652f;
   margin-right: 1em;
 }
 
-#add-expense-btn:hover, #save-group-btn:hover, #add-friend-btn:hover, #add-emails-btn:hover{
+#add-expense-btn:hover, #save-group-btn:hover, #add-friend-btn:hover, #add-emails-btn:hover, #submit-exact-percentage-btn:hover{
   background-color: #e65c2a;
 }
 
@@ -406,6 +406,7 @@ body {
 .modal-content.addexpensecontent{
   width: 400px;
   height: max-content;
+  width: max-content;
 }
 
 .addExpenseForm{
@@ -432,11 +433,16 @@ body {
   width: 6em;
 }
 
-#add-emails-btn{
+#add-emails-btn, #submit-exact-percentage-btn{
   margin-left: 0.5em;
   margin-right: 0;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
+}
+
+#submit-exact-percentage-btn{
+  margin-top: 1em;
+  display: none;
 }
 
 @media only screen and (max-width: 920px) {
