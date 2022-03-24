@@ -6,11 +6,10 @@ import { EventType } from "./definitions/event-type.definition";
 import { EventsRepository } from "./events.repository";
 
 export class EventsService {
-
   /**
-   * 
-   * @param userID 
-   * @returns The current balance of userID for all expenses 
+   *
+   * @param userID
+   * @returns The current balance of userID for all expenses
    */
   static async getCurrentBalanceFromAllExpenses(
     userID: string
@@ -29,6 +28,37 @@ export class EventsService {
         const userBilling = (
           event.eventContent as ExpenseInfoSchema
         ).splitDetail.find((user) => user.userID === userID);
+
+        //* Increment the amount into currentBalance
+        currentBalance += userBilling.lentAmount;
+      }
+      return currentBalance;
+    }, 0);
+  }
+
+  static async getCurrentBalanceFromGroup(
+    userID: string,
+    groupID: string
+  ): Promise<number> {
+    const userStream = await EventsRepository.getUserStream(userID);
+    //* Loop through the event list to total up the current balance of the user
+    return userStream.eventList.reduce<number>((currentBalance, event) => {
+
+      //* Assert event.eventContent type into ExpenseInfoSchema
+      const eventContent = event.eventContent as ExpenseInfoSchema;
+
+      //* If event has groupReference and its type is expense
+      if (
+        eventContent.groupReference &&
+        (event.eventType === EventType.ExpenseCreate ||
+          event.eventType === EventType.ExpenseDelete ||
+          event.eventType === EventType.ExpenseUndelete ||
+          event.eventType === EventType.ExpenseUpdate)
+      ) {
+        //*  Retrieve events that relates to userID
+        const userBilling = eventContent.splitDetail.find(
+          (user) => user.userID === userID
+        );
 
         //* Increment the amount into currentBalance
         currentBalance += userBilling.lentAmount;
