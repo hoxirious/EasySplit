@@ -35,4 +35,8 @@ export class ExpensesService {
     };
     return await ExpensesRepository.postExpense(expenseInfo);
   }
+
+  static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
+    return await ExpensesRepository.getExpenseByGroupID(id);
+  }
 }

@@ -1,19 +1,21 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "../App";
 import easysplitlogo from "../Resources/divided.png";
 function Login() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const history = useHistory();
 
   const login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
+      const login = await signInWithEmailAndPassword(
         auth,
         loginEmail,
         loginPassword
       );
-      console.log(user);
+      if (login) history.push("/dashboard");
     } catch (error) {
       console.log(error.message);
     }
@@ -26,11 +28,12 @@ function Login() {
         className="navbar navbar-dark bg-dark py-0 px-0 fixed-top d-flex"
       >
         <div className="nav-btns">
-          <button
+          <Link
             className="btn btn-success my-2 mx-2 signup-btn"
+            to={"/register"}
           >
             Sign Up
-          </button>
+          </Link>
         </div>
       </nav>
       <div className="container-fluid login-content">
@@ -66,10 +69,7 @@ function Login() {
             />
           </div>
         </form>
-        <button
-          onClick={login}
-          className="btn btn-success my-2 mx-2 login-btn"
-        >
+        <button onClick={login} className="btn btn-success my-2 mx-2 login-btn">
           Log In
         </button>
       </div>

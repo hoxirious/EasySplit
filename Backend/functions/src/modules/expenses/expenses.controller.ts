@@ -6,9 +6,9 @@ import { ExpensesService } from "./expenses.service";
 
 @Controller("expense")
 export class ExpensesController {
-  
+
   @Put("/update/:expenseID")
-   async updateExpenseByID(
+  async updateExpenseByID(
     @Param("expenseID") expenseID: string,
     @Body() body: PutExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
@@ -16,7 +16,7 @@ export class ExpensesController {
   }
 
   @Get("/:expenseID")
-   async getExpenseByID(
+  async getExpenseByID(
     @Param("expenseID") expenseID: string
   ): Promise<ExpenseInfoSchema> {
     console.log("Getting expense by ID...");
@@ -24,10 +24,18 @@ export class ExpensesController {
   }
 
   @Post("/createExpense")
-   async createExpense(
+  async createExpense(
     @Body() body: PostExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Creating expense...");
     return await ExpensesService.createExpense(body);
+  }
+
+  @Get("/getExpenseByGroup/:groupID")
+  async getExpenseByGroupID(
+    @Param("groupID") groupID: string
+  ): Promise<ExpenseInfoSchema[]> {
+    console.log("Getting expense by groupID...");
+    return await ExpensesService.getExpenseByGroupID(groupID);
   }
 }
