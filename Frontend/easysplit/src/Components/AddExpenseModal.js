@@ -11,6 +11,7 @@ function AddExpenseModal(props) {
     const [splitWithArr, setSplitWithArr] = useState([]);
     const [amountAfterSplit, setAmountAfterSplit] = useState(0.0);
     const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]);
+    const [amountsAfterPercentSplit, setAmountsAfterPercentSplit] = useState([]);
 
     const modal = useRef();
     const splitInfoDiv = useRef();
@@ -26,13 +27,23 @@ function AddExpenseModal(props) {
 
     function computeSplit() {
         let ul = splitInfoDiv.current.children[0];
-        let exactValues = [];
         let lis = ul.getElementsByTagName("li");
-        for (let li of lis) {
-            exactValues.push(li.children[1].value)
+        if (splitMethod === 'exact') {
+            let exactValues = [];
+            for (let li of lis) {
+                exactValues.push(li.children[1].value)
+            }
+            setExactAmountsAfterSplit(exactValues);
         }
-        setExactAmountsAfterSplit(exactValues)
-        console.log(exactAmountsAfterSplit);
+        else if (splitMethod === 'percent') {
+            let totalAmount = amount.current.value;
+            console.log(totalAmount);
+            let valuesAfterSplit = [];
+            for (let li of lis) {
+                valuesAfterSplit.push(((li.children[1].value) / 100) * totalAmount)
+            }
+            setAmountsAfterPercentSplit(valuesAfterSplit);
+        }
     }
 
     function changeSplitMethod(splitMethod) {
@@ -41,7 +52,7 @@ function AddExpenseModal(props) {
             splitBtn.current.style.display = 'none';
             setAmountAfterSplit(() => {
                 if (splitWithArr.length < 2) {
-                    return amount;
+                    return amount.current.value;
                 }
                 else {
                     return (amount.current.value / splitWithArr.length).toFixed(2);
@@ -57,6 +68,15 @@ function AddExpenseModal(props) {
         else if (splitMethod === 'exact') {
             splitBtn.current.style.display = 'block';
             let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="$" style='margin: 1em 0 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
+            splitInfoDiv.current.innerHTML = `
+            <ul style="list-style-type:none;margin:0;padding:0">
+                ${emailList}
+            </ul>
+            `
+        }
+        else if (splitMethod === 'percent') {
+            splitBtn.current.style.display = 'block';
+            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="%" style='margin: 1em 0 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
             splitInfoDiv.current.innerHTML = `
             <ul style="list-style-type:none;margin:0;padding:0">
                 ${emailList}
