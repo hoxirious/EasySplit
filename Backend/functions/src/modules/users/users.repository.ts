@@ -87,4 +87,16 @@ export class UsersRepository {
       })
     );
   }
+
+  //talks to firestore directly
+  static async deleteGroup(
+    userID: string,
+    groupId: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const group = await GroupsRepository.getGroup(groupId);
+    //check whether or not user is in group by checking member List
+    if(userID in group.memberList)
+      //Delete the group
+      return await db.groups.doc(groupID).delete();
+  }
 }

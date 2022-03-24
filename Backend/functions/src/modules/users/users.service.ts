@@ -14,7 +14,7 @@ export class UsersService {
   static async createUser(
     user: PostUserServiceDto,
   ): Promise<FirebaseFirestore.WriteResult> {
-    
+
     const userInfo: UserInfoSchema= {
       ...user,
       friendList: [],
@@ -43,5 +43,14 @@ export class UsersService {
     friendEmail: string,
   ): Promise<FirebaseFirestore.WriteResult> {
     return await UsersRepository.addFriend(id, friendEmail);
+  }
+
+  //receives info from users controller
+  //sends info to users.repository.ts which deals with the database
+  static async deleteGroup(
+    userID: string,
+    groupId: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
+    return await UsersRepository.deleteGroup(userID, groupId);
   }
 }
