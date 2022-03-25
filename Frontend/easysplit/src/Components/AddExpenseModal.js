@@ -12,8 +12,8 @@ function AddExpenseModal(props) {
     const [amountAfterSplit, setAmountAfterSplit] = useState(0.0);  //3
     const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]);   //4
     const [amountsAfterPercentSplit, setAmountsAfterPercentSplit] = useState([]);   //5
-    const [finalSplitAmount, setFinalSplitAmount] = useState([]); //7
-    const [returnObj, setReturnObj] = useState({}); //8
+    const [finalSplitAmount, setFinalSplitAmount] = useState([]); //6
+    const [returnObj, setReturnObj] = useState({}); //7
 
     const modal = useRef();
     const splitInfoDiv = useRef();
