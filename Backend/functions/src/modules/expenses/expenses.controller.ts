@@ -48,8 +48,9 @@ export class ExpensesController {
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Deleting Expense by ID...");
     return await ExpensesService.deleteExpenseByID(expenseID);
-
-  @Get("/splitExpense")
+  }
+  
+  @Get("/splitExpense") 
   splitExpense(@Body() body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
     return ExpensesService.splitExpense(body);
   }
