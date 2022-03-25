@@ -1,5 +1,8 @@
 import { db } from "../../firebase/repository.firebase";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
+import { EventType } from "../events/definitions/event-type.definition";
+import { EventsService } from "../events/events.sevice";
+import { GroupsRepository } from "../groups/groups.repository";
 import { ExpenseState } from "./definitions/expenses-info.definition";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { ExpensesRepository } from "./expenses.repository";
@@ -38,5 +41,37 @@ export class ExpensesService {
 
   static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
     return await ExpensesRepository.getExpenseByGroupID(id);
+  }
+
+  // Split deleteExpenseByID by two parts: delete expense in user's expense list using eventSourcing
+  // and delete expense in database using normal structure
+  static async deleteExpenseByID( 
+    eID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const expenseDel = await ExpensesRepository.getExpenseByID(eID);
+    const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
+
+    if (groupDel == null) {
+      const usersBill = expenseDel.splitDetail;
+      for (const eachBill of usersBill) {
+        await EventsService.createEvent(
+          EventType.ExpenseDelete,
+          expenseDel,
+          eachBill.userID
+        );
+      }
+    }
+    else {
+      const memList = groupDel.memberList;
+      for (const mem of memList) {
+        await EventsService.createEvent(
+          EventType.ExpenseDelete,
+          expenseDel,
+          mem
+        );
+      }
+    }
+    
+    return await ExpensesRepository.deleteExpenseByID(eID);
   }
 }

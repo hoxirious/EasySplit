@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { PutExpenseBodyDto } from "./dtos/put-expense.dto";
@@ -37,5 +37,14 @@ export class ExpensesController {
   ): Promise<ExpenseInfoSchema[]> {
     console.log("Getting expense by groupID...");
     return await ExpensesService.getExpenseByGroupID(groupID);
+  }
+
+  // Delete expense by ID
+  @Delete("/delete/:expenseID")
+  async deleteExpenseByID(
+    @Param("expenseID") expenseID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    console.log("Deleting Expense by ID...");
+    return await ExpensesService.deleteExpenseByID(expenseID);
   }
 }
