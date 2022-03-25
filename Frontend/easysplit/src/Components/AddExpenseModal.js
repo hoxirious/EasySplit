@@ -7,17 +7,22 @@ import percent from "../Resources/percent.png"
 
 function AddExpenseModal(props) {
 
-    const [splitMethod, setSplitMethod] = useState("equal");
-    const [splitWithArr, setSplitWithArr] = useState([]);
-    const [amountAfterSplit, setAmountAfterSplit] = useState(0.0);
-    const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]);
-    const [amountsAfterPercentSplit, setAmountsAfterPercentSplit] = useState([]);
+    const [splitMethod, setSplitMethod] = useState("equal");    // 1
+    const [splitWithArr, setSplitWithArr] = useState([]);       // 2
+    const [amountAfterSplit, setAmountAfterSplit] = useState(0.0);  //3
+    const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]);   //4
+    const [amountsAfterPercentSplit, setAmountsAfterPercentSplit] = useState([]);   //5
+    const [amountsPaid, setAmountsPaid] = useState([]); //6
+    const [finalSplitAmount, setFinalSplitAmount] = useState([]); //7
+    const [returnObj, setReturnObj] = useState({}); //8
 
     const modal = useRef();
     const splitInfoDiv = useRef();
     const shareWithInput = useRef();
     const amount = useRef();
     const splitBtn = useRef();
+    const saveBtn = useRef();
+    const paidAmountsDiv = useRef();
 
     function addEmails() {
         let emails = (shareWithInput.current.value).split(",");
@@ -28,12 +33,14 @@ function AddExpenseModal(props) {
     function computeSplit() {
         let ul = splitInfoDiv.current.children[0];
         let lis = ul.getElementsByTagName("li");
+        console.log(lis);
         if (splitMethod === 'exact') {
             let exactValues = [];
             for (let li of lis) {
                 exactValues.push(li.children[1].value)
             }
             setExactAmountsAfterSplit(exactValues);
+            setFinalSplitAmount(exactValues);
         }
         else if (splitMethod === 'percent') {
             let totalAmount = amount.current.value;
@@ -41,9 +48,44 @@ function AddExpenseModal(props) {
             let valuesAfterSplit = [];
             for (let li of lis) {
                 valuesAfterSplit.push(((li.children[1].value) / 100) * totalAmount)
+                const node = document.createElement("span");
+                const textnode = document.createTextNode(`$` + `${(((li.children[1].value) / 100) * totalAmount).toFixed(2)}`);
+                node.appendChild(textnode);
+                if (!li.children[2]) {
+                    li.appendChild(node);
+                }
+                else {
+                    li.children[2].innerText = `$` + `${(((li.children[1].value) / 100) * totalAmount).toFixed(2)}`;
+                }
             }
             setAmountsAfterPercentSplit(valuesAfterSplit);
+            setFinalSplitAmount(valuesAfterSplit);
         }
+
+        populatePaidAmountsDiv();
+        saveBtn.current.style.display = 'block';
+    }
+
+    function populatePaidAmountsDiv() {
+        let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" type= "number" placeholder="$" style='margin: 1em 1em 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
+        paidAmountsDiv.current.innerHTML = `
+            <hr />
+            <h5>Amount Paid</h5>
+            <ul style="list-style-type:none;margin:0;padding:0">
+                ${emailList}
+            </ul>
+            `
+    }
+
+    function updatePaidAmounts() {
+        let ul = paidAmountsDiv.current.children[2];
+        let lis = ul.getElementsByTagName("li");
+        let paidAmounts = [];
+        for (let li of lis) {
+            paidAmounts.push(li.children[1].value * 1)
+        }
+        setAmountsPaid(paidAmounts);
+        prepareReturnObj();
     }
 
     function changeSplitMethod(splitMethod) {
@@ -52,9 +94,11 @@ function AddExpenseModal(props) {
             splitBtn.current.style.display = 'none';
             setAmountAfterSplit(() => {
                 if (splitWithArr.length < 2) {
+                    setFinalSplitAmount(amount.current.value);
                     return amount.current.value;
                 }
                 else {
+                    setFinalSplitAmount((amount.current.value / splitWithArr.length).toFixed(2));
                     return (amount.current.value / splitWithArr.length).toFixed(2);
                 }
             });
@@ -67,7 +111,7 @@ function AddExpenseModal(props) {
         }
         else if (splitMethod === 'exact') {
             splitBtn.current.style.display = 'block';
-            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="$" style='margin: 1em 0 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
+            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="$" style='margin: 1em 1em 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
             splitInfoDiv.current.innerHTML = `
             <ul style="list-style-type:none;margin:0;padding:0">
                 ${emailList}
@@ -76,13 +120,29 @@ function AddExpenseModal(props) {
         }
         else if (splitMethod === 'percent') {
             splitBtn.current.style.display = 'block';
-            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="%" style='margin: 1em 0 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
+            let emailList = splitWithArr.map(email => `<li style="text-align:left"> <span style='color: #2bbbad; font-weight: 500'>${email}</span><input className="formControl" placeholder="%" style='margin: 1em 1em 0 1em; padding-left: 0.5em; width: 4em'/></li>`).join('');
             splitInfoDiv.current.innerHTML = `
             <ul style="list-style-type:none;margin:0;padding:0">
                 ${emailList}
             </ul>
             `
         }
+    }
+
+    function prepareReturnObj() {
+        let returnObj = [];
+
+        for (let i = 0; i < splitWithArr.length; i++) {
+            let obj = {
+                userID: splitWithArr[i],
+                paidAmount: amountsPaid[i],
+                splitAmount: splitMethod === "equal" ? finalSplitAmount : finalSplitAmount[i]
+            };
+            returnObj.push(obj)
+            console.log(obj);
+        }
+        console.log(returnObj);
+        return returnObj
     }
 
     useEffect(() => {
@@ -122,6 +182,8 @@ function AddExpenseModal(props) {
                         <h4>{splitMethod}</h4>
                         <div className="split-info" ref={splitInfoDiv}></div>
                         <button id="submit-exact-percentage-btn" onClick={computeSplit} type="button" ref={splitBtn}>Split</button>
+                        <div className="paid-amounts-div" ref={paidAmountsDiv}></div>
+                        <button id="submit-paid-amounts-btn" onClick={updatePaidAmounts} type="button" ref={saveBtn}>Save</button>
                     </form>
                 </div>
             </div>
