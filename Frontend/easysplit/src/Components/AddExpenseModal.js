@@ -12,7 +12,6 @@ function AddExpenseModal(props) {
     const [amountAfterSplit, setAmountAfterSplit] = useState(0.0);  //3
     const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]);   //4
     const [amountsAfterPercentSplit, setAmountsAfterPercentSplit] = useState([]);   //5
-    const [amountsPaid, setAmountsPaid] = useState([]); //6
     const [finalSplitAmount, setFinalSplitAmount] = useState([]); //7
     const [returnObj, setReturnObj] = useState({}); //8
 
@@ -27,13 +26,13 @@ function AddExpenseModal(props) {
     function addEmails() {
         let emails = (shareWithInput.current.value).split(",");
         setSplitWithArr(emails);
-        console.log(splitWithArr);
+        //console.log(splitWithArr);
     }
 
     function computeSplit() {
         let ul = splitInfoDiv.current.children[0];
         let lis = ul.getElementsByTagName("li");
-        console.log(lis);
+        //console.log(lis);
         if (splitMethod === 'exact') {
             let exactValues = [];
             for (let li of lis) {
@@ -44,7 +43,7 @@ function AddExpenseModal(props) {
         }
         else if (splitMethod === 'percent') {
             let totalAmount = amount.current.value;
-            console.log(totalAmount);
+            //console.log(totalAmount);
             let valuesAfterSplit = [];
             for (let li of lis) {
                 valuesAfterSplit.push(((li.children[1].value) / 100) * totalAmount)
@@ -84,8 +83,7 @@ function AddExpenseModal(props) {
         for (let li of lis) {
             paidAmounts.push(li.children[1].value * 1)
         }
-        setAmountsPaid(paidAmounts);
-        prepareReturnObj();
+        prepareReturnObj(paidAmounts);
     }
 
     function changeSplitMethod(splitMethod) {
@@ -129,17 +127,16 @@ function AddExpenseModal(props) {
         }
     }
 
-    function prepareReturnObj() {
+    function prepareReturnObj(paidAmounts) {
         let returnObj = [];
 
         for (let i = 0; i < splitWithArr.length; i++) {
             let obj = {
                 userID: splitWithArr[i],
-                paidAmount: amountsPaid[i],
+                paidAmount: paidAmounts[i],
                 splitAmount: splitMethod === "equal" ? finalSplitAmount : finalSplitAmount[i]
             };
             returnObj.push(obj)
-            console.log(obj);
         }
         console.log(returnObj);
         return returnObj
