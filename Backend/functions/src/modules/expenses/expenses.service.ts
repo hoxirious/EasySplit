@@ -46,12 +46,12 @@ export class ExpensesService {
   // Split deleteExpenseByID by two parts: delete expense in user's expense list using eventSourcing
   // and delete expense in database using normal structure
   static async deleteExpenseByID( 
-    eID: string
+    expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-    const expenseDel = await ExpensesRepository.getExpenseByID(eID);
+    const expenseDel = await ExpensesRepository.getExpenseByID(expenseID);
     const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
 
-    if (groupDel == null) {
+    if (groupDel == null || groupDel == undefined) {
       const usersBill = expenseDel.splitDetail;
       for (const eachBill of usersBill) {
         await EventsService.createEvent(
@@ -72,6 +72,6 @@ export class ExpensesService {
       }
     }
     
-    return await ExpensesRepository.deleteExpenseByID(eID);
+    return await ExpensesRepository.deleteExpenseByID(expenseID);
   }
 }
