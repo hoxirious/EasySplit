@@ -66,19 +66,8 @@ export class ExpensesService {
   ): Promise<FirebaseFirestore.WriteResult> {
     const expenseDel = await ExpensesRepository.getExpenseByID(expenseID);
 
-    if ( await GroupsRepository.getGroup(expenseDel.groupReference) === undefined ||
-        await GroupsRepository.getGroup(expenseDel.groupReference) === null) 
+    if (expenseDel.groupReference) 
     {
-      const usersBill = expenseDel.splitDetail;
-      for (const eachBill of usersBill) {
-        await EventsService.createEvent(
-          EventType.ExpenseDelete,
-          expenseDel,
-          eachBill.userID
-        );
-      }
-    }
-    else {
       const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
       const memList = groupDel.memberList;
       for (const mem of memList) {
@@ -86,6 +75,16 @@ export class ExpensesService {
           EventType.ExpenseDelete,
           expenseDel,
           mem
+        );
+      }
+    }
+    else {
+      const usersBill = expenseDel.splitDetail;
+      for (const eachBill of usersBill) {
+        await EventsService.createEvent(
+          EventType.ExpenseDelete,
+          expenseDel,
+          eachBill.userID
         );
       }
     }
