@@ -86,6 +86,7 @@ function AddExpenseModal(props) {
             paidAmounts.push(li.children[1].value * 1)
         }
         prepareReturnObj(paidAmounts);                      // Send the paid amounts to the function that prepares the object to be returned
+        props.toggleAddExpenseModal(false);
     }
 
     /*Executes when one of the split method icons is clicked and the split method name is provided as argument 
