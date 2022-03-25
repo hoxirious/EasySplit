@@ -1,12 +1,13 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
+import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { PutExpenseBodyDto } from "./dtos/put-expense.dto";
 import { ExpensesService } from "./expenses.service";
 
 @Controller("expense")
 export class ExpensesController {
-
   @Put("/update/:expenseID")
   async updateExpenseByID(
     @Param("expenseID") expenseID: string,
@@ -37,5 +38,10 @@ export class ExpensesController {
   ): Promise<ExpenseInfoSchema[]> {
     console.log("Getting expense by groupID...");
     return await ExpensesService.getExpenseByGroupID(groupID);
+  }
+
+  @Get("/splitExpense")
+  splitExpense(@Body() body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
+    return ExpensesService.splitExpense(body);
   }
 }
