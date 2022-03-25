@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import { StreamInfoSchema } from "../schemas/events/stream-info.schema";
 import { ExpenseInfoSchema } from "../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../schemas/users/userInfo.schema";
@@ -23,4 +24,5 @@ export const db = {
   users: dataPoint<UserInfoSchema>("users/"),
   expenses: dataPoint<ExpenseInfoSchema>("expenses/"),
   groups: dataPoint<GroupInfoSchema>("groups/"),
+  events: dataPoint<StreamInfoSchema>("stream/"),
 };

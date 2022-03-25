@@ -1,3 +1,4 @@
+import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { PostUserServiceDto } from "./dtos/post-user.dto";
 import { UsersRepository } from "./users.repository";
@@ -45,6 +46,7 @@ export class UsersService {
     return await UsersRepository.addFriend(id, friendEmail);
   }
 
+
   //receives info from users controller
   //sends info to users.repository.ts which deals with the database
   static async deleteGroup(
@@ -52,5 +54,9 @@ export class UsersService {
     groupId: string,
   ): Promise<FirebaseFirestore.WriteResult> {
     return await UsersRepository.deleteGroup(userID, groupId);
+
+  static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
+    return await UsersRepository.getUserGroupsInfo(id);
+
   }
 }

@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
+import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { DeleteFriendListDto } from "./dtos/delete-friendList.dto";
 import { GetUserByEmailDto } from "./dtos/get-user-by-email.dto";
@@ -62,6 +63,7 @@ export class UsersController {
     return await UsersService.addFriend(user.uid, friendEmail);
   }
 
+
   //deleteGroup fucntion, allows users to remove the group for all users in group
   @Delete("/delete/group")
   static async deleteGroup(
@@ -72,6 +74,14 @@ export class UsersController {
 
     //calls deleteGroup() in UsersService class, passes the user's ID and ID of group that wants to be deleted
     return await UsersService.deleteGroup(user.uid, body.groupID);
+
+  async getUserGroupsInfo(@FirebaseUser() user: UserRecord): Promise<GroupInfoSchema[]> {
+    console.log("Getting user groups...");
+    return await UsersService.getUserGroupsInfo(user.uid);
+  }
+
+}
+
 
   }
 }
