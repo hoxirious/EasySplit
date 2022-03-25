@@ -1,6 +1,6 @@
 // Enumerator for types of splitting the bill
 export enum SplitType {
-  "Equally",
-  "Exactly",
-  "Percentage",
+  "Equally" = "EQUALLY",
+  "Exactly" = "EXACTLY",
+  "Percentage" = "PERCENTAGE",
 }
