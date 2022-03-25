@@ -1,12 +1,15 @@
 import { ExpenseState } from "../../modules/expenses/definitions/expenses-info.definition";
-import { UserExpenseInfoSchema } from "./userExpense.schema";
+import { BillingInfoSchema } from "./billingInfo.schema";
 
+/**
+ * The schema for expense that 
+ */
 export interface ExpenseInfoSchema {
   expenseID: string;
-  groupRefence?: string;
+  groupReference?: string;
   description: string;
   timeStamp: string;
   totalExpense: number;
-  splitDetail: UserExpenseInfoSchema[];
+  splitDetail: BillingInfoSchema[];
   expenseState: ExpenseState;
 }

@@ -1,8 +1,8 @@
-import { UserExpenseInfoSchema } from "../../../schemas/expenses/userExpense.schema";
+import { BillingInfoSchema } from "../../../schemas/expenses/billingInfo.schema";
 
-export class PostExpenseBodyDto{
+export class PostExpenseBodyDto {
   groupRefence?: string;
   description: string;
   totalExpense: number;
-  splitDetail: UserExpenseInfoSchema[];
+  splitDetail: BillingInfoSchema[];
 }
