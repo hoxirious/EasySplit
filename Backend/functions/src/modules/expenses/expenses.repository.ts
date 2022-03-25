@@ -54,4 +54,16 @@ export class ExpensesRepository {
       throw new Error("cannot put expense!");
     }
   }
+
+  // delete the expense from the database
+  static async deleteExpenseByID(
+    id: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const expenseInfo = await this.getExpenseByID(id);
+    try {
+      return await db.expenses.doc(expenseInfo.expenseID).delete();
+    } catch (error) {
+      throw new Error("Cannot delete expense!");
+    } 
+  }
 }

@@ -2,8 +2,10 @@ import { firestore } from "firebase-admin";
 import { db } from "../../firebase/repository.firebase";
 import { EventInfoSchema } from "../../schemas/events/event-info.schema";
 import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
+import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { GroupsRepository } from "../groups/groups.repository";
+import { UsersRepository } from "../users/users.repository";
 import { EventType } from "./definitions/event-type.definition";
 
 export class EventsRepository {
@@ -69,8 +71,11 @@ export class EventsRepository {
     switch (eventPayload.eventType) {
       // case EventType.ExpenseCreate:
       //   break;
-      // case EventType.ExpenseDelete:
-      //   break;
+      case EventType.ExpenseDelete:
+        return await UsersRepository.deleteUserExpense(
+          eventPayload.eventContent as ExpenseInfoSchema,
+          userID
+        );
       // case EventType.ExpenseUndelete:
       //   break;
       // case EventType.ExpenseUpdate:

@@ -1,7 +1,8 @@
 import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { db } from "../../firebase/repository.firebase";
+import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
-import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { UserExpenseStateSchema, UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { GroupsRepository } from "../groups/groups.repository";
 
 export class UsersRepository {
@@ -96,5 +97,27 @@ export class UsersRepository {
       ToReturn.push(GroupsRepository.getGroup(userGroupID));
     }
     return ToReturn;
+  }
+
+  // delete expense from user's expense list
+  static async deleteUserExpense(
+    exp: ExpenseInfoSchema, 
+    userID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    let userExp: UserExpenseStateSchema = {
+      expenseID : exp.expenseID,
+      expenseState : exp.expenseState
+    }
+    const user = await this.getUser(userID);
+
+    const expIndex = user.expenseList.indexOf(userExp);
+
+    if(expIndex > -1) {
+      user.expenseList.splice(expIndex, 1);
+    }
+
+    return await db.users.doc(user.userID).update({
+      expenseList: user.expenseList,
+    });
   }
 }
