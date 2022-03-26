@@ -454,6 +454,7 @@ body {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .all-expenses-div{
   height: 100vh;
   color: black;
@@ -467,6 +468,8 @@ body {
   
 }
 
+=======
+>>>>>>> 57fb6a7 (get expenses from a group and route between them)
 /* #submit-paid-amounts-btn{
   display: none;
 } */

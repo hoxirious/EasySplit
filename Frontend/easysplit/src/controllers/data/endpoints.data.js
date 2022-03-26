@@ -8,7 +8,10 @@ export const ENDPOINTS = {
     getUserAllGroups: "/users/user/allGroups",
   },
   groups: {
-    getAllGroup: "groups/allgroup",
-    addGroup: "groups/addgroup",
+    getAllGroup: "/groups/allgroup",
+    addGroup: "/groups/addgroup",
   },
+  expenses: {
+    getExpenseByGroupID: "/expenses/expense/getExpenseByGroup/",
+  }
 };
