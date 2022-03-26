@@ -15,6 +15,7 @@ function Login() {
         loginEmail,
         loginPassword
       );
+      console.log(await auth.currentUser.getIdToken());
       if (login) history.push("/dashboard");
     } catch (error) {
       console.log(error.message);

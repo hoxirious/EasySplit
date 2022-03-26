@@ -1,5 +1,4 @@
 import React from "react"
-import easysplitlogo from '../Resources/divided.png'
 function MiddleBar(props) {
     return (
 
@@ -9,7 +8,7 @@ function MiddleBar(props) {
                 <div id="#topbar-actions" className="topbar-actions-group">
                     <button id="add-expense-btn" onClick={() => props.toggleAddExpense(true)}>Add an expense</button>
                     <button id="settleup-btn">Settle up</button>
-                </div>
+                </div>  
             </div>
             <div className="all-expenses">
                 <h1 style={{ color: "black", margin: 30 }}>You have not added any expenses yet</h1>

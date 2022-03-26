@@ -92,9 +92,9 @@ export class UsersRepository {
   }
 
   static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
-    let ToReturn = [];
+    const ToReturn = [];
     for (const userGroupID of (await this.getUser(id)).groupList) {
-      ToReturn.push(GroupsRepository.getGroup(userGroupID));
+      ToReturn.push(await GroupsRepository.getGroup(userGroupID));
     }
     return ToReturn;
   }
