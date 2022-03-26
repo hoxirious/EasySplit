@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getUserGroups } from "../controllers/apis/group.api";
+import { getUserFriends } from "../controllers/apis/friend.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 
 function LeftSideBar(props) {
@@ -12,6 +13,16 @@ function LeftSideBar(props) {
   const { data: groupList, status: groupStatus } = useQuery(
     ["groupList", userJWT],
     () => getUserGroups(userJWT),
+    {
+      // The query will not execute until the userJWT exists
+      enabled: !!userJWT,
+      refetchOnWindowFocus: false,
+    }
+  );
+  
+    const { data: friendList, status: friendStatus } = useQuery(
+    ["friendList", userJWT],
+    () => getUserFriends(userJWT),
     {
       // The query will not execute until the userJWT exists
       enabled: !!userJWT,
@@ -62,13 +73,17 @@ function LeftSideBar(props) {
             + Add
           </a>
         </div>
-        <ul className="friends-list">
-          <li>Friend 1</li>
-          <li>Friend 2</li>
-          <li>Friend 3</li>
-          <li>Friend 4</li>
-        </ul>
-        <div id="gf-f-list" className="fdiv-elem"></div>
+        <div id="gf-f-list" className="fdiv-elem">
+          {friendStatus === "success" && (
+            <>
+              <ul>
+                {friendList.result.map((friend) => {
+                  return <li>{friend}</li>;
+                })}
+              </ul>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
