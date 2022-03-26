@@ -23,7 +23,7 @@ function LeftSideBar(props) {
     }
   );
   
-    const { data: friendList, status: friendStatus } = useQuery(
+  const { data: friendList, status: friendStatus } = useQuery(
     ["friendList", userJWT],
     () => getUserFriends(userJWT),
     {
