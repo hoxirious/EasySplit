@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
-
+import { GroupService } from "../modules/groups/groups.service";
+import { PostGroupBodyDto } from "../modules/groups/dtos/post-group.dto";
 import { UsersRepository } from "../modules/users/users.repository";
 import { UserInfoSchema } from "../schemas/users/userInfo.schema";
 
@@ -60,7 +61,7 @@ const mockerUserList = [
 ];
 
 // Seeding mocking users
-const seedUser = async () => {
+const seedUserAndGroup = async () => {
   const auth = admin.auth();
   await Promise.all(
     mockerUserList.map(async (user) => {
@@ -72,9 +73,14 @@ const seedUser = async () => {
         ...user.info,
         userID: uid,
       };
-      
       // Create user
       await UsersRepository.postUser(userInfo);
+
+      const groupInfo: PostGroupBodyDto = {
+        groupName: userInfo.name,
+      };
+      // Create group
+      await GroupService.createGroup(groupInfo, uid);
     })
   );
 };
@@ -82,7 +88,6 @@ const seedUser = async () => {
 // Seeding mocking data
 export const seedStuff = async () => {
   console.info("seeding...");
-  
-  await seedUser();
+  await seedUserAndGroup();
   console.info("seeding done o.O");
 };
