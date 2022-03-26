@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useQuery } from "react-query";
+import { Link, useRouteMatch } from "react-router-dom";
 import { getUserGroups } from "../controllers/apis/group.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 
@@ -7,6 +8,8 @@ function LeftSideBar(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt, {
     refetchOnWindowFocus: false,
   });
+
+  const { path, url } = useRouteMatch();
 
   const userJWT = jwt;
   const { data: groupList, status: groupStatus } = useQuery(
@@ -44,11 +47,13 @@ function LeftSideBar(props) {
         <div id="gf-g-list" className="fdiv-elem">
           {groupStatus === "success" && (
             <>
-              <ul>
-                {groupList.result.map((group) => {
-                  return <li key={group.groupID}>{group.groupName}</li>;
-                })}
-              </ul>
+              {groupList.result.map((group) => {
+                return (
+                  <Link to={`/dashboard/${group.groupID}`} key={group.groupID}>
+                    {group.groupName}
+                  </Link>
+                );
+              })}
             </>
           )}
         </div>

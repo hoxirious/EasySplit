@@ -16,6 +16,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import React from "react";
+import GroupExpense from "./Components/GroupExpense";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuqfN8W85SXnYiG-7dL3TVw8lBT49UelY",
@@ -57,7 +58,7 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/" component={Home} />
-            <PrivateRoute exact path="/dashboard" fallbackRoute="/login">
+            <PrivateRoute path="/dashboard" fallbackRoute="/login">
               <Dashboard />
             </PrivateRoute>
           </Switch>

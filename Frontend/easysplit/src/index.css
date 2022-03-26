@@ -453,6 +453,7 @@ body {
   border: 1px solid #2bbbad;
 }
 
+<<<<<<< HEAD
 .all-expenses-div{
   height: 100vh;
   color: black;
@@ -461,6 +462,15 @@ body {
   flex-direction: column;
   align-items: center; */
 }
+=======
+.all-expenses{
+  
+}
+
+/* #submit-paid-amounts-btn{
+  display: none;
+} */
+>>>>>>> 7dbb558 (FE: routing group)
 
 @media only screen and (max-width: 920px) {
   .firstDiv{
