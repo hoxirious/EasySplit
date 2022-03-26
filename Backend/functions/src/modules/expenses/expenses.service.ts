@@ -7,6 +7,7 @@ import { GroupsRepository } from "../groups/groups.repository";
 import { ExpenseState } from "./definitions/expenses-info.definition";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
+import { GroupIDDto } from "./dtos/put-expenseGroupReference.dto";
 import { ExpensesRepository } from "./expenses.repository";
 
 export class ExpensesService {
@@ -64,7 +65,7 @@ export class ExpensesService {
         );
       }
     }
-    
+
     else {
       const usersBill = expenseInfo.splitDetail;
       for (const eachBill of usersBill) {
@@ -79,19 +80,26 @@ export class ExpensesService {
     return await ExpensesRepository.postExpense(expenseInfo);
   }
 
+  static async addGroupExpense(
+    id: string,
+    groupReference: GroupIDDto
+  ): Promise<FirebaseFirestore.WriteResult> {
+    return await ExpensesRepository.addGroupExpense(id, groupReference);
+  }
+
+
   static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
     return await ExpensesRepository.getExpenseByGroupID(id);
   }
 
   // Split deleteExpenseByID by two parts: delete expense in user's expense list using eventSourcing
   // and delete expense in database using normal structure
-  static async deleteExpenseByID( 
+  static async deleteExpenseByID(
     expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     const expenseDel = await ExpensesRepository.getExpenseByID(expenseID);
 
-    if (expenseDel.groupReference) 
-    {
+    if (expenseDel.groupReference) {
       const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
       const memList = groupDel.memberList;
       for (const mem of memList) {
@@ -112,7 +120,7 @@ export class ExpensesService {
         );
       }
     }
-    
+
     return await ExpensesRepository.deleteExpenseByID(expenseID);
   }
 }

@@ -2,6 +2,7 @@ import { db } from "../../firebase/repository.firebase";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupsRepository } from "../groups/groups.repository";
 import { ExpenseState } from "./definitions/expenses-info.definition";
+import { GroupIDDto } from "./dtos/put-expenseGroupReference.dto";
 
 export class ExpensesRepository {
   static EMPTY_EXPENSE: {
@@ -45,6 +46,25 @@ export class ExpensesRepository {
     }
   }
 
+  static async addGroupExpense(
+    id: string,
+    groupReference: GroupIDDto
+  ): Promise<FirebaseFirestore.WriteResult> {
+    try {
+      console.log(groupReference);
+      const group = (await GroupsRepository.getGroup(groupReference.groupReference));
+      console.log(group);
+      group.expenseList.push(id);
+      return (await db.groups.doc(groupReference.groupReference).update({
+        expenseList: group.expenseList,
+      }))
+    } catch (error) {
+      throw new Error("cannot update group with expenseID");
+    }
+
+  }
+
+
   static async putExpense(
     expenseInfo: ExpenseInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
@@ -64,6 +84,6 @@ export class ExpensesRepository {
       return await db.expenses.doc(expenseInfo.expenseID).delete();
     } catch (error) {
       throw new Error("Cannot delete expense!");
-    } 
+    }
   }
 }
