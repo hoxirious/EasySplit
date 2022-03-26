@@ -32,7 +32,7 @@ function MiddleBar(props) {
         <h1 style={{ color: "black", margin: 30 }} ref={heading}>
           You have not added any expenses yet
         </h1>
-        <AllExpenses isOpen={props.isAllExpensesOpen} />
+        {/* <AllExpenses isOpen={props.isAllExpensesOpen} /> */}
         <Switch>
           <Route path={`/dashboard/:groupID`} component={GroupExpense} />
         </Switch>
