@@ -12,4 +12,5 @@ export declare class UsersController {
     removeFriend(user: UserRecord, body: DeleteFriendListDto): Promise<FirebaseFirestore.WriteResult>;
     addFriend(user: UserRecord, body: GetUserByEmailDto): Promise<FirebaseFirestore.WriteResult>;
     getUserGroupsInfo(user: UserRecord): Promise<GroupInfoSchema[]>;
+    createMockingData(): Promise<void>;
 }

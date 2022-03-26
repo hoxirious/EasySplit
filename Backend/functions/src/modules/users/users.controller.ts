@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
+import { seedStuff } from "../../loaders/mocking.loader";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
@@ -17,10 +18,9 @@ export class UsersController {
   }
 
   @Put()
-
   async createUser(
     @FirebaseUser() user: UserRecord,
-    @Body() body: PostUserBodyDto,
+    @Body() body: PostUserBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Creating users...");
     const userID = user.uid;
@@ -43,12 +43,14 @@ export class UsersController {
     return await UsersService.getUserByEmail(body.email);
   }
 
-
   //Not sure if we will remove friends one by one, or get them in a group
 
   // body is the email of the deleting target
   @Delete("/delete/friend")
-  async removeFriend(@FirebaseUser() user: UserRecord, @Body() body: DeleteFriendListDto): Promise<FirebaseFirestore.WriteResult>{
+  async removeFriend(
+    @FirebaseUser() user: UserRecord,
+    @Body() body: DeleteFriendListDto
+  ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Removing user's friend...");
     return await UsersService.deleteFriend(user.uid, body.email);
   }
@@ -56,7 +58,7 @@ export class UsersController {
   @Put("/addFriend")
   async addFriend(
     @FirebaseUser() user: UserRecord,
-    @Body() body: GetUserByEmailDto,
+    @Body() body: GetUserByEmailDto
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Adding friend...");
     const friendEmail = body.email;
@@ -64,10 +66,15 @@ export class UsersController {
   }
 
   @Get("/allGroups")
-  async getUserGroupsInfo(@FirebaseUser() user: UserRecord): Promise<GroupInfoSchema[]> {
+  async getUserGroupsInfo(
+    @FirebaseUser() user: UserRecord
+  ): Promise<GroupInfoSchema[]> {
     console.log("Getting user groups...");
     return await UsersService.getUserGroupsInfo(user.uid);
   }
 
+  @Get("/mock-data")
+  async createMockingData(): Promise<void> {
+    seedStuff();
+  }
 }
-
