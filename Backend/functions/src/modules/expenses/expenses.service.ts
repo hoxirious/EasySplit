@@ -52,6 +52,30 @@ export class ExpensesService {
       expenseState: ExpenseState.Active,
       ...body,
     };
+
+    if (expenseInfo.groupReference) {
+      const groupInfo = await GroupsRepository.getGroup(expenseInfo.groupReference);
+      const memList = groupInfo.memberList;
+      for (const mem of memList) {
+        await EventsService.createEvent(
+          EventType.ExpenseCreate,
+          expenseInfo,
+          mem
+        );
+      }
+    }
+    
+    else {
+      const usersBill = expenseInfo.splitDetail;
+      for (const eachBill of usersBill) {
+        await EventsService.createEvent(
+          EventType.ExpenseCreate,
+          expenseInfo,
+          eachBill.userID
+        );
+      }
+    }
+
     return await ExpensesRepository.postExpense(expenseInfo);
   }
 
