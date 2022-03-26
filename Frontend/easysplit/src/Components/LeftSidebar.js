@@ -22,7 +22,7 @@ function LeftSideBar(props) {
       refetchOnWindowFocus: false,
     }
   );
-  
+
   const { data: friendList, status: friendStatus } = useQuery(
     ["friendList", userJWT],
     () => getUserFriends(userJWT),
@@ -35,13 +35,13 @@ function LeftSideBar(props) {
 
   return (
     <div className="firstDiv">
-      <a href="#" id="dashboard-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(false)}>
+      <a href="#" id="dashboard-link" className="fdiv-elem" onClick={() => { props.toggleAllExpenses(false); props.toggleRecentActivity(false) }}>
         Dashboard
       </a>
-      <a href="#" id="activity-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(false)}>
+      <a href="#" id="activity-link" className="fdiv-elem" onClick={() => { props.toggleAllExpenses(false); props.toggleRecentActivity(true) }}>
         Recent Activity
       </a>
-      <a href="#" id="expenses-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(true)}>
+      <a href="#" id="expenses-link" className="fdiv-elem" onClick={() => { props.toggleAllExpenses(true); props.toggleRecentActivity(false) }}>
         All Expenses
       </a>
       <div id="group-friends-div">

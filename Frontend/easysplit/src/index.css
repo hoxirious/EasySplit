@@ -462,6 +462,12 @@ body {
   align-items: center; */
 }
 
+.recent-activity-div{
+  height: 100vh;
+  color: black;
+  width: 100%;
+}
+
 @media only screen and (max-width: 920px) {
   .firstDiv{
     align-items: center;

@@ -1,10 +1,12 @@
 import { React, useEffect, useRef } from "react";
 import { Route, Switch } from "react-router-dom";
 import AllExpenses from "./AllExpenses";
+import RecentActivity from "./RecentActivity";
 import GroupExpense from "./GroupExpense";
 
 function MiddleBar(props) {
   const heading = useRef();
+  const topbar = useRef();
 
   useEffect(() => {
     if (props.isAllExpensesOpen) {
@@ -14,9 +16,19 @@ function MiddleBar(props) {
     }
   }, [props.isAllExpensesOpen]);
 
+  useEffect(() => {
+    if (props.isRecentActivityOpen) {
+      topbar.current.style.display = "none";
+      heading.current.style.display = "none";
+    } else {
+      topbar.current.style.display = "block";
+      heading.current.style.display = "block";
+    }
+  }, [props.isRecentActivityOpen]);
+
   return (
     <div className="centerDiv">
-      <div id="#center-topbar" className="topbar-group">
+      <div id="#center-topbar" className="topbar-group" ref={topbar}>
         <h1 id="expenses-header">All Expenses</h1>
         <div id="#topbar-actions" className="topbar-actions-group">
           <button
@@ -32,7 +44,8 @@ function MiddleBar(props) {
         <h1 style={{ color: "black", margin: 30 }} ref={heading}>
           You have not added any expenses yet
         </h1>
-        {/* <AllExpenses isOpen={props.isAllExpensesOpen} /> */}
+        <AllExpenses isOpen={props.isAllExpensesOpen} />
+        <RecentActivity isOpen={props.isRecentActivityOpen} />
         <Switch>
           <Route path={`/dashboard/:groupID`} component={GroupExpense} />
         </Switch>
