@@ -4,10 +4,11 @@ export const ENDPOINTS = {
   users: {
     getUser: "/users/user",
     createUser: "/users/user",
-    deleteFriend: "/users/user"
+    deleteFriend: "/users/user",
+    getUserAllGroups: "/users/user/allGroups",
   },
   groups: {
-      getAllGroup : "groups/allgroup",
-      addGroup : "groups/addgroup",
+    getAllGroup: "groups/allgroup",
+    addGroup: "groups/addgroup",
   },
 };
