@@ -99,6 +99,24 @@ export class UsersRepository {
     return ToReturn;
   }
 
+  // add expense to user's expense list
+  static async addExpenseInfo(
+    expenseInfo: ExpenseInfoSchema,
+    userID: string
+  ): Promise <FirebaseFirestore.WriteResult> {
+    let userExpense: UserExpenseStateSchema = {
+      expenseID: expenseInfo.expenseID,
+      expenseState: expenseInfo.expenseState
+    }
+    const user = await this.getUser(userID);
+
+    user.expenseList.push(userExpense);
+
+    return await db.users.doc(user.userID).update({
+      expenseList: user.expenseList,
+    });
+  }
+
   // delete expense from user's expense list
   static async deleteUserExpense(
     exp: ExpenseInfoSchema, 
