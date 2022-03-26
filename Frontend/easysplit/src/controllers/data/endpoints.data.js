@@ -6,9 +6,13 @@ export const ENDPOINTS = {
     createUser: "/users/user",
     deleteFriend: "/users/user",
     getUserAllGroups: "/users/user/allGroups",
+    getUserAllFriends: "/users/user/allFriends"
   },
   groups: {
-    getAllGroup: "groups/allgroup",
-    addGroup: "groups/addgroup",
+    getAllGroup: "/groups/allgroup",
+    addGroup: "/groups/addgroup",
   },
+  expenses: {
+    getExpenseByGroupID: "/expenses/expense/getExpenseByGroup/",
+  }
 };
