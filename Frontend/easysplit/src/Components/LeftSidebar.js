@@ -20,7 +20,7 @@ function LeftSideBar(props) {
     }
   );
   
-    const { data: friendList, status: friendStatus } = useQuery(
+  const { data: friendList, status: friendStatus } = useQuery(
     ["friendList", userJWT],
     () => getUserFriends(userJWT),
     {
@@ -32,13 +32,13 @@ function LeftSideBar(props) {
 
   return (
     <div className="firstDiv">
-      <a href="#" id="dashboard-link" className="fdiv-elem">
+      <a href="#" id="dashboard-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(false)}>
         Dashboard
       </a>
-      <a href="#" id="activity-link" className="fdiv-elem">
+      <a href="#" id="activity-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(false)}>
         Recent Activity
       </a>
-      <a href="#" id="expenses-link" className="fdiv-elem">
+      <a href="#" id="expenses-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(true)}>
         All Expenses
       </a>
       <div id="group-friends-div">
