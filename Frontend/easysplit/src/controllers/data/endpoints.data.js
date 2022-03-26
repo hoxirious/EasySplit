@@ -6,6 +6,7 @@ export const ENDPOINTS = {
     createUser: "/users/user",
     deleteFriend: "/users/user",
     getUserAllGroups: "/users/user/allGroups",
+    getUserAllFriends: "/users/user/allFriends"
   },
   groups: {
     getAllGroup: "/groups/allgroup",
