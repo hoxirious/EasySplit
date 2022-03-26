@@ -7,6 +7,7 @@ import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { DeleteFriendListDto } from "./dtos/delete-friendList.dto";
 import { GetUserByEmailDto } from "./dtos/get-user-by-email.dto";
 import { PostUserBodyDto } from "./dtos/post-user.dto";
+import { ReturnUserFriendsDto } from "./dtos/return-userfriends.dto";
 import { UsersService } from "./users.service";
 
 @Controller("user")
@@ -32,7 +33,7 @@ export class UsersController {
   }
 
   @Get("/allFriends")
-  async getFriend(@FirebaseUser() user: UserRecord): Promise<string[]> {
+  async getFriend(@FirebaseUser() user: UserRecord): Promise<ReturnUserFriendsDto[]> {
     console.log("Getting user friends...");
     return await UsersService.getFriends(user.uid);
   }

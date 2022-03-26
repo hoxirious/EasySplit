@@ -41,7 +41,11 @@ function LeftSideBar(props) {
       <a href="#" id="activity-link" className="fdiv-elem">
         Recent Activity
       </a>
-      <NavLink to={"/dashboard/allExpenses"} id="expenses-link" className="fdiv-elem">
+      <NavLink
+        to={"/dashboard/allExpenses"}
+        id="expenses-link"
+        className="fdiv-elem"
+      >
         All Expenses
       </NavLink>
       <div id="group-friends-div">
@@ -57,7 +61,7 @@ function LeftSideBar(props) {
         </div>
         <div id="gf-g-list" className="fdiv-elem">
           {groupStatus === "success" && (
-            <>
+            <ul>
               {groupList.result.map((group) => {
                 return (
                   <Link
@@ -68,7 +72,7 @@ function LeftSideBar(props) {
                   </Link>
                 );
               })}
-            </>
+            </ul>
           )}
         </div>
         <div id="gf-f-header" className="fdiv-elem">
@@ -83,13 +87,18 @@ function LeftSideBar(props) {
         </div>
         <div id="gf-f-list" className="fdiv-elem">
           {friendStatus === "success" && (
-            <>
-              <ul>
-                {friendList.result.map((friend) => {
-                  return <li>{friend}</li>;
-                })}
-              </ul>
-            </>
+            <ul>
+              {friendList.result.map((friend) => {
+                return (
+                  <Link
+                    to={`/dashboard/friends/${friend.friendID}`}
+                    key={friend.friendID}
+                  >
+                    {friend.friendName}
+                  </Link>
+                );
+              })}
+            </ul>
           )}
         </div>
       </div>
