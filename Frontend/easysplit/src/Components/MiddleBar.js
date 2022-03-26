@@ -6,13 +6,6 @@ import GroupExpense from "./GroupExpense";
 function MiddleBar(props) {
   const heading = useRef();
 
-  useEffect(() => {
-    if (props.isAllExpensesOpen) {
-      heading.current.style.display = "none";
-    } else {
-      heading.current.style.display = "block";
-    }
-  }, [props.isAllExpensesOpen]);
 
   return (
     <div className="centerDiv">
@@ -21,7 +14,7 @@ function MiddleBar(props) {
         <div id="#topbar-actions" className="topbar-actions-group">
           <button
             id="add-expense-btn"
-            onClick={() => props.toggleAddExpense(true)}
+            onClick={() => props.toggleAddExpenseModal(true)}
           >
             Add an expense
           </button>

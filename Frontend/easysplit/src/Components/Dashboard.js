@@ -28,7 +28,7 @@ function Dashboard(props) {
           toggleAddFriendModal={setAddFriend}
           toggleAddGroupModal={setAddGroup}
         />
-        <MiddleBar />
+        <MiddleBar toggleAddExpenseModal={setAddExpense}/>
         <RightSidebar />
         <AddFriendModal
           isOpen={addFriend}
