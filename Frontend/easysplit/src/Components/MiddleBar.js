@@ -47,10 +47,10 @@ function MiddleBar(props) {
         <AllExpenses isOpen={props.isAllExpensesOpen} />
         <RecentActivity isOpen={props.isRecentActivityOpen} />
         <Switch>
-          <Route path={`/dashboard/:groupID`} component={GroupExpense} />
+          <Route path="/dashboard/allExpenses" component={AllExpenses} />
+          <Route path="/dashboard/groups/:groupID" component={GroupExpense} />
         </Switch>
       </div>
-
     </div>
   );
 }

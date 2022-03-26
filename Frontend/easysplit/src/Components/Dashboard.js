@@ -11,8 +11,6 @@ function Dashboard(props) {
   const [addFriend, setAddFriend] = useState(false);
   const [addGroup, setAddGroup] = useState(false);
   const [addExpense, setAddExpense] = useState(false);
-  const [allExpenses, setAllExpenses] = useState(false);
-  const [recentActivity, setRecentActivity] = useState(false);
   return (
     <div className="homeScreenDiv">
       <nav
@@ -29,14 +27,8 @@ function Dashboard(props) {
         <LeftSideBar
           toggleAddFriendModal={setAddFriend}
           toggleAddGroupModal={setAddGroup}
-          toggleAllExpenses={setAllExpenses}
-          toggleRecentActivity={setRecentActivity}
         />
-        <MiddleBar
-          isAllExpensesOpen={allExpenses}
-          isRecentActivityOpen={recentActivity}
-          toggleAddExpense={setAddExpense}
-        />
+        <MiddleBar />
         <RightSidebar />
         <AddFriendModal
           isOpen={addFriend}
