@@ -453,9 +453,14 @@ body {
   border: 1px solid #2bbbad;
 }
 
-/* #submit-paid-amounts-btn{
-  display: none;
-} */
+.all-expenses-div{
+  height: 100vh;
+  color: black;
+  width: 100%;
+/*   
+  flex-direction: column;
+  align-items: center; */
+}
 
 @media only screen and (max-width: 920px) {
   .firstDiv{
