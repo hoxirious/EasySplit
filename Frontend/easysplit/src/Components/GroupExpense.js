@@ -6,30 +6,46 @@ function GroupExpense(props) {
   const { groupID } = useParams();
   const { data: groupsInfo, status: groupsInfoStatus } = useQuery(
     ["groupsInfo", groupID],
-    () => getExpenseByGroupID(groupID),
+    () => getExpenseByGroupID(groupID)
   );
-
   return (
-    <div style={{ color: "black", margin: 30 }}>
-      {groupsInfoStatus === "success" &&
-        groupsInfo.result.map((groupInfo) => {
-          return (
-            <div>
-              <div>Description: {groupInfo.description}</div>
-              <div>Total Expense: {groupInfo.totalExpense}</div>
-              {groupInfo.splitDetail.map((userBilling) => {
-                return (
-                  <div>
-                    <div>You paid: {userBilling.paidAmount}</div>
-                    <div>You lent: {userBilling.lentAmount}</div>
-                    <br></br>
-                  </div>
-                );
-              })}
+    <>
+      {groupsInfoStatus === "success" && (
+        <>
+          <div id="#center-topbar" className="topbar-group">
+            <h1 id="expenses-header">Group</h1>
+            <div id="#topbar-actions" className="topbar-actions-group">
+              <button
+                id="add-expense-btn"
+                onClick={() => props.toggleAddExpenseModal(true)}
+              >
+                Add an expense
+              </button>
+              <button id="settleup-btn">Settle up</button>
             </div>
-          );
-        })}
-    </div>
+          </div>
+          <div style={{ color: "black", margin: 30 }}>
+            {groupsInfo.result.map((groupInfo) => {
+              return (
+                <div>
+                  <div>Description: {groupInfo.description}</div>
+                  <div>Total Expense: {groupInfo.totalExpense}</div>
+                  {groupInfo.splitDetail.map((userBilling) => {
+                    return (
+                      <div>
+                        <div>You paid: {userBilling.paidAmount}</div>
+                        <div>You lent: {userBilling.lentAmount}</div>
+                        <br></br>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

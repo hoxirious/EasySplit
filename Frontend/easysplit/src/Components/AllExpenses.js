@@ -32,6 +32,18 @@ function AllExpenses(props) {
   ];
   return (
     <div className="all-expenses-div">
+      <div id="#center-topbar" className="topbar-group">
+        <h1 id="expenses-header">All Expenses</h1>
+        <div id="#topbar-actions" className="topbar-actions-group">
+          <button
+            id="add-expense-btn"
+            onClick={() => props.toggleAddExpenseModal(true)}
+          >
+            Add an expense
+          </button>
+          <button id="settleup-btn">Settle up</button>
+        </div>
+      </div>
       <ul
         style={{
           listStyleType: "none",
