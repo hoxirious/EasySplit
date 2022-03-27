@@ -104,11 +104,29 @@ export class UsersRepository {
       return await db.groups.doc(groupID).delete();
 
   static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
-    let ToReturn = [];
+    const ToReturn = [];
     for (const userGroupID of (await this.getUser(id)).groupList) {
-      ToReturn.push(GroupsRepository.getGroup(userGroupID));
+      ToReturn.push(await GroupsRepository.getGroup(userGroupID));
     }
     return ToReturn;
+  }
+
+  // add expense to user's expense list
+  static async addExpenseInfo(
+    expenseInfo: ExpenseInfoSchema,
+    userID: string
+  ): Promise <FirebaseFirestore.WriteResult> {
+    let userExpense: UserExpenseStateSchema = {
+      expenseID: expenseInfo.expenseID,
+      expenseState: expenseInfo.expenseState
+    }
+    const user = await this.getUser(userID);
+
+    user.expenseList.push(userExpense);
+
+    return await db.users.doc(user.userID).update({
+      expenseList: user.expenseList,
+    });
   }
 
   // delete expense from user's expense list

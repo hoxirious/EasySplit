@@ -1,6 +1,7 @@
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { PostUserServiceDto } from "./dtos/post-user.dto";
+import { ReturnUserFriendsDto } from "./dtos/return-userfriends.dto";
 import { UsersRepository } from "./users.repository";
 
 export class UsersService {
@@ -13,27 +14,38 @@ export class UsersService {
   }
 
   static async createUser(
-    user: PostUserServiceDto,
+    user: PostUserServiceDto
   ): Promise<FirebaseFirestore.WriteResult> {
 
-    const userInfo: UserInfoSchema= {
+    const userInfo: UserInfoSchema = {
       ...user,
       friendList: [],
-      groupList: [] ,
+      groupList: [],
       expenseList: [],
-    }
+    };
     return await UsersRepository.postUser(userInfo);
   }
 
   //Calls the getUser() method to retrieve user and then retrieves users friendslist
-  static async getFriends(id: string): Promise<string[]> {
-    return (await UsersRepository.getUser(id)).friendList;
-  }
+  static async getFriends(id: string): Promise<ReturnUserFriendsDto[]> {
+    const friendIDList = (await UsersRepository.getUser(id)).friendList;
 
+    const ToReturn = await Promise.all(
+      friendIDList.map(async (friendID): Promise<ReturnUserFriendsDto> => {
+        const friendInfo = await UsersRepository.getUser(friendID);
+        return {
+          friendID,
+          friendName: friendInfo.name,
+          friendEmail: friendInfo.email,
+        };
+      })
+    );
+    return ToReturn;
+  }
 
   static async deleteFriend(
     userID: string,
-    email: string,
+    email: string
   ): Promise<FirebaseFirestore.WriteResult> {
     const target = this.getUserByEmail(email);
     //repository sending my userID and target.userID
@@ -41,7 +53,7 @@ export class UsersService {
   }
   static async addFriend(
     id: string,
-    friendEmail: string,
+    friendEmail: string
   ): Promise<FirebaseFirestore.WriteResult> {
     return await UsersRepository.addFriend(id, friendEmail);
   }

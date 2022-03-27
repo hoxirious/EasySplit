@@ -1,22 +1,30 @@
-import React from "react"
-import easysplitlogo from '../Resources/divided.png'
-function MiddleBar() {
-    return (
+import { React } from "react";
+import { Route, Switch } from "react-router-dom";
+import AllExpenses from "./AllExpenses";
+import FriendExpense from "./FriendExpense";
+import GroupExpense from "./GroupExpense";
+import RecentActivity from "./RecentActivity";
 
-        <div className="centerDiv">
-            <div id="#center-topbar" className="topbar-group">
-                <h1 id="expenses-header">All Expenses</h1>
-                <div id="#topbar-actions" className="topbar-actions-group">
-                    <button id="add-expense-btn">Add an expense</button>
-                    <button id="settleup-btn">Settle up</button>
-                </div>
-            </div>
-            <div className="all-expenses">
-                <h1 style={{ color: "black", margin: 30 }}>You have not added any expenses yet</h1>
-                {/* Expenses list will be added to the innerHtml of this div*/}
-            </div>
-        </div>
-    )
+function MiddleBar(props) {
+  return (
+    <div className="centerDiv">
+      <div className="all-expenses">
+        <Switch>
+          <Route path="/dashboard/recent" component={RecentActivity} />
+          <Route path="/dashboard/allExpenses">
+            <AllExpenses toggleAddExpenseModal={props.toggleAddExpenseModal} />
+          </Route>
+          <Route path="/dashboard/groups/:groupID">
+            <GroupExpense toggleAddExpenseModal={props.toggleAddExpenseModal} />
+          </Route>
+          <Route
+            path="/dashboard/friends/:friendID"
+            component={FriendExpense}
+          />
+        </Switch>
+      </div>
+    </div>
+  );
 }
 
-export default MiddleBar
+export default MiddleBar;

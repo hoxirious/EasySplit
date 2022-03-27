@@ -69,8 +69,11 @@ export class EventsRepository {
     eventPayload: EventInfoSchema
   ): Promise<firestore.WriteResult> {
     switch (eventPayload.eventType) {
-      // case EventType.ExpenseCreate:
-      //   break;
+      case EventType.ExpenseCreate:
+        return await UsersRepository.addExpenseInfo(
+          eventPayload.eventContent as ExpenseInfoSchema,
+          userID
+        );
       case EventType.ExpenseDelete:
         return await UsersRepository.deleteUserExpense(
           eventPayload.eventContent as ExpenseInfoSchema,

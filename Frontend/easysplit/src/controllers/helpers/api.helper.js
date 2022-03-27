@@ -1,5 +1,8 @@
 import { baseURL } from "../data/endpoints.data";
+import { auth } from "../../App.js";
 import axios from "axios";
+
+export const getUserJWt = async () => await auth.currentUser.getIdToken();
 
 export const sendRequest = async ({
   endpointInfo,

@@ -2,6 +2,8 @@ import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 import { UserApi } from "./controllers/apis/user.api";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
@@ -14,6 +16,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import React from "react";
+import GroupExpense from "./Components/GroupExpense";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuqfN8W85SXnYiG-7dL3TVw8lBT49UelY",
@@ -29,7 +32,7 @@ export const auth = getAuth(app);
 connectAuthEmulator(auth, "http://localhost:9099");
 
 const authentication = auth.onAuthStateChanged((user) => user);
-
+const queryClient = new QueryClient();
 const PrivateRoute = (props) => {
   const [user, setUser] = useState(auth.currentUser);
 
@@ -47,19 +50,20 @@ const PrivateRoute = (props) => {
 };
 
 function App() {
-  
   return (
     <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/" component={Home} />
-          <PrivateRoute exact path="/dashboard" fallbackRoute="/login">
-            <Dashboard />
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/" component={Home} />
+            <PrivateRoute path="/dashboard" fallbackRoute="/login">
+          <Dashboard />
           </PrivateRoute>
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </QueryClientProvider>
     </div>
   );
 }
