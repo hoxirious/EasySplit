@@ -8,37 +8,41 @@ function SettleUpModal(props) {
     const paymentDiv = useRef();
     const email = useRef();
     const amount = useRef();
+    const pDate = useRef();
+    const groupName = useRef();
+
     const [switchState, setSwitchState] = useState(false);
     const [paymentInfo, setPaymentInfo] = useState({
         payer: "You",
         payedTo: "",
-        amount: 0,
-        date: "",
-        group: ""
     })
 
     function swapPayment() {
         if (!switchState) {
             span.current.innerHTML = `paid <b>You</b>`
             paymentDiv.current.style.flexDirection = 'row-reverse'
-            setPaymentInfo(prevObj => {
-                return { ...prevObj, payer: email.current.value, payedTo: "You" }
-            })
+            setPaymentInfo({ payer: email.current.value, payedTo: "You" });
             setSwitchState(prev => !prev);
         }
         else {
             span.current.innerHTML = `<b>You</b> paid`
             paymentDiv.current.style.flexDirection = 'row'
-            setPaymentInfo(prevObj => {
-                return { ...prevObj, payer: "You", payedTo: email.current.value }
-            });
+            setPaymentInfo({ payer: "You", payedTo: email.current.value });
             setSwitchState(prev => !prev);
 
         }
     }
 
     function sendResponse() {
+        let returnObj = {
+            paidBy: paymentInfo.payer,
+            paidTo: paymentInfo.payedTo ? paymentInfo.payedTo : email.current.value,
+            amountPaid: amount.current.value,
+            paymentDate: pDate.current.value,
+            group: groupName.current.value
+        }
 
+        console.log(returnObj);
     }
 
     useEffect(() => {
@@ -65,8 +69,8 @@ function SettleUpModal(props) {
                 </div>
                 <img src={swap} id="swap" onClick={swapPayment}></img>
                 <input type="email" placeholder="$" className="form-control" ref={amount} id="settle-up-amount"></input>
-                <input type="date" className="form-control" id="date"></input>
-                <input type="text" className="form-control" id="settle-up-group-name" placeholder="Group name"></input>
+                <input type="date" className="form-control" id="date" ref={pDate}></input>
+                <input type="text" className="form-control" id="settle-up-group-name" placeholder="Group name" ref={groupName}></input>
                 <button id="settle-up-save-btn" onClick={() => { props.toggleSettleUpModal(false); sendResponse(); }}>Save</button>
             </div>
         </div>
