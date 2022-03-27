@@ -32,14 +32,16 @@ export class ExpensesRepository {
     expenseInfo: ExpenseInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
     try {
-      console.log(expenseInfo.groupReference);
-      const group = (await GroupsRepository.getGroup(expenseInfo.groupReference));
-      group.expenseList.push(expenseInfo.expenseID);
-      return (await db.expenses.doc(expenseInfo.expenseID).set(expenseInfo),
+      if (expenseInfo.groupReference) {
+        const group = await GroupsRepository.getGroup(
+          expenseInfo.groupReference
+        );
+        group.expenseList.push(expenseInfo.expenseID);
         await db.groups.doc(expenseInfo.groupReference).update({
           expenseList: group.expenseList,
-        })
-      )
+        });
+      }
+      return await db.expenses.doc(expenseInfo.expenseID).set(expenseInfo);
     } catch (error) {
       throw new Error("cannot post expense!");
     }
@@ -50,17 +52,15 @@ export class ExpensesRepository {
     groupID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     try {
-      const group = (await GroupsRepository.getGroup(groupID));
+      const group = await GroupsRepository.getGroup(groupID);
       group.expenseList.push(expenseID);
-      return (await db.groups.doc(groupID).update({
+      return await db.groups.doc(groupID).update({
         expenseList: group.expenseList,
-      }))
+      });
     } catch (error) {
       throw new Error("cannot update group with expenseID");
     }
-
   }
-
 
   static async putExpense(
     expenseInfo: ExpenseInfoSchema

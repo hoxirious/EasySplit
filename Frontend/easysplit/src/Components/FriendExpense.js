@@ -20,7 +20,19 @@ function FriendExpense(props) {
   );
 
   return (
-    <div style={{ color: "black", margin: 30 }}>
+    <div style={{ color: "black"}}>
+      <div id="#center-topbar" className="topbar-group">
+        <h1 id="expenses-header">Friend</h1>
+        <div id="#topbar-actions" className="topbar-actions-group">
+          <button
+            id="add-expense-btn"
+            onClick={() => props.toggleAddExpenseModal(true)}
+          >
+            Add an expense
+          </button>
+          <button id="settleup-btn">Settle up</button>
+        </div>
+      </div>
       {friendsInfoStatus === "success" &&
         friendsInfo.result.length !== 0 &&
         friendsInfo.result.map((friendInfo) => {

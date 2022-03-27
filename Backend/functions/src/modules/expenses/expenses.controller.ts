@@ -32,13 +32,12 @@ export class ExpensesController {
     @Param("expenseID") expenseID: string,
     @Body() body: AddExpenseToGroupBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
-    const groupReference = body.groupReference
+    const groupReference = body.groupReference;
     console.log("Adding expenseID to group");
     return await ExpensesService.addGroupExpense(expenseID, groupReference);
   }
 
-
-  @Get("/:expenseID")
+  @Get("/getExpenseByID/:expenseID")
   async getExpenseByID(
     @Param("expenseID") expenseID: string
   ): Promise<ExpenseInfoSchema> {
@@ -69,6 +68,14 @@ export class ExpensesController {
   ): Promise<ExpenseInfoSchema[]> {
     console.log("Getting expense with friend...");
     return await ExpensesService.getExpenseWithFriend(user.uid, friendID);
+  }
+
+  @Get("/getExpenseByUserID")
+  async getExpenseByUserID(
+    @FirebaseUser() user: UserRecord
+  ): Promise<ExpenseInfoSchema[]> {
+    console.log("Getting expense by userID...");
+    return await ExpensesService.getExpenseByUserID(user.uid);
   }
 
   // Delete expense by ID
