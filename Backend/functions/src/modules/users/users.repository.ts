@@ -91,18 +91,6 @@ export class UsersRepository {
     );
   }
 
-
-  //talks to firestore directly
-  static async deleteGroup(
-    userID: string,
-    groupId: string,
-  ): Promise<FirebaseFirestore.WriteResult> {
-    const group = await GroupsRepository.getGroup(groupId);
-    //check whether or not user is in group by checking member List
-    if(userID in group.memberList)
-      //Delete the group
-      return await db.groups.doc(groupID).delete();
-
   static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
     const ToReturn = [];
     for (const userGroupID of (await this.getUser(id)).groupList) {
@@ -131,7 +119,7 @@ export class UsersRepository {
 
   // delete expense from user's expense list
   static async deleteUserExpense(
-    exp: ExpenseInfoSchema, 
+    exp: ExpenseInfoSchema,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     let userExp: UserExpenseStateSchema = {

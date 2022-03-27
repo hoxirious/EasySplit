@@ -59,14 +59,6 @@ export class UsersService {
   }
 
 
-  //receives info from users controller
-  //sends info to users.repository.ts which deals with the database
-  static async deleteGroup(
-    userID: string,
-    groupId: string,
-  ): Promise<FirebaseFirestore.WriteResult> {
-    return await UsersRepository.deleteGroup(userID, groupId);
-
   static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
     return await UsersRepository.getUserGroupsInfo(id);
 

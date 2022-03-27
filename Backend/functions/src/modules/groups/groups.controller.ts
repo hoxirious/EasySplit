@@ -15,7 +15,7 @@ export class GroupsController {
         console.log("Getting group...");
         return await GroupService.getGroup(body.groupID);
     }
-    
+
     @Put("/createGroup")
     async createGroup(
         @FirebaseUser() user: UserRecord,
@@ -41,4 +41,16 @@ export class GroupsController {
         console.log("Remove an existing member...");
         return await GroupService.removeMember(body.groupID, body.userID);
     }
+
+    //deleteGroup fucntion, allows users to remove the group for all users in group
+    @Delete("/deleteGroup")
+    static async deleteGroup(
+      @FirebaseUser() user: UserRecord,
+      @Body() body: DeleteGroupDto
+    ): Promise<FirebaseFirestore.WriteResult>{
+      console.log("Deleting group...");
+
+      //calls deleteGroup() in UsersService class, passes the user's ID and ID of group that wants to be deleted
+      return await GroupService.deleteGroup(user.uid, body.groupID);
+  }
 }

@@ -30,9 +30,9 @@ export class GroupService {
       userID
     );
   }
- 
+
     static async addMember(
-        groupID: string, 
+        groupID: string,
         userID: string
     ): Promise<FirebaseFirestore.WriteResult> {
         return await GroupsRepository.addMember(groupID, userID);
@@ -44,10 +44,10 @@ export class GroupService {
     ): Promise<FirebaseFirestore.WriteResult> {
         const group = await GroupsRepository.getGroup(groupID);
         const user = await UsersRepository.getUser(userID);
-        
+
         const userIndex = group.memberList.indexOf(userID);
         const groupIndex = user.groupList.indexOf(groupID);
-        
+
         if (userIndex > -1 && groupIndex > -1) {
             group.memberList.splice(userIndex, 1);
             user.groupList.splice(groupIndex, 1);
@@ -61,5 +61,14 @@ export class GroupService {
                 groupList: user.groupList,
             })
         );
+    }
+
+    //receives info from users controller
+    //sends info to users.repository.ts which deals with the database
+    static async deleteGroup(
+      userID: string,
+      groupId: string,
+    ): Promise<FirebaseFirestore.WriteResult> {
+      return await GroupsRepository.deleteGroup(userID, groupId);
     }
 }

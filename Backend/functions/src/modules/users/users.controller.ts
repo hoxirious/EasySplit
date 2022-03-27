@@ -66,21 +66,6 @@ export class UsersController {
     return await UsersService.addFriend(user.uid, friendEmail);
   }
 
-
-
-  //deleteGroup fucntion, allows users to remove the group for all users in group
-  @Delete("/delete/group")
-  static async deleteGroup(
-    @FirebaseUser() user: UserRecord,
-    @Body() body: DeleteGroupDto
-  ): Promise<FirebaseFirestore.WriteResult>{
-    console.log("Deleting group...");
-
-    //calls deleteGroup() in UsersService class, passes the user's ID and ID of group that wants to be deleted
-    return await UsersService.deleteGroup(user.uid, body.groupID);
-}
- 
-
   @Get("/allGroups")
   async getUserGroupsInfo(
     @FirebaseUser() user: UserRecord
@@ -95,4 +80,3 @@ export class UsersController {
     seedStuff();
   }
 }
-
