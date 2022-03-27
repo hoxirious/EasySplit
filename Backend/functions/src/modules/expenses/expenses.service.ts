@@ -4,12 +4,35 @@ import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { EventType } from "../events/definitions/event-type.definition";
 import { EventsService } from "../events/events.sevice";
 import { GroupsRepository } from "../groups/groups.repository";
+import { UsersRepository } from "../users/users.repository";
 import { ExpenseState } from "./definitions/expenses-info.definition";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { ExpensesRepository } from "./expenses.repository";
 
 export class ExpensesService {
+  static async getExpenseWithFriend(
+    userID: string,
+    friendID: string
+  ): Promise<ExpenseInfoSchema[]> {
+    const userExpenseStateInfoList = (await UsersRepository.getUser(userID))
+      .expenseList;
+
+    const ToReturn: ExpenseInfoSchema[] = [];
+
+    for (const userExpenseStateInfo of userExpenseStateInfoList) {
+      const expenseInfo = await this.getExpenseByID(
+        userExpenseStateInfo.expenseID
+      );
+      let isWithFriend = false;
+      expenseInfo.splitDetail.forEach((billing) => {
+        if (billing.userID === friendID) isWithFriend = true;
+      });
+      if (isWithFriend) ToReturn.push(expenseInfo);
+    }
+
+    return ToReturn
+  }
   static splitExpense(body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
     const billingReturn: BillingInfoSchema[] = [];
 
@@ -54,7 +77,9 @@ export class ExpensesService {
     };
 
     if (expenseInfo.groupReference) {
-      const groupInfo = await GroupsRepository.getGroup(expenseInfo.groupReference);
+      const groupInfo = await GroupsRepository.getGroup(
+        expenseInfo.groupReference
+      );
       const memList = groupInfo.memberList;
       for (const mem of memList) {
         await EventsService.createEvent(
@@ -63,9 +88,7 @@ export class ExpensesService {
           mem
         );
       }
-    }
-    
-    else {
+    } else {
       const usersBill = expenseInfo.splitDetail;
       for (const eachBill of usersBill) {
         await EventsService.createEvent(
@@ -85,14 +108,15 @@ export class ExpensesService {
 
   // Split deleteExpenseByID by two parts: delete expense in user's expense list using eventSourcing
   // and delete expense in database using normal structure
-  static async deleteExpenseByID( 
+  static async deleteExpenseByID(
     expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     const expenseDel = await ExpensesRepository.getExpenseByID(expenseID);
 
-    if (expenseDel.groupReference) 
-    {
-      const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
+    if (expenseDel.groupReference) {
+      const groupDel = await GroupsRepository.getGroup(
+        expenseDel.groupReference
+      );
       const memList = groupDel.memberList;
       for (const mem of memList) {
         await EventsService.createEvent(
@@ -101,8 +125,7 @@ export class ExpensesService {
           mem
         );
       }
-    }
-    else {
+    } else {
       const usersBill = expenseDel.splitDetail;
       for (const eachBill of usersBill) {
         await EventsService.createEvent(
@@ -112,25 +135,7 @@ export class ExpensesService {
         );
       }
     }
-    
+
     return await ExpensesRepository.deleteExpenseByID(expenseID);
   }
 }
-
-// body.userList.forEach((userID) => {
-//   if (userID === body.paidBy) {
-//     const userBilling: BillingInfoSchema = {
-//       userID,
-//       paidAmount: body.totalAmount,
-//       lentAmount: body.totalAmount / body.userList.length,
-//     };
-//     billingReturn.push(userBilling);
-//   } else {
-//     const userBilling: BillingInfoSchema = {
-//       userID,
-//       paidAmount: 0,
-//       lentAmount: -body.totalAmount / body.userList.length,
-//     };
-//     billingReturn.push(userBilling);
-//   }
-// });
