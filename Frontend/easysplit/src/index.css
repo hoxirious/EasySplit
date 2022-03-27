@@ -235,7 +235,7 @@ body {
   color: black;
 }
 
-#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn{
+#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn,  #settle-up-save-btn{
   border: none;
   font: inherit;
   padding: 0.4em;
@@ -255,11 +255,11 @@ body {
   background-color: #e65c2a;
 }
 
-#settleup-btn{
+#settleup-btn, #settle-up-save-btn{
   background-color: #5bc5a7;
 }
 
-#settleup-btn:hover{
+#settleup-btn:hover,  #settle-up-save-btn:hover{
   background-color: #54b499;
 }
 
@@ -357,7 +357,7 @@ body {
 
 /*--Add Expense--*/
 
-.addExpenseHeader{
+.addExpenseHeader, .settle-up-header{
   display: flex;
   justify-content: space-between;
   background-color: #2bbbad;
@@ -366,11 +366,16 @@ body {
   border-radius: 6px;
 }
 
-.addExpenseHeader img{
+.addExpenseHeader img, .settle-up-header img{
   width: 1em !important;
   height: 1em;
   align-self: flex-end;
   cursor: pointer;
+}
+
+.settle-up-header h5{
+  margin-bottom: 0;
+  padding: 0.1em 0em 0.1em 0;
 }
 
 .split-method-img{
@@ -433,7 +438,7 @@ body {
   width: 6em;
 }
 
-#add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn{
+#add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn, #settle-up-save-btn{
   margin-left: 0.5em;
   margin-right: 0;
   padding-top: 0.2em;
@@ -460,6 +465,60 @@ body {
 /*   
   flex-direction: column;
   align-items: center; */
+}
+
+.modal-content.settle-up{
+  height: 22em;
+}
+
+.payment-div{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1em;
+}
+
+.payment-div span{
+  margin-right: 0.5em;
+}
+
+.payment-div input{
+  width: 12em;
+  height: 1.5em;
+}
+
+#swap{
+  height: 2em;
+  width: 2em;
+  margin-top: 0.5em;
+  margin-left: 7em;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+#swap:hover{
+  transform: rotate(360deg);
+}
+
+#settle-up-amount{
+  margin-top: 0.5em;
+  width: 4em;
+  margin-left: 6.4em;
+}
+
+#date{
+  margin-top: 1em;
+  width: 12em;
+  margin-left: 2.4em;
+}
+
+#settle-up-group-name{
+  margin-top: 1em;
+}
+
+#settle-up-save-btn{
+  margin-top: 1em;
+  width: 4em;
+  margin-left: 6.4em;
 }
 
 @media only screen and (max-width: 920px) {

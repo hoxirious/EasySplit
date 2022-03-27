@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import AddExpenseModal from "./AddExpenseModal";
 import AddFriendModal from "./AddFriendModal";
 import AddGroupModal from "./AddGroupModal";
+import SettleUpModal from "./SettleUpModal";
 import LeftSideBar from "./LeftSidebar";
 import MiddleBar from "./MiddleBar";
 import RightSidebar from "./RightSidebar";
@@ -12,6 +13,7 @@ function Dashboard(props) {
   const [addGroup, setAddGroup] = useState(false);
   const [addExpense, setAddExpense] = useState(false);
   const [allExpenses, setAllExpenses] = useState(false);
+  const [settleUp, setSettleUp] = useState(false);
   return (
     <div className="homeScreenDiv">
       <nav
@@ -33,6 +35,7 @@ function Dashboard(props) {
         <MiddleBar
           isAllExpensesOpen={allExpenses}
           toggleAddExpense={setAddExpense}
+          toggleSettleUp={setSettleUp}
         />
         <RightSidebar />
         <AddFriendModal
@@ -43,6 +46,10 @@ function Dashboard(props) {
         <AddExpenseModal
           isOpen={addExpense}
           toggleAddExpenseModal={setAddExpense}
+        />
+        <SettleUpModal
+          isOpen={settleUp}
+          toggleSettleUpModal={setSettleUp}
         />
       </div>
     </div>

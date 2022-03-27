@@ -25,7 +25,10 @@ function MiddleBar(props) {
           >
             Add an expense
           </button>
-          <button id="settleup-btn">Settle up</button>
+          <button id="settleup-btn"
+            onClick={() => props.toggleSettleUp(true)}>
+            Settle up
+          </button>
         </div>
       </div>
       <div className="all-expenses">
