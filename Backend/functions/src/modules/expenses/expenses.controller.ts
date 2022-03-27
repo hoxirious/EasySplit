@@ -56,9 +56,7 @@ export class ExpensesController {
     @Param("friendID") friendID: string
   ): Promise<ExpenseInfoSchema[]> {
     console.log("Getting expense with friend...");
-    const a = await ExpensesService.getExpenseWithFriend(user.uid, friendID);
-    console.log(a);
-    return a;
+    return await ExpensesService.getExpenseWithFriend(user.uid, friendID);
   }
 
   // Delete expense by ID
