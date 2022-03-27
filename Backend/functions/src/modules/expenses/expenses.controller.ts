@@ -3,8 +3,8 @@ import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
+import { AddExpenseToGroupBodyDto } from "./dtos/put-AddExpenseToGroupBodyDto.dto";
 import { PutExpenseBodyDto } from "./dtos/put-expense.dto";
-import { GroupIDDto } from "./dtos/put-expenseGroupReference.dto";
 import { ExpensesService } from "./expenses.service";
 
 @Controller("expense")
@@ -20,8 +20,9 @@ export class ExpensesController {
   @Put("/updateGroup/:expenseID")
   async addGroupExpense(
     @Param("expenseID") expenseID: string,
-    @Body() groupReference: GroupIDDto
+    @Body() body: AddExpenseToGroupBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
+    const groupReference = body.groupReference
     console.log("Adding expenseID to group");
     return await ExpensesService.addGroupExpense(expenseID, groupReference);
   }

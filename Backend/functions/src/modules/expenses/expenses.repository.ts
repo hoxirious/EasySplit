@@ -2,7 +2,6 @@ import { db } from "../../firebase/repository.firebase";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupsRepository } from "../groups/groups.repository";
 import { ExpenseState } from "./definitions/expenses-info.definition";
-import { GroupIDDto } from "./dtos/put-expenseGroupReference.dto";
 
 export class ExpensesRepository {
   static EMPTY_EXPENSE: {
@@ -47,15 +46,13 @@ export class ExpensesRepository {
   }
 
   static async addGroupExpense(
-    id: string,
-    groupReference: GroupIDDto
+    expenseID: string,
+    groupID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     try {
-      console.log(groupReference);
-      const group = (await GroupsRepository.getGroup(groupReference.groupReference));
-      console.log(group);
-      group.expenseList.push(id);
-      return (await db.groups.doc(groupReference.groupReference).update({
+      const group = (await GroupsRepository.getGroup(groupID));
+      group.expenseList.push(expenseID);
+      return (await db.groups.doc(groupID).update({
         expenseList: group.expenseList,
       }))
     } catch (error) {

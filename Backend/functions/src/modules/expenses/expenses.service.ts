@@ -7,7 +7,6 @@ import { GroupsRepository } from "../groups/groups.repository";
 import { ExpenseState } from "./definitions/expenses-info.definition";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
-import { GroupIDDto } from "./dtos/put-expenseGroupReference.dto";
 import { ExpensesRepository } from "./expenses.repository";
 
 export class ExpensesService {
@@ -81,10 +80,10 @@ export class ExpensesService {
   }
 
   static async addGroupExpense(
-    id: string,
-    groupReference: GroupIDDto
+    expenseID: string,
+    groupID: string,
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await ExpensesRepository.addGroupExpense(id, groupReference);
+    return await ExpensesRepository.addGroupExpense(expenseID, groupID);
   }
 
 
