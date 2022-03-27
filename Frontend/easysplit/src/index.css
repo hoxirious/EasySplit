@@ -1,4 +1,4 @@
-html{
+html {
   height: 100%;
 }
 
@@ -8,28 +8,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin-top: 60px;
   color: white;
-  background: rgb(2,0,36);
-  background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 30%, rgba(0,212,255,1) 100%);
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    45deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 30%,
+    rgba(0, 212, 255, 1) 100%
+  );
   height: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
   overflow: hidden;
 }
 
-.navbar{
+.navbar {
   justify-content: flex-end;
 }
 
-.login-btn, .register-btn{
+.login-btn,
+.register-btn {
   font-weight: 500;
 }
 
-.logo{
+.logo {
   height: 11.5em;
   width: 11em;
 }
 
-.home-content{
+.home-content {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -37,7 +43,7 @@ body {
   margin-top: 18em;
 }
 
-.home-content ul{
+.home-content ul {
   list-style-type: none;
   font-weight: 400;
   line-height: 1.75em;
@@ -46,32 +52,34 @@ body {
   padding-right: 1.5em;
 }
 
-.home-content h1{
-  font-family: 'Raleway', sans-serif;
+.home-content h1 {
+  font-family: "Raleway", sans-serif;
   font-weight: 600;
   font-size: 4em;
   text-shadow: 0 0 3px #fff, 0 0 8px #fff;
 }
 
-.home-content ul, .home-content h1, .home-content img{
+.home-content ul,
+.home-content h1,
+.home-content img {
   margin: 0.4em 0 0.4em 0;
 }
 
-.login-container{
+.login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100vh;
 }
 
-.register-container{
+.register-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100vh;
 }
 
-.login-content{
+.login-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +90,7 @@ body {
   margin-bottom: 10em;
 }
 
-.register-content{
+.register-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,116 +102,117 @@ body {
   margin-top: 5em;
 }
 
-.login-content img{
+.login-content img {
   margin-top: 4em;
 }
 
-.register-content img{
+.register-content img {
   margin-top: 4em;
 }
 
-
-.login-content h1{
-  font-family: 'Raleway', sans-serif;
+.login-content h1 {
+  font-family: "Raleway", sans-serif;
   font-weight: 600;
   font-size: 4em;
   margin-top: 0.4em;
 }
 
-.register-content h1{
-  font-family: 'Raleway', sans-serif;
+.register-content h1 {
+  font-family: "Raleway", sans-serif;
   font-weight: 600;
   font-size: 4em;
   margin-top: 0.4em;
 }
 
-.login-content form{
+.login-content form {
   margin-top: 1.2em;
 }
 
-.register-content form{
+.register-content form {
   margin-top: 1.2em;
 }
 
-.form-group.login{
+.form-group.login {
   width: 20em;
 }
 
-.form-group.register{
+.form-group.register {
   width: 20em;
 }
 
-.form-group.login label{
+.form-group.login label {
   font-size: 1.1em;
 }
 
-.form-group.register label{
+.form-group.register label {
   font-size: 1.1em;
 }
 
-.login-content button{
+.login-content button {
   margin-top: 10em;
   font-size: 1.7em;
   padding-top: 0.09em;
 }
 
-.register-content button{
+.register-content button {
   margin-top: 10em;
   font-size: 1.7em;
   padding-top: 0.09em;
 }
 
-.btn-success:hover{
+.btn-success:hover {
   box-shadow: 0px 0px 5px 5px #8aeba1;
 }
 
-.homeScreenDiv{
+.homeScreenDiv {
   height: 100vh;
   background-color: white;
 }
 
-.dashBoardDiv{
+.dashBoardDiv {
   display: flex;
 }
 
-.firstDiv,.centerDiv, .thirdDiv{
+.firstDiv,
+.centerDiv,
+.thirdDiv {
   display: inline-block;
   width: 33%;
   height: 100vh;
 }
 
-.firstDiv{
+.firstDiv {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   margin-right: 1em;
 }
 
-.fdiv-elem{
+.fdiv-elem {
   color: #9999b3;
   font-weight: 500;
 }
-.fdiv-elem:hover{
+.fdiv-elem:hover {
   color: #5bc5a7;
   text-decoration: none;
 }
 
-#dashboard-link{
+#dashboard-link {
   margin-top: 1em;
 }
-#activity-link{
+#activity-link {
   margin: 1em 0 1em 0;
 }
-#expenses-link{
+#expenses-link {
   margin-bottom: 1em;
 }
 
-#group-friends-div{
+#group-friends-div {
   width: 100%;
-  
 }
 
-#gf-g-header,#gf-f-header{
+#gf-g-header,
+#gf-f-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -213,12 +222,12 @@ body {
   border-radius: 4px;
 }
 
-.centerDiv{
+.centerDiv {
   border-left: 3px solid black;
   border-right: 3px solid black;
 }
 
-.topbar-group{
+.topbar-group {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -226,17 +235,23 @@ body {
   padding: 1em;
 }
 
-.topbar-actions-group{
+.topbar-actions-group {
   display: flex;
   margin-left: 3em;
 }
 
-#expenses-header{
+#expenses-header {
   font-size: 1.5em;
   color: black;
 }
 
-#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn{
+#add-expense-btn,
+#settleup-btn,
+#save-group-btn,
+#add-friend-btn,
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn {
   border: none;
   font: inherit;
   padding: 0.4em;
@@ -246,79 +261,89 @@ body {
   cursor: pointer;
 }
 
-
-#add-expense-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn{
+#add-expense-btn,
+#save-group-btn,
+#add-friend-btn,
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn {
   background-color: #ff652f;
   margin-right: 1em;
 }
 
-#add-expense-btn:hover, #save-group-btn:hover, #add-friend-btn:hover, #add-emails-btn:hover, #submit-exact-percentage-btn:hover, #submit-paid-amounts-btn:hover{
+#add-expense-btn:hover,
+#save-group-btn:hover,
+#add-friend-btn:hover,
+#add-emails-btn:hover,
+#submit-exact-percentage-btn:hover,
+#submit-paid-amounts-btn:hover {
   background-color: #e65c2a;
 }
 
-#settleup-btn{
+#settleup-btn {
   background-color: #5bc5a7;
 }
 
-#settleup-btn:hover{
+#settleup-btn:hover {
   background-color: #54b499;
 }
 
-.modal-background{
+.modal-background {
   width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.9);
-	position: absolute;
-	top: 0;
-	display: none;										/*Initially we want it to be displayed to the user, but later on we change it to none if the user provides unique username*/
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  top: 0;
+  display: none; /*Initially we want it to be displayed to the user, but later on we change it to none if the user provides unique username*/
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.modal-content{
+.modal-content {
   width: 300px;
-	height: 240px;
-	background-color: white;
+  height: 240px;
+  background-color: white;
   color: black;
-	border-radius: 7px;
-	text-align: center;
-	padding: 15px;
-	box-shadow: 0 0 15px 8px #2bbbad;
+  border-radius: 7px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 0 15px 8px #2bbbad;
 }
 
-.modal-content img:nth-child(1){
+.modal-content img:nth-child(1) {
   width: 0.8em;
   height: 0.8em;
   align-self: flex-end;
   cursor: pointer;
 }
 
-.modal-content img:nth-child(2){
+.modal-content img:nth-child(2) {
   width: 4em;
   align-self: center;
 }
 
-#add-friend-btn{
+#add-friend-btn {
   margin: 0;
   width: 6em;
   margin-top: 1em;
 }
 
-.addFriendform{
+.addFriendform {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.addFriendform input{
+.addFriendform input {
   margin-top: 0.6em;
 }
 
-.friends-list, .groups-list{
+.friends-list,
+.groups-list {
   color: black;
   list-style-type: none;
-  padding-left:1em;
+  padding-left: 1em;
   margin: 0;
   background-color: #eeeeee;
   border-radius: 2px;
@@ -327,38 +352,37 @@ body {
   font-size: 1em;
 }
 
-.modal-content.addgroupcontent{
+.modal-content.addgroupcontent {
   width: 350px;
   height: 200px;
 }
 
-.modal-content.addgroupcontent h6{
+.modal-content.addgroupcontent h6 {
   align-self: flex-start;
   color: #778381;
 }
 
-.modal-content.addgroupcontent form h6{
+.modal-content.addgroupcontent form h6 {
   margin: 1em 0 0.8em 0;
   text-align: left;
   font-weight: 400;
 }
 
-.modal-content.addgroupcontent form #save-group-btn{
+.modal-content.addgroupcontent form #save-group-btn {
   align-self: flex-end;
   margin: 0;
-  margin-top:0.6em;
+  margin-top: 0.6em;
   width: 4em;
 }
 
-.addGroupform{
+.addGroupform {
   display: flex;
   flex-direction: column;
 }
 
-
 /*--Add Expense--*/
 
-.addExpenseHeader{
+.addExpenseHeader {
   display: flex;
   justify-content: space-between;
   background-color: #2bbbad;
@@ -367,123 +391,128 @@ body {
   border-radius: 6px;
 }
 
-.addExpenseHeader img{
+.addExpenseHeader img {
   width: 1em !important;
   height: 1em;
   align-self: flex-end;
   cursor: pointer;
 }
 
-.split-method-img{
+.split-method-img {
   margin-left: 0.4em;
   margin-right: 0.4em;
   transition: all 0.5s;
   cursor: pointer;
 }
 
-.split-method-img:hover{
+.split-method-img:hover {
   transform: scale(1.5);
 }
 
-.split-method-img:nth-of-type(2){
+.split-method-img:nth-of-type(2) {
   transform: scale(0.6);
 }
 
-.split-method-img:nth-of-type(2):hover{
+.split-method-img:nth-of-type(2):hover {
   transform: scale(0.8);
 }
 
-.split-method-img:nth-of-type(3){
+.split-method-img:nth-of-type(3) {
   height: 30px;
   width: 30px;
 }
 
-.split-method-img:nth-of-type(4){
+.split-method-img:nth-of-type(4) {
   height: 30px;
   width: 30px;
 }
 
-
-.modal-content.addexpensecontent{
+.modal-content.addexpensecontent {
   width: 400px;
   height: max-content;
   width: max-content;
 }
 
-.addExpenseForm{
+.addExpenseForm {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.addExpenseForm p{
+.addExpenseForm p {
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
 
-#split-with-email-input, #split-desc-input, #split-amount-input{
+#split-with-email-input,
+#split-desc-input,
+#split-amount-input {
   margin: 0.5em 0 0.5em 0;
   padding-left: 0.5em;
 }
 
-#split-with-email-input{
-  width: 18em; 
+#split-with-email-input {
+  width: 18em;
 }
 
-#split-amount-input{
+#split-amount-input {
   width: 6em;
 }
 
-#add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn{
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn {
   margin-left: 0.5em;
   margin-right: 0;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
 }
 
-#submit-exact-percentage-btn, #submit-paid-amounts-btn{
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn {
   margin-top: 1em;
   display: none;
 }
 
-.payed-amounts-div{
+.payed-amounts-div {
   width: 100%;
 }
 
-.paid-amounts-div hr{
+.paid-amounts-div hr {
   border: 1px solid #2bbbad;
 }
 
-.all-expenses-div{
+.all-expenses-div {
   height: 100vh;
   color: black;
   width: 100%;
-/*   
+  /*   
   flex-direction: column;
   align-items: center; */
 }
 
-.recent-activity-div{
+.recent-activity-div {
+  display: block;
   height: 100vh;
   color: black;
   width: 100%;
 }
 
-#recent-activity-header{
+#recent-activity-header {
   padding: 0.5em 0 0.5em 0.5em;
   background-color: #eee;
 }
 
 @media only screen and (max-width: 920px) {
-  .firstDiv{
+  .firstDiv {
     align-items: center;
     margin-right: 0em;
     width: 25.5%;
   }
-  .centerDiv{
+  .centerDiv {
     width: 49%;
   }
-  .thirdDiv{
+  .thirdDiv {
     width: 25.5%;
   }
 }

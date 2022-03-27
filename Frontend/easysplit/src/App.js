@@ -54,14 +54,14 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <Router>
-          {/* <Switch>
+          <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/" component={Home} />
-            <PrivateRoute path="/dashboard" fallbackRoute="/login"> */}
+            <PrivateRoute path="/dashboard" fallbackRoute="/login">
           <Dashboard />
-          {/* </PrivateRoute>
-          </Switch> */}
+          </PrivateRoute>
+          </Switch>
         </Router>
       </QueryClientProvider>
     </div>
