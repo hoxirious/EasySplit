@@ -11,7 +11,21 @@ import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { ExpensesRepository } from "./expenses.repository";
 
 export class ExpensesService {
-
+  static async getExpenseByUserID(
+    userID: string
+  ): Promise<ExpenseInfoSchema[]> {
+    const ToReturn: ExpenseInfoSchema[] = [];
+    const userExpenseStateInfoList = (await UsersRepository.getUser(userID))
+      .expenseList;
+      console.log("expenseID List:",userExpenseStateInfoList)
+    for (const userExpenseStateInfo of userExpenseStateInfoList) {
+      const expenseInfo = await this.getExpenseByID(
+        userExpenseStateInfo.expenseID
+      );
+      ToReturn.push(expenseInfo);
+    }
+    return ToReturn;
+  }
   static async getExpenseWithFriend(
     userID: string,
     friendID: string
@@ -32,7 +46,7 @@ export class ExpensesService {
       if (isWithFriend) ToReturn.push(expenseInfo);
     }
 
-    return ToReturn
+    return ToReturn;
   }
   
   static splitExpense(body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
@@ -93,8 +107,7 @@ export class ExpensesService {
           mem
         );
       }
-    }
-    else {
+    } else {
       const usersBill = expenseInfo.splitDetail;
       for (const eachBill of usersBill) {
         await EventsService.createEvent(
@@ -110,11 +123,10 @@ export class ExpensesService {
 
   static async addGroupExpense(
     expenseID: string,
-    groupID: string,
+    groupID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     return await ExpensesRepository.addGroupExpense(expenseID, groupID);
   }
-
 
   static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
     return await ExpensesRepository.getExpenseByGroupID(id);
@@ -128,7 +140,9 @@ export class ExpensesService {
     const expenseDel = await ExpensesRepository.getExpenseByID(expenseID);
 
     if (expenseDel.groupReference) {
-      const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
+      const groupDel = await GroupsRepository.getGroup(
+        expenseDel.groupReference
+      );
       const memList = groupDel.memberList;
       for (const mem of memList) {
         await EventsService.createEvent(

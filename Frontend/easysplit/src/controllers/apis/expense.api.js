@@ -9,6 +9,13 @@ export const getExpenseByGroupID = async (extraPath) => {
     extraPath,
   });
 };
+export const getExpenseByUserID = async (jwt) => {
+  return await sendRequest({
+    endpointInfo: ENDPOINTS.expenses.getExpenseByUserID,
+    method: "get",
+    token: jwt,
+  });
+};
 
 export const getExpenseWithFriend = async (extraPath, jwt) => {
   return await sendRequest({
