@@ -88,7 +88,8 @@ export class ExpensesService {
           mem
         );
       }
-    } else {
+    }
+    else {
       const usersBill = expenseInfo.splitDetail;
       for (const eachBill of usersBill) {
         await EventsService.createEvent(
@@ -102,6 +103,14 @@ export class ExpensesService {
     return await ExpensesRepository.postExpense(expenseInfo);
   }
 
+  static async addGroupExpense(
+    expenseID: string,
+    groupID: string,
+  ): Promise<FirebaseFirestore.WriteResult> {
+    return await ExpensesRepository.addGroupExpense(expenseID, groupID);
+  }
+
+
   static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
     return await ExpensesRepository.getExpenseByGroupID(id);
   }
@@ -114,9 +123,7 @@ export class ExpensesService {
     const expenseDel = await ExpensesRepository.getExpenseByID(expenseID);
 
     if (expenseDel.groupReference) {
-      const groupDel = await GroupsRepository.getGroup(
-        expenseDel.groupReference
-      );
+      const groupDel = await GroupsRepository.getGroup(expenseDel.groupReference);
       const memList = groupDel.memberList;
       for (const mem of memList) {
         await EventsService.createEvent(
