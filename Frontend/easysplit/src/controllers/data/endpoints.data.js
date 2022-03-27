@@ -14,5 +14,6 @@ export const ENDPOINTS = {
   },
   expenses: {
     getExpenseByGroupID: "/expenses/expense/getExpenseByGroup/",
+    getExpenseWithFriend: "/expenses/expense/getExpenseWithFriend/",
   }
 };

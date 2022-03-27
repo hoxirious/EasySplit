@@ -1,16 +1,14 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { Link, useRouteMatch } from "react-router-dom";
-import { getUserGroups } from "../controllers/apis/group.api";
+import { Link, NavLink } from "react-router-dom";
 import { getUserFriends } from "../controllers/apis/friend.api";
+import { getUserGroups } from "../controllers/apis/group.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 
 function LeftSideBar(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt, {
     refetchOnWindowFocus: false,
   });
-
-  const { path, url } = useRouteMatch();
 
   const userJWT = jwt;
   const { data: groupList, status: groupStatus } = useQuery(
@@ -22,7 +20,7 @@ function LeftSideBar(props) {
       refetchOnWindowFocus: false,
     }
   );
-  
+
   const { data: friendList, status: friendStatus } = useQuery(
     ["friendList", userJWT],
     () => getUserFriends(userJWT),
@@ -35,15 +33,19 @@ function LeftSideBar(props) {
 
   return (
     <div className="firstDiv">
-      <a href="#" id="dashboard-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(false)}>
+      <a href="#" id="dashboard-link" className="fdiv-elem">
         Dashboard
       </a>
-      <a href="#" id="activity-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(false)}>
+      <NavLink  to="/dashboard/recent" id="activity-link" className="fdiv-elem">
         Recent Activity
-      </a>
-      <a href="#" id="expenses-link" className="fdiv-elem" onClick={() => props.toggleAllExpenses(true)}>
+      </NavLink>
+      <NavLink
+        to={"/dashboard/allExpenses"}
+        id="expenses-link"
+        className="fdiv-elem"
+      >
         All Expenses
-      </a>
+      </NavLink>
       <div id="group-friends-div">
         <div id="gf-g-header" className="fdiv-elem">
           Groups
@@ -57,15 +59,20 @@ function LeftSideBar(props) {
         </div>
         <div id="gf-g-list" className="fdiv-elem">
           {groupStatus === "success" && (
-            <>
+            <ul>
               {groupList.result.map((group) => {
                 return (
-                  <Link to={`/dashboard/${group.groupID}`} key={group.groupID}>
-                    {group.groupName}
-                  </Link>
+                  <li key={group.groupID}>
+                    <Link
+                      to={`/dashboard/groups/${group.groupID}`}
+                      key={group.groupID}
+                    >
+                      {group.groupName}
+                    </Link>
+                  </li>
                 );
               })}
-            </>
+            </ul>
           )}
         </div>
         <div id="gf-f-header" className="fdiv-elem">
@@ -80,13 +87,20 @@ function LeftSideBar(props) {
         </div>
         <div id="gf-f-list" className="fdiv-elem">
           {friendStatus === "success" && (
-            <>
-              <ul>
-                {friendList.result.map((friend) => {
-                  return <li>{friend}</li>;
-                })}
-              </ul>
-            </>
+            <ul>
+              {friendList.result.map((friend) => {
+                return (
+                  <li key={friend.friendID}>
+                    <Link
+                      to={`/dashboard/friends/${friend.friendID}`}
+                      key={friend.friendID}
+                    >
+                      {friend.friendName}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </div>
       </div>

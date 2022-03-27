@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
+import { UserRecord } from "firebase-functions/v1/auth";
+import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
@@ -52,6 +62,14 @@ export class ExpensesController {
     return await ExpensesService.getExpenseByGroupID(groupID);
   }
 
+  @Get("/getExpenseWithFriend/:friendID")
+  async getExpenseWithFriend(
+    @FirebaseUser() user: UserRecord,
+    @Param("friendID") friendID: string
+  ): Promise<ExpenseInfoSchema[]> {
+    console.log("Getting expense with friend...");
+    return await ExpensesService.getExpenseWithFriend(user.uid, friendID);
+  }
 
   // Delete expense by ID
   @Delete("/delete/:expenseID")
