@@ -7,9 +7,6 @@ function GroupExpense(props) {
   const { data: groupsInfo, status: groupsInfoStatus } = useQuery(
     ["groupsInfo", groupID],
     () => getExpenseByGroupID(groupID),
-    {
-      notifyOnChangeProps: ["groupID"],
-    }
   );
 
   return (

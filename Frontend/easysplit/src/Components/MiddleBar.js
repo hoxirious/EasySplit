@@ -1,10 +1,10 @@
-import { React, useEffect, useRef } from "react";
+import { React } from "react";
 import { Route, Switch } from "react-router-dom";
 import AllExpenses from "./AllExpenses";
+import FriendExpense from "./FriendExpense";
 import GroupExpense from "./GroupExpense";
 
 function MiddleBar(props) {
-  const heading = useRef();
 
 
   return (
@@ -22,13 +22,10 @@ function MiddleBar(props) {
         </div>
       </div>
       <div className="all-expenses">
-        <h1 style={{ color: "black", margin: 30 }} ref={heading}>
-          You have not added any expenses yet
-        </h1>
-        {/* <AllExpenses isOpen={props.isAllExpensesOpen} /> */}
         <Switch>
           <Route path="/dashboard/allExpenses" component={AllExpenses} />
           <Route path="/dashboard/groups/:groupID" component={GroupExpense} />
+          <Route path="/dashboard/friends/:friendID" component={FriendExpense} />
         </Switch>
       </div>
     </div>

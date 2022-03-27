@@ -1,16 +1,14 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { Link, NavLink, useRouteMatch } from "react-router-dom";
-import { getUserGroups } from "../controllers/apis/group.api";
+import { Link, NavLink } from "react-router-dom";
 import { getUserFriends } from "../controllers/apis/friend.api";
+import { getUserGroups } from "../controllers/apis/group.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 
 function LeftSideBar(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt, {
     refetchOnWindowFocus: false,
   });
-
-  const { path, url } = useRouteMatch();
 
   const userJWT = jwt;
   const { data: groupList, status: groupStatus } = useQuery(
@@ -64,12 +62,14 @@ function LeftSideBar(props) {
             <ul>
               {groupList.result.map((group) => {
                 return (
-                  <Link
-                    to={`/dashboard/groups/${group.groupID}`}
-                    key={group.groupID}
-                  >
-                    {group.groupName}
-                  </Link>
+                  <li key={group.groupID}>
+                    <Link
+                      to={`/dashboard/groups/${group.groupID}`}
+                      key={group.groupID}
+                    >
+                      {group.groupName}
+                    </Link>
+                  </li>
                 );
               })}
             </ul>
@@ -90,12 +90,14 @@ function LeftSideBar(props) {
             <ul>
               {friendList.result.map((friend) => {
                 return (
-                  <Link
-                    to={`/dashboard/friends/${friend.friendID}`}
-                    key={friend.friendID}
-                  >
-                    {friend.friendName}
-                  </Link>
+                  <li key={friend.friendID}>
+                    <Link
+                      to={`/dashboard/friends/${friend.friendID}`}
+                      key={friend.friendID}
+                    >
+                      {friend.friendName}
+                    </Link>
+                  </li>
                 );
               })}
             </ul>
