@@ -220,6 +220,7 @@ body {
 
 .topbar-group{
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   background-color: #eeeeee;
   padding: 1em;
@@ -466,6 +467,11 @@ body {
   height: 100vh;
   color: black;
   width: 100%;
+}
+
+#recent-activity-header{
+  padding: 0.5em 0 0.5em 0.5em;
+  background-color: #eee;
 }
 
 @media only screen and (max-width: 920px) {
