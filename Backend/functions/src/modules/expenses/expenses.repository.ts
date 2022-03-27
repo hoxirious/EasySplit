@@ -45,6 +45,23 @@ export class ExpensesRepository {
     }
   }
 
+  static async addGroupExpense(
+    expenseID: string,
+    groupID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    try {
+      const group = (await GroupsRepository.getGroup(groupID));
+      group.expenseList.push(expenseID);
+      return (await db.groups.doc(groupID).update({
+        expenseList: group.expenseList,
+      }))
+    } catch (error) {
+      throw new Error("cannot update group with expenseID");
+    }
+
+  }
+
+
   static async putExpense(
     expenseInfo: ExpenseInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
@@ -64,6 +81,6 @@ export class ExpensesRepository {
       return await db.expenses.doc(expenseInfo.expenseID).delete();
     } catch (error) {
       throw new Error("Cannot delete expense!");
-    } 
+    }
   }
 }

@@ -3,6 +3,7 @@ import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
+import { AddExpenseToGroupBodyDto } from "./dtos/put-AddExpenseToGroupBodyDto.dto";
 import { PutExpenseBodyDto } from "./dtos/put-expense.dto";
 import { ExpensesService } from "./expenses.service";
 
@@ -15,6 +16,17 @@ export class ExpensesController {
   ): Promise<FirebaseFirestore.WriteResult> {
     return await ExpensesService.updateExpense(expenseID, body);
   }
+
+  @Put("/updateGroup/:expenseID")
+  async addGroupExpense(
+    @Param("expenseID") expenseID: string,
+    @Body() body: AddExpenseToGroupBodyDto
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const groupReference = body.groupReference
+    console.log("Adding expenseID to group");
+    return await ExpensesService.addGroupExpense(expenseID, groupReference);
+  }
+
 
   @Get("/:expenseID")
   async getExpenseByID(
@@ -49,8 +61,8 @@ export class ExpensesController {
     console.log("Deleting Expense by ID...");
     return await ExpensesService.deleteExpenseByID(expenseID);
   }
-  
-  @Get("/splitExpense") 
+
+  @Get("/splitExpense")
   splitExpense(@Body() body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
     return ExpensesService.splitExpense(body);
   }
