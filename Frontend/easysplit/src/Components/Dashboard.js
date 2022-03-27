@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import AddExpenseModal from "./AddExpenseModal";
 import AddFriendModal from "./AddFriendModal";
 import AddGroupModal from "./AddGroupModal";
+import SettleUpModal from "./SettleUpModal";
 import LeftSideBar from "./LeftSidebar";
 import MiddleBar from "./MiddleBar";
 import RightSidebar from "./RightSidebar";
@@ -38,6 +39,10 @@ function Dashboard(props) {
         <AddExpenseModal
           isOpen={addExpense}
           toggleAddExpenseModal={setAddExpense}
+        />
+        <SettleUpModal
+          isOpen={settleUp}
+          toggleSettleUpModal={setSettleUp}
         />
       </div>
     </div>
