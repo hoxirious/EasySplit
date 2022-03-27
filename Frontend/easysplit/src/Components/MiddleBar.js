@@ -6,17 +6,6 @@ import GroupExpense from "./GroupExpense";
 
 function MiddleBar(props) {
 
-
-  useEffect(() => {
-    if (props.isRecentActivityOpen) {
-      topbar.current.style.display = "none";
-      heading.current.style.display = "none";
-    } else {
-      topbar.current.style.display = "block";
-      heading.current.style.display = "block";
-    }
-  }, [props.isRecentActivityOpen]);
-
   return (
     <div className="centerDiv">
       <div id="#center-topbar" className="topbar-group" ref={topbar}>
