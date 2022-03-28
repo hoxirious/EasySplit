@@ -500,58 +500,37 @@ body {
   background-color: #eee;
 }
 
-.modal-content.settle-up {
-  height: 22em;
-}
-
-.payment-div {
+.balance-details-div{
+  background-color: #eee;
+  border-top: 1px solid #778381 ;
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 1em;
+  justify-content: space-between;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em; 
 }
 
-.payment-div span{
-  margin-right: 0.5em;
+#total-balance, #you-owe, #owed-to-you{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.payment-div input{
-  width: 12em;
-  height: 1.5em;
+#total-balance, #you-owe{
+  border-right: 1px solid #778381;
+  padding-right: 4.5em;
 }
 
-#swap{
-  height: 2em;
-  width: 2em;
-  margin-top: 0.5em;
-  margin-left: 7em;
-  cursor: pointer;
-  transition: all 0.4s;
+#total-balance{
+  padding-left: 2em;
 }
 
-#swap:hover{
-  transform: rotate(360deg);
+#owed-to-you{
+  padding-right: 2em;
 }
 
-#settle-up-amount{
-  margin-top: 0.5em;
-  width: 4em;
-  margin-left: 6.4em;
-}
-
-#date{
-  margin-top: 1em;
-  width: 12em;
-  margin-left: 2.4em;
-}
-
-#settle-up-group-name{
-  margin-top: 1em;
-}
-
-#settle-up-save-btn{
-  margin-top: 1em;
-  width: 4em;
-  margin-left: 6.4em;
+#you-owe{
+  padding-right: 3.7em;
 }
 
 @media only screen and (max-width: 920px) {

@@ -13,6 +13,7 @@ function Dashboard(props) {
   const [addGroup, setAddGroup] = useState(false);
   const [addExpense, setAddExpense] = useState(false);
   const [settleUp, setSettleUp] = useState(false);
+  const [currentlyOn, setCurrentlyOn] = useState("Dashboard")
   return (
     <div className="homeScreenDiv">
       <nav
@@ -29,6 +30,7 @@ function Dashboard(props) {
         <LeftSideBar
           toggleAddFriendModal={setAddFriend}
           toggleAddGroupModal={setAddGroup}
+          changeCurrentlyOn={setCurrentlyOn}
         />
         <MiddleBar
           toggleAddExpenseModal={setAddExpense}
