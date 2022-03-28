@@ -18,6 +18,8 @@ function AddExpenseModal(props) {
     const splitInfoDiv = useRef();                                                  // Refers to the div that contains the list of emails and the respective split amount
     const shareWithInput = useRef();                                                // Refers to the input that takes in the emails
     const amount = useRef();                                                        // Refers to the total bill amount
+    const desc = useRef();                                                          // Refers to the expense description
+    const addbtn = useRef();
     const splitBtn = useRef();                                                      // Refers to the split button
     const saveBtn = useRef();                                                       // Refers to the save button
     const paidAmountsDiv = useRef();                                                // Refers to the div that contains the list of emails and the respective amount that they actually paid
@@ -25,6 +27,7 @@ function AddExpenseModal(props) {
     function addEmails() {                                                          // Splits the email input into different emails with ',' being the delimitter
         let emails = (shareWithInput.current.value).split(",");
         setSplitWithArr(emails);                                                    // Update the state
+        addbtn.current.style.backgroundColor = '#2bbbad';
     }
 
     /*Executes when split button is clicked.
@@ -38,7 +41,7 @@ function AddExpenseModal(props) {
         if (splitMethod === 'exact') {
             let exactValues = [];
             for (let li of lis) {
-                exactValues.push(li.children[1].value)     // Since split method is exact, we grab the input value and push it inside the exact values array
+                exactValues.push(1 * li.children[1].value)     // Since split method is exact, we grab the input value and push it inside the exact values array
             }
             setExactAmountsAfterSplit(exactValues);        // Update the array that contains split amounts when split method is exact 
             setFinalSplitAmount(exactValues);              // Update the latest split amounts array
@@ -63,6 +66,7 @@ function AddExpenseModal(props) {
         }
 
         populatePaidAmountsDiv();                                                   // Display the div that contains the list of emails and an input field next to each to get the amount paid input
+        splitBtn.current.style.backgroundColor = "#2bbbad"
         saveBtn.current.style.display = 'block';                                    // Display the save button
     }
 
@@ -95,7 +99,7 @@ function AddExpenseModal(props) {
     function changeSplitMethod(splitMethod) {
         setSplitMethod(splitMethod);
         if (splitMethod === 'equal') {
-            splitBtn.current.style.display = 'none';            // Hides the split button in case the split method is equal because we don't need it in this case
+            splitBtn.current.style.display = 'block';
             setAmountAfterSplit(() => {
                 if (splitWithArr.length < 2) {                  // If there is 0 or 1 emails, the split amount remains the same as the total bill amount
                     setFinalSplitAmount(amount.current.value);
@@ -153,7 +157,21 @@ function AddExpenseModal(props) {
             returnObj.push(obj)
         }
         console.log(returnObj);
-        modal.current.style.display = 'none'
+        modal.current.style.display = 'none';
+        shareWithInput.current.value = "";
+        amount.current.value = "";
+        desc.current.value = "";
+        splitInfoDiv.current.innerHTML = "";
+        paidAmountsDiv.current.innerHTML = "";
+        splitBtn.current.style.display = 'none';
+        saveBtn.current.style.display = 'none';
+        setSplitWithArr([]);
+        setAmountAfterSplit(0.0);
+        setExactAmountsAfterSplit([]);
+        setAmountsAfterPercentSplit([]);
+        setFinalSplitAmount([]);
+        addbtn.current.style.backgroundColor = '#ff652f';
+        splitBtn.current.style.backgroundColor = '#ff652f';
         return returnObj
     }
 
@@ -176,13 +194,13 @@ function AddExpenseModal(props) {
                 </div>
                 <div className="addExpenseFormContainer">
                     <form className="addExpenseForm">
-                        <p>With <b>you</b> and:</p>
+                        <p><b>Split among</b></p>
                         {/* <input type="text" className="formControl" id="split-with-name" placeholder="Name"/> */}
                         <span>
                             <input type="text" className="formControl" id="split-with-email-input" placeholder="Comma separated email(s)" ref={shareWithInput} />
-                            <button id="add-emails-btn" onClick={addEmails} type="button">Add</button>
+                            <button id="add-emails-btn" onClick={addEmails} type="button" ref={addbtn}>Add</button>
                         </span>
-                        <input type="text" className="formControl" id="split-desc-input" placeholder="Enter a description"></input>
+                        <input type="text" className="formControl" id="split-desc-input" placeholder="Enter a description" ref={desc}></input>
                         <span><b>$ </b><input type="number" className="formControl" id="split-amount-input" placeholder="0.00" ref={amount}></input></span>
                         <h5>Choose a split method:</h5>
                         <div className="split-method-imgs">
