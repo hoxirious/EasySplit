@@ -374,6 +374,7 @@ body {
   flex-direction: column;
 }
 
+
 /*--Add Expense--*/
 
 .addExpenseHeader, .settle-up-header{
@@ -498,6 +499,60 @@ body {
 #recent-activity-header {
   padding: 0.5em 0 0.5em 0.5em;
   background-color: #eee;
+}
+
+.modal-content.settle-up {
+  height: 22em;
+}
+
+.payment-div {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1em;
+}
+
+.payment-div span{
+  margin-right: 0.5em;
+}
+
+.payment-div input{
+  width: 12em;
+  height: 1.5em;
+}
+
+#swap{
+  height: 2em;
+  width: 2em;
+  margin-top: 0.5em;
+  margin-left: 7em;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+#swap:hover{
+  transform: rotate(360deg);
+}
+
+#settle-up-amount{
+  margin-top: 0.5em;
+  width: 4em;
+  margin-left: 6.4em;
+}
+
+#date{
+  margin-top: 1em;
+  width: 12em;
+  margin-left: 2.4em;
+}
+
+#settle-up-group-name{
+  margin-top: 1em;
+}
+
+#settle-up-save-btn{
+  margin-top: 1em;
+  width: 4em;
+  margin-left: 6.4em;
 }
 
 .balance-details-div{
