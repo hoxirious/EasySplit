@@ -245,7 +245,14 @@ body {
   color: black;
 }
 
-#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn,  #settle-up-save-btn{
+#add-expense-btn,
+#settleup-btn,
+#save-group-btn,
+#add-friend-btn,
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn,
+#settle-up-save-btn {
   border: none;
   font: inherit;
   padding: 0.4em;
@@ -274,11 +281,13 @@ body {
   background-color: #e65c2a;
 }
 
-#settleup-btn, #settle-up-save-btn{
+#settleup-btn,
+#settle-up-save-btn {
   background-color: #5bc5a7;
 }
 
-#settleup-btn:hover,  #settle-up-save-btn:hover{
+#settleup-btn:hover,
+#settle-up-save-btn:hover {
   background-color: #54b499;
 }
 
@@ -376,7 +385,8 @@ body {
 
 /*--Add Expense--*/
 
-.addExpenseHeader, .settle-up-header{
+.addExpenseHeader,
+.settle-up-header {
   display: flex;
   justify-content: space-between;
   background-color: #2bbbad;
@@ -385,19 +395,20 @@ body {
   border-radius: 6px;
 }
 
-.addExpenseHeader img, .settle-up-header img{
+.addExpenseHeader img,
+.settle-up-header img {
   width: 1em !important;
   height: 1em;
   align-self: flex-end;
   cursor: pointer;
 }
 
-.settle-up-header h5{
+.settle-up-header h5 {
   margin-bottom: 0;
   padding: 0.1em 0em 0.1em 0;
 }
 
-.split-method-img{
+.split-method-img {
   margin-left: 0.4em;
   margin-right: 0.4em;
   transition: all 0.5s;
@@ -458,7 +469,10 @@ body {
   width: 6em;
 }
 
-#add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn, #settle-up-save-btn{
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn,
+#settle-up-save-btn {
   margin-left: 0.5em;
   margin-right: 0;
   padding-top: 0.2em;
@@ -488,26 +502,38 @@ body {
   align-items: center; */
 }
 
-.modal-content.settle-up{
+.recent-activity-div {
+  display: block;
+  height: 100vh;
+  color: black;
+  width: 100%;
+}
+
+#recent-activity-header {
+  padding: 0.5em 0 0.5em 0.5em;
+  background-color: #eee;
+}
+
+.modal-content.settle-up {
   height: 22em;
 }
 
-.payment-div{
+.payment-div {
   display: flex;
   justify-content: space-evenly;
   margin-top: 1em;
 }
 
-.payment-div span{
+.payment-div span {
   margin-right: 0.5em;
 }
 
-.payment-div input{
+.payment-div input {
   width: 12em;
   height: 1.5em;
 }
 
-#swap{
+#swap {
   height: 2em;
   width: 2em;
   margin-top: 0.5em;
@@ -516,27 +542,27 @@ body {
   transition: all 0.4s;
 }
 
-#swap:hover{
+#swap:hover {
   transform: rotate(360deg);
 }
 
-#settle-up-amount{
+#settle-up-amount {
   margin-top: 0.5em;
   width: 4em;
   margin-left: 6.4em;
 }
 
-#date{
+#date {
   margin-top: 1em;
   width: 12em;
   margin-left: 2.4em;
 }
 
-#settle-up-group-name{
+#settle-up-group-name {
   margin-top: 1em;
 }
 
-#settle-up-save-btn{
+#settle-up-save-btn {
   margin-top: 1em;
   width: 4em;
   margin-left: 6.4em;

@@ -12,15 +12,23 @@ function MiddleBar(props) {
         <Switch>
           <Route path="/dashboard/recent" component={RecentActivity} />
           <Route path="/dashboard/allExpenses">
-            <AllExpenses toggleAddExpenseModal={props.toggleAddExpenseModal} />
+            <AllExpenses
+              toggleAddExpenseModal={props.toggleAddExpenseModal}
+              toggleSettleUpModal={props.toggleSettleUpModal}
+            />
           </Route>
           <Route path="/dashboard/groups/:groupID">
-            <GroupExpense toggleAddExpenseModal={props.toggleAddExpenseModal} />
+            <GroupExpense
+              toggleAddExpenseModal={props.toggleAddExpenseModal}
+              toggleSettleUpModal={props.toggleSettleUpModal}
+            />
           </Route>
-          <Route
-            path="/dashboard/friends/:friendID"
-            component={FriendExpense}
-          />
+          <Route path="/dashboard/friends/:friendID">
+            <FriendExpense
+              toggleAddExpenseModal={props.toggleAddExpenseModal}
+              toggleSettleUpModal={props.toggleSettleUpModal}
+            />
+          </Route>
         </Switch>
       </div>
     </div>

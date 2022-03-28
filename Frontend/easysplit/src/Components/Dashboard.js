@@ -12,6 +12,7 @@ function Dashboard(props) {
   const [addFriend, setAddFriend] = useState(false);
   const [addGroup, setAddGroup] = useState(false);
   const [addExpense, setAddExpense] = useState(false);
+  const [settleUp, setSettleUp] = useState(false);
   return (
     <div className="homeScreenDiv">
       <nav
@@ -29,7 +30,10 @@ function Dashboard(props) {
           toggleAddFriendModal={setAddFriend}
           toggleAddGroupModal={setAddGroup}
         />
-        <MiddleBar toggleAddExpenseModal={setAddExpense}/>
+        <MiddleBar
+          toggleAddExpenseModal={setAddExpense}
+          toggleSettleUpModal={setSettleUp}
+        />
         <RightSidebar />
         <AddFriendModal
           isOpen={addFriend}
@@ -40,10 +44,7 @@ function Dashboard(props) {
           isOpen={addExpense}
           toggleAddExpenseModal={setAddExpense}
         />
-        <SettleUpModal
-          isOpen={settleUp}
-          toggleSettleUpModal={setSettleUp}
-        />
+        <SettleUpModal isOpen={settleUp} toggleSettleUpModal={setSettleUp} />
       </div>
     </div>
   );
