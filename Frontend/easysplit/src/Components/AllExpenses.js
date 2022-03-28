@@ -102,7 +102,6 @@ function AllExpenses(props) {
                     alignItems: "center",
                     justifyContent: "space-between",
                     marginLeft: "1em",
-                    width: "8em",
                   }}
                 >
                   <span style={{ color: "#2bbbad", fontWeight: "500" }}>
@@ -119,7 +118,6 @@ function AllExpenses(props) {
                     flexDirection: "row",
                     justifyContent: "flex-start",
                     marginLeft: "1em",
-                    width: "15em",
                   }}
                 >
                   <div
@@ -159,7 +157,7 @@ function AllExpenses(props) {
                     </span>
                   </div>
                 </div>
-                <img src={close} id="delete-expense" onClick={deleteExpense} />
+                <img src={close} id="delete-expense" onClick={deleteExpense}  />
               </li>
             );
           })}

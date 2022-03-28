@@ -591,7 +591,7 @@ body {
 #delete-expense{
   width: 0.8em;
   height: 0.8em;
-  align-self: flex-end;
+  align-self: center;
   cursor: pointer;
 }
 
