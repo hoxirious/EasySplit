@@ -50,7 +50,7 @@ export class ExpensesController {
   async createExpense(
     @FirebaseUser() user: UserRecord,
     @Body() body: PostExpenseBodyDto
-  ): Promise<FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult|void> {
     console.log("Creating expense...");
     return await ExpensesService.createExpense(user.uid, body);
   }

@@ -70,12 +70,21 @@ export class ExpensesService {
       ...body,
     };
 
-    return await EventsService.createEvent(
-      EventType.ExpenseUpdate,
-      expenseInfo,
-      userID,
-      userID
+    //* For each participant, create an ExpenseUpdate that includes userID as an EventCreator
+    await Promise.all(
+      expenseInfo.splitDetail.map(
+        async (billing): Promise<FirebaseFirestore.WriteResult | void> => {
+          return await EventsService.createEvent(
+            EventType.ExpenseUpdate,
+            expenseInfo,
+            userID,
+            billing.userID
+          );
+        }
+      )
     );
+    //* Update new expenseInfo in expense collection
+    return await ExpensesRepository.putExpense(expenseInfo);
   }
 
   static async getExpenseByID(id: string): Promise<ExpenseInfoSchema> {
@@ -85,7 +94,7 @@ export class ExpensesService {
   static async createExpense(
     userID: string,
     body: PostExpenseBodyDto
-  ): Promise<FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult | void> {
     const timeStamp = new Date().toLocaleString();
     const expenseID = db.expenses.doc().id;
 
@@ -107,7 +116,7 @@ export class ExpensesService {
     //* For each participant, create an ExpenseCreate that includes userID as an EventCreator
     await Promise.all(
       expenseInfo.splitDetail.map(
-        async (billing): Promise<FirebaseFirestore.WriteResult> => {
+        async (billing): Promise<FirebaseFirestore.WriteResult | void> => {
           return await EventsService.createEvent(
             EventType.ExpenseCreate,
             expenseInfo,
@@ -152,9 +161,9 @@ export class ExpensesService {
     //* For each participant, create an ExpenseDelete that includes userID as an EventCreator
     await Promise.all(
       expenseInfo.splitDetail.map(
-        async (billing): Promise<FirebaseFirestore.WriteResult> => {
+        async (billing): Promise<FirebaseFirestore.WriteResult | void> => {
           return await EventsService.createEvent(
-            EventType.ExpenseUndelete,
+            EventType.ExpenseDelete,
             expenseInfo,
             userID,
             billing.userID
@@ -162,7 +171,7 @@ export class ExpensesService {
         }
       )
     );
-    
+
     //* Delete the expense in Expense collection
     return await ExpensesRepository.deleteExpenseByID(expenseInfo.expenseID);
   }

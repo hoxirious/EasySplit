@@ -14,7 +14,7 @@ export class GroupService {
   static async createGroup(
     body: PostGroupBodyDto,
     userID: string
-  ): Promise<FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult | void> {
     const groupID = db.groups.doc().id;
     const groupInfo: GroupInfoSchema = {
       groupID,
@@ -27,6 +27,7 @@ export class GroupService {
     return await EventsService.createEvent(
       EventType.GroupCreate,
       groupInfo,
+      userID,
       userID
     );
   }
@@ -65,9 +66,24 @@ export class GroupService {
 
   static async deleteGroup(
     userID: string,
-    groupId: string
-  ): Promise<FirebaseFirestore.WriteResult> {
-    const groupInfo = await this.getGroup(groupId);
-    return await EventsService.createEvent(EventType.GroupDelete, groupInfo, userID);
+    groupID: string
+  ): Promise<FirebaseFirestore.WriteResult | void> {
+    const groupInfo = await this.getGroup(groupID);
+
+    //* For each participant, create an GroupDelete that includes userID as an EventCreator
+    await Promise.all(
+      groupInfo.memberList.map(
+        async (memberID): Promise<FirebaseFirestore.WriteResult | void> => {
+          return await EventsService.createEvent(
+            EventType.GroupDelete,
+            groupInfo,
+            userID,
+            memberID
+          );
+        }
+      )
+    );
+
+    return await GroupsRepository.deleteGroup(userID, groupID);
   }
 }

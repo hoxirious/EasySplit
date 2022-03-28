@@ -41,7 +41,7 @@ export class UsersRepository {
   }
 
   static async postUser(
-    user: UserInfoSchema,
+    user: UserInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
     let empty: UserInfoSchema = {
       userID: "",
@@ -56,19 +56,20 @@ export class UsersRepository {
     else return await db.users.doc(user.userID).set(user);
   }
 
-
   //Get user name saved in friend list
   static async deleteFriend(myUserID: string, targetUserID: string) {
     const me = await UsersRepository.getUser(myUserID);
     const myFriendList = me.friendList;
-    const newFriendList = myFriendList.filter( value => value !== targetUserID);
+    const newFriendList = myFriendList.filter(
+      (value) => value !== targetUserID
+    );
     return await db.users.doc(myUserID).update({
       friendList: newFriendList,
     });
   }
   static async addFriend(
     id: string,
-    friendEmail: string,
+    friendEmail: string
   ): Promise<FirebaseFirestore.WriteResult> {
     const friend = await this.getUserByEmail(friendEmail);
     const user = await this.getUser(id);
@@ -103,7 +104,7 @@ export class UsersRepository {
   static async addExpenseToUser(
     expenseInfo: ExpenseInfoSchema,
     userID: string
-  ): Promise <FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult> {
     const user = await this.getUser(userID);
 
     user.expenseList.push(expenseInfo.expenseID);
@@ -118,17 +119,31 @@ export class UsersRepository {
     expenseID: string,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-
     const user = await this.getUser(userID);
     const expenseIndex = user.expenseList.indexOf(expenseID);
 
-    if(expenseIndex > -1) {
+    if (expenseIndex > -1) {
       user.expenseList.splice(expenseIndex, 1);
     }
 
     return await db.users.doc(user.userID).update({
       expenseList: user.expenseList,
     });
+  }
 
+  static async deleteGroupInUser(
+    groupID: string,
+    userID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const user = await this.getUser(userID);
+    const groupIndex = user.groupList.indexOf(groupID);
+
+    if (groupIndex > -1) {
+      user.groupList.splice(groupIndex, 1);
+    }
+
+    return await db.users.doc(user.userID).update({
+      groupList: user.groupList,
+    });
   }
 }

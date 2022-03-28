@@ -27,7 +27,7 @@ export class EventsRepository {
   static async postEvent(
     userID: string,
     eventPayload: EventInfoSchema
-  ): Promise<firestore.WriteResult> {
+  ): Promise<firestore.WriteResult | void> {
     try {
       //* DocumentReference that has document ID of userID
       const streamRef = db.events.doc(userID);
@@ -68,15 +68,12 @@ export class EventsRepository {
   static async dispatchAction(
     userID: string,
     eventPayload: EventInfoSchema
-  ): Promise<firestore.WriteResult> {
+  ): Promise<firestore.WriteResult | void> {
     const expenseInfo = eventPayload.eventContent as ExpenseInfoSchema;
     const groupInfo = eventPayload.eventContent as GroupInfoSchema;
     switch (eventPayload.eventType) {
       case EventType.ExpenseCreate:
-        return await UsersRepository.addExpenseToUser(
-          expenseInfo,
-          userID
-        );
+        return await UsersRepository.addExpenseToUser(expenseInfo, userID);
       case EventType.ExpenseDelete:
         return await UsersRepository.deleteExpenseInUser(
           expenseInfo.expenseID,
@@ -85,9 +82,7 @@ export class EventsRepository {
       // case EventType.ExpenseUndelete:
       //   break;
       case EventType.ExpenseUpdate:
-        return await ExpensesRepository.putExpense(
-          eventPayload.eventContent as ExpenseInfoSchema
-        );
+        break;
       //* EventType is GroupCreate -> Call postGroups from GroupsRepository
       case EventType.GroupCreate:
         return await GroupsRepository.postGroups(
@@ -95,8 +90,10 @@ export class EventsRepository {
           userID
         );
       case EventType.GroupDelete:
-        // return await GroupsRepository.deleteGroup();
-        break;
+        return await UsersRepository.deleteGroupInUser(
+          groupInfo.groupID,
+          userID
+        );
       // case EventType.GroupRevert:
       //   break;
       // case EventType.GroupUpdate:

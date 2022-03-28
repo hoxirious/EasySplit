@@ -81,20 +81,15 @@ export class GroupsRepository {
   ): Promise<FirebaseFirestore.WriteResult> {
     const group = await GroupsRepository.getGroup(groupId);
 
-    //check whether or not user is in group by checking member List
+    //* check whether or not user is in group by checking member List
     if (userID in group.memberList) {
-      //loop through expenseList to delete all expense's in the list
-      for (const expID of group.expenseList) {
-        ExpensesService.deleteExpenseByID(expID);
+      //* loop through expenseList to delete every expense in the list
+      for (const expenseID of group.expenseList) {
+        ExpensesService.deleteExpenseByID(userID, expenseID);
       }
-
-      //update groupList
-      await db.groups.doc(groupId).update({
-        expenseList: [],
-      });
     }
 
-    //Delete the group
+    //* Delete the group in Group collection
     return await db.groups.doc(groupId).delete();
   }
 }

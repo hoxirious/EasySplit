@@ -129,7 +129,7 @@ export class EventsService {
     eventContent: GroupInfoSchema | ExpenseInfoSchema,
     eventCreator: string,
     userID: string
-  ): Promise<FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult|void> {
     const timestamp = new Date().toLocaleString();
     const eventID = db.events.doc().id;
     const eventPayload: EventInfoSchema = {
