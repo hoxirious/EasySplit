@@ -2,8 +2,10 @@ import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { db } from "../../firebase/repository.firebase";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UsersRepository } from "../users/users.repository";
+import { ExpensesService } from "../expenses/expenses.repository"
 
 export class GroupsRepository {
+
   static async getGroup(id: string): Promise<GroupInfoSchema> {
     const query = await db.groups.where("groupID", "==", id).get();
     let ToReturn: GroupInfoSchema = {
@@ -57,17 +59,29 @@ export class GroupsRepository {
     );
   }
 
-
-
     //talks to firestore directly
     static async deleteGroup(
       userID: string,
       groupId: string,
     ): Promise<FirebaseFirestore.WriteResult> {
-      const group = await getGroup(groupId);
-      //check whether or not user is in group by checking member List
-      if(userID in group.memberList)
+        const group = await GroupsRepository.getGroup(groupId);
+
+        //check whether or not user is in group by checking member List
+        if(userID in group.memberList){
+
+          //loop through expenseList to delete all expense's in the list
+          for( const expID of group.expenseList){
+              ExpensesService.deleteExpenseByID(expID);
+          }
+
+          //update groupList
+          await db.groups.doc(groupId).update({
+            expenseList: [],
+          });
+          
+        }
+
         //Delete the group
-        return await db.groups.doc(groupID).delete();
+        return await db.groups.doc(groupId).delete();
       }
 }

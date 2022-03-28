@@ -11,6 +11,7 @@ import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { ExpensesRepository } from "./expenses.repository";
 
 export class ExpensesService {
+
   static async getExpenseWithFriend(
     userID: string,
     friendID: string
@@ -33,6 +34,7 @@ export class ExpensesService {
 
     return ToReturn
   }
+  
   static splitExpense(body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
     const billingReturn: BillingInfoSchema[] = [];
 
@@ -47,6 +49,7 @@ export class ExpensesService {
 
     return billingReturn;
   }
+
   static async updateExpense(
     expenseID: string,
     body: PostExpenseBodyDto
@@ -60,9 +63,11 @@ export class ExpensesService {
     };
     return await ExpensesRepository.putExpense(expenseInfo);
   }
+
   static async getExpenseByID(id: string): Promise<ExpenseInfoSchema> {
     return await ExpensesRepository.getExpenseByID(id);
   }
+
   static async createExpense(
     body: PostExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
