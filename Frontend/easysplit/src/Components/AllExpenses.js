@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { getExpenseByUserID } from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
+import close from "../Resources/close.png"
 function AllExpenses(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt, {});
 
@@ -43,6 +44,10 @@ function AllExpenses(props) {
       }
     });
     return paidAmount;
+  }
+
+  function deleteExpense() {
+    console.log("Expense Deleted");
   }
 
 
@@ -97,7 +102,6 @@ function AllExpenses(props) {
                     alignItems: "center",
                     justifyContent: "space-between",
                     marginLeft: "1em",
-                    width: "8em",
                   }}
                 >
                   <span style={{ color: "#2bbbad", fontWeight: "500" }}>
@@ -114,7 +118,6 @@ function AllExpenses(props) {
                     flexDirection: "row",
                     justifyContent: "flex-start",
                     marginLeft: "1em",
-                    width: "15em",
                   }}
                 >
                   <div
@@ -154,6 +157,7 @@ function AllExpenses(props) {
                     </span>
                   </div>
                 </div>
+                <img src={close} id="delete-expense" onClick={deleteExpense}  />
               </li>
             );
           })}

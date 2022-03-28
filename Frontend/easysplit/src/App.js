@@ -17,6 +17,7 @@ import {
 } from "react-router-dom";
 import React from "react";
 import GroupExpense from "./Components/GroupExpense";
+import RouterManager from "./Components/RouterManager";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuqfN8W85SXnYiG-7dL3TVw8lBT49UelY",
@@ -54,14 +55,14 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <Router>
-          {/* <Switch>
+          <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/" component={Home} />
-            <PrivateRoute path="/dashboard" fallbackRoute="/login"> */}
-              <Dashboard />
-            {/* </PrivateRoute>
-          </Switch> */}
+            <PrivateRoute path="/dashboard" fallbackRoute="/login">
+              <RouterManager />
+            </PrivateRoute>
+          </Switch>
         </Router>
       </QueryClientProvider>
     </div>

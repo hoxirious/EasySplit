@@ -588,6 +588,13 @@ body {
   padding-right: 3.7em;
 }
 
+#delete-expense{
+  width: 0.8em;
+  height: 0.8em;
+  align-self: center;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 920px) {
   .firstDiv {
     align-items: center;
