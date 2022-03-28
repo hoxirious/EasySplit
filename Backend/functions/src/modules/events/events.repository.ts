@@ -76,10 +76,25 @@ export class EventsRepository {
           userID
         );
       case EventType.ExpenseDelete:
-        return await UsersRepository.deleteUserExpense(
-          eventPayload.eventContent as ExpenseInfoSchema,
-          userID
+        const expenseInfo = eventPayload.eventContent as ExpenseInfoSchema;
+
+        //* If group reference exists, delete the expenseID inside the group collection
+        if (expenseInfo.groupReference) {
+          await GroupsRepository.deleteExpenseInGroup(
+            expenseInfo.expenseID,
+            expenseInfo.groupReference
+          );
+        }
+        for (const billing of expenseInfo.splitDetail) {
+          await UsersRepository.deleteUserExpense(
+            expenseInfo.expenseID,
+            billing.userID
+          );
+        }
+        return await ExpensesRepository.deleteExpenseByID(
+          expenseInfo.expenseID
         );
+
       // case EventType.ExpenseUndelete:
       //   break;
       case EventType.ExpenseUpdate:

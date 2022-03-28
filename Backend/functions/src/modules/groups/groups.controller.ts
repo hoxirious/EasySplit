@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Put } from '@nestjs/common';
 import { UserRecord } from "firebase-functions/v1/auth";
 import { PostGroupBodyDto } from './dtos/post-group.dto';
 import { FirebaseUser } from '../../nestjs/decorators/firebase-user.decorator';
@@ -7,6 +7,7 @@ import { AddMemberDto } from './dtos/add-member.dto';
 import { GroupInfoSchema } from '../../schemas/groups/groupInfo.schema';
 import { GetGroupDto } from './dtos/get-group.dto';
 import { RemoveMemberDto } from './dtos/remove-member.dto';
+import { DeleteGroupDto } from '../users/dtos/delete-group.dto';
 
 @Controller("group")
 export class GroupsController {

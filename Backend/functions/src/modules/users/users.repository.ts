@@ -2,7 +2,7 @@ import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { db } from "../../firebase/repository.firebase";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
-import { UserExpenseStateSchema, UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { GroupsRepository } from "../groups/groups.repository";
 
 export class UsersRepository {
@@ -104,13 +104,9 @@ export class UsersRepository {
     expenseInfo: ExpenseInfoSchema,
     userID: string
   ): Promise <FirebaseFirestore.WriteResult> {
-    let userExpense: UserExpenseStateSchema = {
-      expenseID: expenseInfo.expenseID,
-      expenseState: expenseInfo.expenseState
-    }
     const user = await this.getUser(userID);
 
-    user.expenseList.push(userExpense);
+    user.expenseList.push(expenseInfo.expenseID);
 
     return await db.users.doc(user.userID).update({
       expenseList: user.expenseList,
@@ -119,19 +115,19 @@ export class UsersRepository {
 
   // delete expense from user's expense list
   static async deleteUserExpense(
-    exp: ExpenseInfoSchema,
+    expenseID: string,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-    let userExp: UserExpenseStateSchema = {
-      expenseID : exp.expenseID,
-      expenseState : exp.expenseState
-    }
+
+
+    // const expenseInfo = ExpensesRepository.getExpenseByID(expenseID);
+
+
     const user = await this.getUser(userID);
+    const expenseIndex = user.expenseList.indexOf(expenseID);
 
-    const expIndex = user.expenseList.indexOf(userExp);
-
-    if(expIndex > -1) {
-      user.expenseList.splice(expIndex, 1);
+    if(expenseIndex > -1) {
+      user.expenseList.splice(expenseIndex, 1);
     }
 
     return await db.users.doc(user.userID).update({

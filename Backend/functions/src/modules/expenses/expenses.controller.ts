@@ -82,10 +82,11 @@ export class ExpensesController {
   // Delete expense by ID
   @Delete("/delete/:expenseID")
   async deleteExpenseByID(
+    @FirebaseUser() user: UserRecord,
     @Param("expenseID") expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Deleting Expense by ID...");
-    return await ExpensesService.deleteExpenseByID(expenseID);
+    return await ExpensesService.deleteExpenseByID(user.uid, expenseID);
   }
 
   @Get("/splitExpense")
