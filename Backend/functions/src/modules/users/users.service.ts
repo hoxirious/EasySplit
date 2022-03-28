@@ -1,10 +1,20 @@
+import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { EventsRepository } from "../events/events.repository";
 import { PostUserServiceDto } from "./dtos/post-user.dto";
 import { ReturnUserFriendsDto } from "./dtos/return-userfriends.dto";
 import { UsersRepository } from "./users.repository";
 
 export class UsersService {
+  static async getUserEvents(userID: string): Promise<StreamInfoSchema> {
+    try {
+      return await EventsRepository.getUserStream(userID);
+    } catch (error) {
+      throw new Error("error: cannot get user's events ");
+    }
+  }
+
   static async getUser(id: string): Promise<UserInfoSchema> {
     return await UsersRepository.getUser(id);
   }

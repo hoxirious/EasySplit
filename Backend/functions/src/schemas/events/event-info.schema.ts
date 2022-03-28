@@ -5,6 +5,7 @@ import { GroupInfoSchema } from "../groups/groupInfo.schema";
 export interface EventInfoSchema {
   eventID: string;
   eventType: EventType;
+  eventCreator: string;
   eventContent: GroupInfoSchema | ExpenseInfoSchema;
   timestamp: string;
 }

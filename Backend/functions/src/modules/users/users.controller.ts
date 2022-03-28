@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { seedStuff } from "../../loaders/mocking.loader";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
+import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { DeleteFriendListDto } from "./dtos/delete-friendList.dto";
@@ -16,6 +17,11 @@ export class UsersController {
   async getUser(@FirebaseUser() user: UserRecord): Promise<UserInfoSchema> {
     console.log("Getting users...");
     return await UsersService.getUser(user.uid);
+  }
+  @Get("/getUserByID/:userID")
+  async getUserByID(@Param("userID") userID: string): Promise<UserInfoSchema> {
+    console.log("Getting users by ID...");
+    return await UsersService.getUser(userID);
   }
 
   @Put()
@@ -33,7 +39,9 @@ export class UsersController {
   }
 
   @Get("/allFriends")
-  async getFriend(@FirebaseUser() user: UserRecord): Promise<ReturnUserFriendsDto[]> {
+  async getFriend(
+    @FirebaseUser() user: UserRecord
+  ): Promise<ReturnUserFriendsDto[]> {
     console.log("Getting user friends...");
     return await UsersService.getFriends(user.uid);
   }
@@ -73,6 +81,14 @@ export class UsersController {
 
     console.log("Getting user groups...");
     return await UsersService.getUserGroupsInfo(user.uid);
+  }
+
+  @Get("/allEvents")
+  async getUserEvents(
+    @FirebaseUser() user: UserRecord
+  ): Promise<StreamInfoSchema> {
+    console.log("Getting user groups...");
+    return await UsersService.getUserEvents(user.uid);
   }
 
   @Get("/mock-data")
