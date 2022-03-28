@@ -15,13 +15,9 @@ export class ExpensesService {
     userID: string
   ): Promise<ExpenseInfoSchema[]> {
     const ToReturn: ExpenseInfoSchema[] = [];
-    const userExpenseStateInfoList = (await UsersRepository.getUser(userID))
-      .expenseList;
-    console.log("expenseID List:", userExpenseStateInfoList);
-    for (const userExpenseStateInfo of userExpenseStateInfoList) {
-      const expenseInfo = await this.getExpenseByID(
-        userExpenseStateInfo.expenseID
-      );
+    const expenseIDList = (await UsersRepository.getUser(userID)).expenseList;
+    for (const expenseID of expenseIDList) {
+      const expenseInfo = await this.getExpenseByID(expenseID);
       ToReturn.push(expenseInfo);
     }
     return ToReturn;
@@ -30,15 +26,12 @@ export class ExpensesService {
     userID: string,
     friendID: string
   ): Promise<ExpenseInfoSchema[]> {
-    const userExpenseStateInfoList = (await UsersRepository.getUser(userID))
-      .expenseList;
+    const expenseIDList = (await UsersRepository.getUser(userID)).expenseList;
 
     const ToReturn: ExpenseInfoSchema[] = [];
 
-    for (const userExpenseStateInfo of userExpenseStateInfoList) {
-      const expenseInfo = await this.getExpenseByID(
-        userExpenseStateInfo.expenseID
-      );
+    for (const expenseID of expenseIDList) {
+      const expenseInfo = await this.getExpenseByID(expenseID);
       let isWithFriend = false;
       expenseInfo.splitDetail.forEach((billing) => {
         if (billing.userID === friendID) isWithFriend = true;
