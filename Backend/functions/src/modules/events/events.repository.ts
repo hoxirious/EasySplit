@@ -4,6 +4,7 @@ import { EventInfoSchema } from "../../schemas/events/event-info.schema";
 import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
+import { ExpensesRepository } from "../expenses/expenses.repository";
 import { GroupsRepository } from "../groups/groups.repository";
 import { UsersRepository } from "../users/users.repository";
 import { EventType } from "./definitions/event-type.definition";
@@ -26,7 +27,7 @@ export class EventsRepository {
   static async postEvent(
     userID: string,
     eventPayload: EventInfoSchema
-  ): Promise<firestore.WriteResult> {
+  ): Promise<firestore.WriteResult | void> {
     try {
       //* DocumentReference that has document ID of userID
       const streamRef = db.events.doc(userID);
@@ -67,30 +68,32 @@ export class EventsRepository {
   static async dispatchAction(
     userID: string,
     eventPayload: EventInfoSchema
-  ): Promise<firestore.WriteResult> {
+  ): Promise<firestore.WriteResult | void> {
+    const expenseInfo = eventPayload.eventContent as ExpenseInfoSchema;
+    const groupInfo = eventPayload.eventContent as GroupInfoSchema;
     switch (eventPayload.eventType) {
       case EventType.ExpenseCreate:
-        return await UsersRepository.addExpenseInfo(
-          eventPayload.eventContent as ExpenseInfoSchema,
-          userID
-        );
+        return await UsersRepository.addExpenseToUser(expenseInfo, userID);
       case EventType.ExpenseDelete:
-        return await UsersRepository.deleteUserExpense(
-          eventPayload.eventContent as ExpenseInfoSchema,
+        return await UsersRepository.deleteExpenseInUser(
+          expenseInfo.expenseID,
           userID
         );
       // case EventType.ExpenseUndelete:
       //   break;
-      // case EventType.ExpenseUpdate:
-      //   break;
+      case EventType.ExpenseUpdate:
+        break;
       //* EventType is GroupCreate -> Call postGroups from GroupsRepository
       case EventType.GroupCreate:
         return await GroupsRepository.postGroups(
           eventPayload.eventContent as GroupInfoSchema,
           userID
         );
-      // case EventType.GroupDelete:
-      //   break;
+      case EventType.GroupDelete:
+        return await UsersRepository.deleteGroupInUser(
+          groupInfo.groupID,
+          userID
+        );
       // case EventType.GroupRevert:
       //   break;
       // case EventType.GroupUpdate:

@@ -47,7 +47,7 @@ export class ExpensesRepository {
     }
   }
 
-  static async addGroupExpense(
+  static async addExpenseToGroup(
     expenseID: string,
     groupID: string
   ): Promise<FirebaseFirestore.WriteResult> {
@@ -74,9 +74,9 @@ export class ExpensesRepository {
 
   // delete the expense from the database
   static async deleteExpenseByID(
-    id: string
+    expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-    const expenseInfo = await this.getExpenseByID(id);
+    const expenseInfo = await this.getExpenseByID(expenseID);
     try {
       return await db.expenses.doc(expenseInfo.expenseID).delete();
     } catch (error) {

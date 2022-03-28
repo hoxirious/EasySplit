@@ -78,6 +78,7 @@ export class UsersController {
   async getUserGroupsInfo(
     @FirebaseUser() user: UserRecord
   ): Promise<GroupInfoSchema[]> {
+
     console.log("Getting user groups...");
     return await UsersService.getUserGroupsInfo(user.uid);
   }

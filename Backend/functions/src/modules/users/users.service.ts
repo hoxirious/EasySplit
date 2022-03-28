@@ -26,6 +26,7 @@ export class UsersService {
   static async createUser(
     user: PostUserServiceDto
   ): Promise<FirebaseFirestore.WriteResult> {
+
     const userInfo: UserInfoSchema = {
       ...user,
       friendList: [],
@@ -67,7 +68,9 @@ export class UsersService {
     return await UsersRepository.addFriend(id, friendEmail);
   }
 
+
   static async getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]> {
     return await UsersRepository.getUserGroupsInfo(id);
+
   }
 }

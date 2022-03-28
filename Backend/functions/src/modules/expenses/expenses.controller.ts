@@ -21,20 +21,21 @@ import { ExpensesService } from "./expenses.service";
 export class ExpensesController {
   @Put("/update/:expenseID")
   async updateExpenseByID(
+    @FirebaseUser() user: UserRecord,
     @Param("expenseID") expenseID: string,
     @Body() body: PutExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await ExpensesService.updateExpense(expenseID, body);
+    return await ExpensesService.updateExpense(user.uid, expenseID, body);
   }
 
   @Put("/updateGroup/:expenseID")
-  async addGroupExpense(
+  async addExpenseToGroup(
     @Param("expenseID") expenseID: string,
     @Body() body: AddExpenseToGroupBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     const groupReference = body.groupReference;
     console.log("Adding expenseID to group");
-    return await ExpensesService.addGroupExpense(expenseID, groupReference);
+    return await ExpensesService.addExpenseToGroup(expenseID, groupReference);
   }
 
   @Get("/getExpenseByID/:expenseID")
@@ -47,10 +48,11 @@ export class ExpensesController {
 
   @Post("/createExpense")
   async createExpense(
+    @FirebaseUser() user: UserRecord,
     @Body() body: PostExpenseBodyDto
-  ): Promise<FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult|void> {
     console.log("Creating expense...");
-    return await ExpensesService.createExpense(body);
+    return await ExpensesService.createExpense(user.uid, body);
   }
 
   @Get("/getExpenseByGroup/:groupID")
@@ -81,10 +83,11 @@ export class ExpensesController {
   // Delete expense by ID
   @Delete("/delete/:expenseID")
   async deleteExpenseByID(
+    @FirebaseUser() user: UserRecord,
     @Param("expenseID") expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Deleting Expense by ID...");
-    return await ExpensesService.deleteExpenseByID(expenseID);
+    return await ExpensesService.deleteExpenseByID(user.uid, expenseID);
   }
 
   @Get("/splitExpense")
