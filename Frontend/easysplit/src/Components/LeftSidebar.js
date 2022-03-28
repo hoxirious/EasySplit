@@ -33,17 +33,16 @@ function LeftSideBar(props) {
 
   return (
     <div className="firstDiv">
-      <a href="#" id="dashboard-link" className="fdiv-elem" onClick={() => { props.changeCurrentlyOn("Dashboard") }}>
+      <NavLink to="/dashboard" id="dashboard-link" className="fdiv-elem">
         Dashboard
-      </a>
+      </NavLink>
       <NavLink to="/dashboard/recent" id="activity-link" className="fdiv-elem">
         Recent Activity
       </NavLink>
       <NavLink
-        to={"/dashboard/allExpenses"}
+        to="/dashboard/allExpenses"
         id="expenses-link"
         className="fdiv-elem"
-        onClick={() => { props.changeCurrentlyOn("AllExpenses") }}
       >
         All Expenses
       </NavLink>

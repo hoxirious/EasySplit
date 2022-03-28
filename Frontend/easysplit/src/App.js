@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Components/RouterManager";
 import { useState, useEffect } from "react";
 import {
   Switch,
@@ -59,8 +59,8 @@ function App() {
             <Route exact path="/register" component={Register} />
             <Route exact path="/" component={Home} />
             <PrivateRoute path="/dashboard" fallbackRoute="/login"> */}
-          <Dashboard />
-          {/* </PrivateRoute>
+              <Dashboard />
+            {/* </PrivateRoute>
           </Switch> */}
         </Router>
       </QueryClientProvider>

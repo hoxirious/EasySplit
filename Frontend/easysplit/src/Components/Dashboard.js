@@ -1,56 +1,44 @@
-import React, { useState } from "react";
-import { Route } from "react-router-dom";
-import AddExpenseModal from "./AddExpenseModal";
-import AddFriendModal from "./AddFriendModal";
-import AddGroupModal from "./AddGroupModal";
-import SettleUpModal from "./SettleUpModal";
-import LeftSideBar from "./LeftSidebar";
-import MiddleBar from "./MiddleBar";
-import RightSidebar from "./RightSidebar";
-
-function Dashboard(props) {
-  const [addFriend, setAddFriend] = useState(false);
-  const [addGroup, setAddGroup] = useState(false);
-  const [addExpense, setAddExpense] = useState(false);
-  const [settleUp, setSettleUp] = useState(false);
-  const [currentlyOn, setCurrentlyOn] = useState("Dashboard")
+export default function Dashboard(props) {
   return (
-    <div className="homeScreenDiv">
-      <nav
-        id="mainNavbar"
-        className="navbar navbar-dark bg-dark py-0 px-0 fixed-top d-flex"
-      >
-        <div className="nav-btns">
-          <button className="btn btn-success my-2 mx-2 signup-btn">
-            Your Account
+    <div className="all-expenses-div">
+      <div id="#center-topbar" className="topbar-group">
+        <h1 id="expenses-header">Dashboard</h1>
+        <div id="#topbar-actions" className="topbar-actions-group">
+          <button
+            id="add-expense-btn"
+            onClick={() => props.toggleAddExpenseModal(true)}
+          >
+            Add an expense
+          </button>
+          <button
+            id="settleup-btn"
+            onClick={() => props.toggleSettleUpModal(true)}
+          >
+            Settle up
           </button>
         </div>
-      </nav>
-      <div className="dashBoardDiv">
-        <LeftSideBar
-          toggleAddFriendModal={setAddFriend}
-          toggleAddGroupModal={setAddGroup}
-          changeCurrentlyOn={setCurrentlyOn}
-        />
-        <MiddleBar
-          toggleAddExpenseModal={setAddExpense}
-          toggleSettleUpModal={setSettleUp}
-          currentlyOn={currentlyOn}
-        />
-        <RightSidebar />
-        <AddFriendModal
-          isOpen={addFriend}
-          toggleAddFriendModal={setAddFriend}
-        />
-        <AddGroupModal isOpen={addGroup} toggleAddGroupModal={setAddGroup} />
-        <AddExpenseModal
-          isOpen={addExpense}
-          toggleAddExpenseModal={setAddExpense}
-        />
-        <SettleUpModal isOpen={settleUp} toggleSettleUpModal={setSettleUp} />
       </div>
+
+      <div className="balance-details-div">
+          <div id="total-balance">
+            <p>
+              <b>Total Balance</b>
+            </p>
+            <span>$40</span>
+          </div>
+          <div id="you-owe">
+            <p>
+              <b>You Owe</b>
+            </p>
+            <span>$20</span>
+          </div>
+          <div id="owed-to-you">
+            <p>
+              <b>You Are Owed</b>
+            </p>
+            <span>$60</span>
+          </div>
+        </div>
     </div>
   );
 }
-
-export default Dashboard;
