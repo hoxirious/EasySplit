@@ -29,13 +29,13 @@ export class ExpensesController {
   }
 
   @Put("/updateGroup/:expenseID")
-  async addGroupExpense(
+  async addExpenseToGroup(
     @Param("expenseID") expenseID: string,
     @Body() body: AddExpenseToGroupBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     const groupReference = body.groupReference;
     console.log("Adding expenseID to group");
-    return await ExpensesService.addGroupExpense(expenseID, groupReference);
+    return await ExpensesService.addExpenseToGroup(expenseID, groupReference);
   }
 
   @Get("/getExpenseByID/:expenseID")
@@ -48,10 +48,11 @@ export class ExpensesController {
 
   @Post("/createExpense")
   async createExpense(
+    @FirebaseUser() user: UserRecord,
     @Body() body: PostExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     console.log("Creating expense...");
-    return await ExpensesService.createExpense(body);
+    return await ExpensesService.createExpense(user.uid, body);
   }
 
   @Get("/getExpenseByGroup/:groupID")

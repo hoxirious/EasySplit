@@ -69,32 +69,19 @@ export class EventsRepository {
     userID: string,
     eventPayload: EventInfoSchema
   ): Promise<firestore.WriteResult> {
+    const expenseInfo = eventPayload.eventContent as ExpenseInfoSchema;
+    const groupInfo = eventPayload.eventContent as GroupInfoSchema;
     switch (eventPayload.eventType) {
       case EventType.ExpenseCreate:
-        return await UsersRepository.addExpenseInfo(
-          eventPayload.eventContent as ExpenseInfoSchema,
+        return await UsersRepository.addExpenseToUser(
+          expenseInfo,
           userID
         );
       case EventType.ExpenseDelete:
-        const expenseInfo = eventPayload.eventContent as ExpenseInfoSchema;
-
-        //* If group reference exists, delete the expenseID inside the group collection
-        if (expenseInfo.groupReference) {
-          await GroupsRepository.deleteExpenseInGroup(
-            expenseInfo.expenseID,
-            expenseInfo.groupReference
-          );
-        }
-        for (const billing of expenseInfo.splitDetail) {
-          await UsersRepository.deleteUserExpense(
-            expenseInfo.expenseID,
-            billing.userID
-          );
-        }
-        return await ExpensesRepository.deleteExpenseByID(
-          expenseInfo.expenseID
+        return await UsersRepository.deleteExpenseInUser(
+          expenseInfo.expenseID,
+          userID
         );
-
       // case EventType.ExpenseUndelete:
       //   break;
       case EventType.ExpenseUpdate:
@@ -107,8 +94,9 @@ export class EventsRepository {
           eventPayload.eventContent as GroupInfoSchema,
           userID
         );
-      // case EventType.GroupDelete:
-      //   break;
+      case EventType.GroupDelete:
+        // return await GroupsRepository.deleteGroup();
+        break;
       // case EventType.GroupRevert:
       //   break;
       // case EventType.GroupUpdate:

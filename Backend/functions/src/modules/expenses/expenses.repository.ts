@@ -47,7 +47,7 @@ export class ExpensesRepository {
     }
   }
 
-  static async addGroupExpense(
+  static async addExpenseToGroup(
     expenseID: string,
     groupID: string
   ): Promise<FirebaseFirestore.WriteResult> {

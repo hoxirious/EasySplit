@@ -69,9 +69,11 @@ export class ExpensesService {
       expenseState: ExpenseState.Active,
       ...body,
     };
+
     return await EventsService.createEvent(
       EventType.ExpenseUpdate,
       expenseInfo,
+      userID,
       userID
     );
   }
@@ -81,6 +83,7 @@ export class ExpensesService {
   }
 
   static async createExpense(
+    userID: string,
     body: PostExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
     const timeStamp = new Date().toLocaleString();
@@ -93,37 +96,37 @@ export class ExpensesService {
       ...body,
     };
 
+    //* If group reference exists, create the expenseID inside the group collection
     if (expenseInfo.groupReference) {
-      const groupInfo = await GroupsRepository.getGroup(
+      await this.addExpenseToGroup(
+        expenseInfo.expenseID,
         expenseInfo.groupReference
       );
-      const memList = groupInfo.memberList;
-      for (const mem of memList) {
-        await EventsService.createEvent(
-          EventType.ExpenseCreate,
-          expenseInfo,
-          mem
-        );
-      }
-    } else {
-      const usersBill = expenseInfo.splitDetail;
-      for (const eachBill of usersBill) {
-        await EventsService.createEvent(
-          EventType.ExpenseCreate,
-          expenseInfo,
-          eachBill.userID
-        );
-      }
     }
 
+    //* For each participant, create an ExpenseCreate that includes userID as an EventCreator
+    await Promise.all(
+      expenseInfo.splitDetail.map(
+        async (billing): Promise<FirebaseFirestore.WriteResult> => {
+          return await EventsService.createEvent(
+            EventType.ExpenseCreate,
+            expenseInfo,
+            userID,
+            billing.userID
+          );
+        }
+      )
+    );
+
+    //* Post the expenseInfo in expense collection
     return await ExpensesRepository.postExpense(expenseInfo);
   }
 
-  static async addGroupExpense(
+  static async addExpenseToGroup(
     expenseID: string,
     groupID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await ExpensesRepository.addGroupExpense(expenseID, groupID);
+    return await ExpensesRepository.addExpenseToGroup(expenseID, groupID);
   }
 
   static async getExpenseByGroupID(id: string): Promise<ExpenseInfoSchema[]> {
@@ -138,10 +141,29 @@ export class ExpensesService {
   ): Promise<FirebaseFirestore.WriteResult> {
     const expenseInfo = await ExpensesRepository.getExpenseByID(expenseID);
 
-    return await EventsService.createEvent(
-      EventType.ExpenseUndelete,
-      expenseInfo,
-      userID
+    //* If group reference exists, delete the expenseID inside the group collection
+    if (expenseInfo.groupReference) {
+      await GroupsRepository.deleteExpenseInGroup(
+        expenseInfo.expenseID,
+        expenseInfo.groupReference
+      );
+    }
+
+    //* For each participant, create an ExpenseDelete that includes userID as an EventCreator
+    await Promise.all(
+      expenseInfo.splitDetail.map(
+        async (billing): Promise<FirebaseFirestore.WriteResult> => {
+          return await EventsService.createEvent(
+            EventType.ExpenseUndelete,
+            expenseInfo,
+            userID,
+            billing.userID
+          );
+        }
+      )
     );
+    
+    //* Delete the expense in Expense collection
+    return await ExpensesRepository.deleteExpenseByID(expenseInfo.expenseID);
   }
 }

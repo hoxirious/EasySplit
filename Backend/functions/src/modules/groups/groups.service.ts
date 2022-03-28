@@ -31,44 +31,43 @@ export class GroupService {
     );
   }
 
-    static async addMember(
-        groupID: string,
-        userID: string
-    ): Promise<FirebaseFirestore.WriteResult> {
-        return await GroupsRepository.addMember(groupID, userID);
+  static async addMember(
+    groupID: string,
+    userID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    return await GroupsRepository.addMember(groupID, userID);
+  }
+
+  static async removeMember(
+    groupID: string,
+    userID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const group = await GroupsRepository.getGroup(groupID);
+    const user = await UsersRepository.getUser(userID);
+
+    const userIndex = group.memberList.indexOf(userID);
+    const groupIndex = user.groupList.indexOf(groupID);
+
+    if (userIndex > -1 && groupIndex > -1) {
+      group.memberList.splice(userIndex, 1);
+      user.groupList.splice(groupIndex, 1);
     }
 
-    static async removeMember(
-        groupID: string,
-        userID: string
-    ): Promise<FirebaseFirestore.WriteResult> {
-        const group = await GroupsRepository.getGroup(groupID);
-        const user = await UsersRepository.getUser(userID);
+    return (
+      await db.groups.doc(group.groupID).update({
+        memberList: group.memberList,
+      }),
+      await db.users.doc(user.userID).update({
+        groupList: user.groupList,
+      })
+    );
+  }
 
-        const userIndex = group.memberList.indexOf(userID);
-        const groupIndex = user.groupList.indexOf(groupID);
-
-        if (userIndex > -1 && groupIndex > -1) {
-            group.memberList.splice(userIndex, 1);
-            user.groupList.splice(groupIndex, 1);
-        }
-
-        return (
-            await db.groups.doc(group.groupID).update({
-                memberList: group.memberList,
-            }),
-            await db.users.doc(user.userID).update({
-                groupList: user.groupList,
-            })
-        );
-    }
-
-    //receives info from users controller
-    //sends info to users.repository.ts which deals with the database
-    static async deleteGroup(
-      userID: string,
-      groupId: string,
-    ): Promise<FirebaseFirestore.WriteResult> {
-      return await GroupsRepository.deleteGroup(userID, groupId);
-    }
+  static async deleteGroup(
+    userID: string,
+    groupId: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const groupInfo = await this.getGroup(groupId);
+    return await EventsService.createEvent(EventType.GroupDelete, groupInfo, userID);
+  }
 }

@@ -127,6 +127,7 @@ export class EventsService {
   static async createEvent(
     eventType: EventType,
     eventContent: GroupInfoSchema | ExpenseInfoSchema,
+    eventCreator: string,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
     const timestamp = new Date().toLocaleString();
@@ -134,7 +135,7 @@ export class EventsService {
     const eventPayload: EventInfoSchema = {
       timestamp,
       eventID,
-      eventCreator: userID,
+      eventCreator,
       eventContent,
       eventType,
     };

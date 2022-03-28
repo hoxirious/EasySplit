@@ -100,7 +100,7 @@ export class UsersRepository {
   }
 
   // add expense to user's expense list
-  static async addExpenseInfo(
+  static async addExpenseToUser(
     expenseInfo: ExpenseInfoSchema,
     userID: string
   ): Promise <FirebaseFirestore.WriteResult> {
@@ -114,14 +114,10 @@ export class UsersRepository {
   }
 
   // delete expense from user's expense list
-  static async deleteUserExpense(
+  static async deleteExpenseInUser(
     expenseID: string,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-
-
-    // const expenseInfo = ExpensesRepository.getExpenseByID(expenseID);
-
 
     const user = await this.getUser(userID);
     const expenseIndex = user.expenseList.indexOf(expenseID);
