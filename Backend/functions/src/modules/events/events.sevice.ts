@@ -12,11 +12,10 @@ const isExpenseType = (eventType: EventType): boolean =>
   eventType === EventType.ExpenseUpdate;
 
 export class EventsService {
-
   /**
-   * 
-   * @param eventType 
-   * @param userLentAmount 
+   *
+   * @param eventType
+   * @param userLentAmount
    * @returns the corresponding balance to the EventType
    */
   static billingAction(eventType: EventType, userLentAmount: number): number {
@@ -135,6 +134,7 @@ export class EventsService {
     const eventPayload: EventInfoSchema = {
       timestamp,
       eventID,
+      eventCreator: userID,
       eventContent,
       eventType,
     };
