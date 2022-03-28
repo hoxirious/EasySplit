@@ -45,6 +45,7 @@ function AllExpenses(props) {
     return paidAmount;
   }
 
+
   return (
     <div className="all-expenses-div">
       <div id="#center-topbar" className="topbar-group">

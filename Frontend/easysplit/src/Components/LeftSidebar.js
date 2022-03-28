@@ -33,14 +33,14 @@ function LeftSideBar(props) {
 
   return (
     <div className="firstDiv">
-      <a href="#" id="dashboard-link" className="fdiv-elem">
+      <NavLink to="/dashboard" id="dashboard-link" className="fdiv-elem">
         Dashboard
-      </a>
-      <NavLink  to="/dashboard/recent" id="activity-link" className="fdiv-elem">
+      </NavLink>
+      <NavLink to="/dashboard/recent" id="activity-link" className="fdiv-elem">
         Recent Activity
       </NavLink>
       <NavLink
-        to={"/dashboard/allExpenses"}
+        to="/dashboard/allExpenses"
         id="expenses-link"
         className="fdiv-elem"
       >
