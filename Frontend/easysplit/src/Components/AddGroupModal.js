@@ -4,6 +4,11 @@ import close from "../Resources/close.png"
 function AddGroupModal(props) {
 
     const modal = useRef();
+    const groupName = useRef();
+
+    function getGroupName() {
+        console.log(groupName.current.value);
+    }
 
     useEffect(() => {
         if (props.isOpen === true) {
@@ -25,8 +30,9 @@ function AddGroupModal(props) {
                     <input type="text"
                         className="form-control"
                         id="groupname"
-                        placeholder="Where money" />
-                    <button id="save-group-btn" onClick={() => { props.toggleAddGroupModal(false) }}>Save</button>
+                        placeholder="Where money"
+                        ref={groupName} />
+                    <button id="save-group-btn" onClick={() => { props.toggleAddGroupModal(false); getGroupName() }}>Save</button>
                 </form>
             </div>
         </div>
