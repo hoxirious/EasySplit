@@ -4,7 +4,6 @@ import { EventInfoSchema } from "../../schemas/events/event-info.schema";
 import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
-import { ExpensesRepository } from "../expenses/expenses.repository";
 import { GroupsRepository } from "../groups/groups.repository";
 import { UsersRepository } from "../users/users.repository";
 import { EventType } from "./definitions/event-type.definition";

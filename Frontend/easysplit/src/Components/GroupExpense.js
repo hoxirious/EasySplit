@@ -21,7 +21,12 @@ function GroupExpense(props) {
               >
                 Add an expense
               </button>
-              <button id="settleup-btn">Settle up</button>
+              <button
+                id="settleup-btn"
+                onClick={() => props.toggleSettleUpModal(true)}
+              >
+                Settle up
+              </button>
             </div>
           </div>
           <div style={{ color: "black", margin: 30 }}>

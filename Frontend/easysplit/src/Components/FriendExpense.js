@@ -20,7 +20,7 @@ function FriendExpense(props) {
   );
 
   return (
-    <div style={{ color: "black"}}>
+    <div style={{ color: "black" }}>
       <div id="#center-topbar" className="topbar-group">
         <h1 id="expenses-header">Friend</h1>
         <div id="#topbar-actions" className="topbar-actions-group">
@@ -30,7 +30,12 @@ function FriendExpense(props) {
           >
             Add an expense
           </button>
-          <button id="settleup-btn">Settle up</button>
+          <button
+            id="settleup-btn"
+            onClick={() => props.toggleSettleUpModal(true)}
+          >
+            Settle up
+          </button>
         </div>
       </div>
       {friendsInfoStatus === "success" &&

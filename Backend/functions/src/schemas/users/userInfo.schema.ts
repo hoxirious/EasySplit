@@ -1,4 +1,3 @@
-import { ExpenseState } from "../../modules/expenses/definitions/expenses-info.definition";
 
 export interface UserInfoSchema {
     userID: string;

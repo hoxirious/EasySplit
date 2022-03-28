@@ -59,8 +59,8 @@ function App() {
             <Route exact path="/register" component={Register} />
             <Route exact path="/" component={Home} />
             <PrivateRoute path="/dashboard" fallbackRoute="/login">
-          <Dashboard />
-          </PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
           </Switch>
         </Router>
       </QueryClientProvider>
