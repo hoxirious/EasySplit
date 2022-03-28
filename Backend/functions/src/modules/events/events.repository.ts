@@ -4,6 +4,7 @@ import { EventInfoSchema } from "../../schemas/events/event-info.schema";
 import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
+import { ExpensesRepository } from "../expenses/expenses.repository";
 import { GroupsRepository } from "../groups/groups.repository";
 import { UsersRepository } from "../users/users.repository";
 import { EventType } from "./definitions/event-type.definition";
@@ -81,8 +82,10 @@ export class EventsRepository {
         );
       // case EventType.ExpenseUndelete:
       //   break;
-      // case EventType.ExpenseUpdate:
-      //   break;
+      case EventType.ExpenseUpdate:
+        return await ExpensesRepository.putExpense(
+          eventPayload.eventContent as ExpenseInfoSchema
+        );
       //* EventType is GroupCreate -> Call postGroups from GroupsRepository
       case EventType.GroupCreate:
         return await GroupsRepository.postGroups(

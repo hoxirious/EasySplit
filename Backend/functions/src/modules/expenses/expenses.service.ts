@@ -17,7 +17,7 @@ export class ExpensesService {
     const ToReturn: ExpenseInfoSchema[] = [];
     const userExpenseStateInfoList = (await UsersRepository.getUser(userID))
       .expenseList;
-      console.log("expenseID List:",userExpenseStateInfoList)
+    console.log("expenseID List:", userExpenseStateInfoList);
     for (const userExpenseStateInfo of userExpenseStateInfoList) {
       const expenseInfo = await this.getExpenseByID(
         userExpenseStateInfo.expenseID
@@ -65,6 +65,7 @@ export class ExpensesService {
   }
 
   static async updateExpense(
+    userID: string,
     expenseID: string,
     body: PostExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
@@ -75,7 +76,7 @@ export class ExpensesService {
       expenseState: ExpenseState.Active,
       ...body,
     };
-    return await ExpensesRepository.putExpense(expenseInfo);
+    return await EventsService.createEvent(EventType.ExpenseUpdate, expenseInfo, userID);
   }
 
   static async getExpenseByID(id: string): Promise<ExpenseInfoSchema> {

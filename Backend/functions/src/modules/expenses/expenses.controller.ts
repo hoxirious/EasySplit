@@ -21,10 +21,11 @@ import { ExpensesService } from "./expenses.service";
 export class ExpensesController {
   @Put("/update/:expenseID")
   async updateExpenseByID(
+    @FirebaseUser() user: UserRecord,
     @Param("expenseID") expenseID: string,
     @Body() body: PutExpenseBodyDto
   ): Promise<FirebaseFirestore.WriteResult> {
-    return await ExpensesService.updateExpense(expenseID, body);
+    return await ExpensesService.updateExpense(user.uid, expenseID, body);
   }
 
   @Put("/updateGroup/:expenseID")
