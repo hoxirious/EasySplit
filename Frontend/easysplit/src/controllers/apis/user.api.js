@@ -34,3 +34,4 @@ export const createUser = async (user, jwt) => {
     method: "put",
   });
 };
+

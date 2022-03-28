@@ -6,17 +6,17 @@ export const ENDPOINTS = {
     getUserByID: "/users/user/getUserByID/",
     getUserEvents: "/users/user/allEvents",
     createUser: "/users/user",
+    addFriend: "/users/user/addFriend",
     deleteFriend: "/users/user",
     getUserAllGroups: "/users/user/allGroups",
-    getUserAllFriends: "/users/user/allFriends"
+    getUserAllFriends: "/users/user/allFriends",
   },
   groups: {
-    getAllGroup: "/groups/allgroup",
-    addGroup: "/groups/addgroup",
+    createGroup: "/groups/group/createGroup",
   },
   expenses: {
     getExpenseByGroupID: "/expenses/expense/getExpenseByGroup/",
     getExpenseByUserID: "/expenses/expense/getExpenseByUserID",
     getExpenseWithFriend: "/expenses/expense/getExpenseWithFriend/",
-  }
+  },
 };
