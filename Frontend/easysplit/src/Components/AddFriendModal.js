@@ -4,6 +4,11 @@ import close from "../Resources/close.png"
 function AddFriendModal(props) {
 
     const modal = useRef();
+    const email = useRef();
+
+    function getEmail() {
+        console.log(email.current.value);
+    }
 
     useEffect(() => {
         if (props.isOpen === true) {
@@ -25,8 +30,9 @@ function AddFriendModal(props) {
                     <input type="email"
                         className="form-control"
                         id="email"
-                        placeholder="Enter your friend's email address" />
-                    <button id="add-friend-btn" onClick={() => { props.toggleAddFriendModal(false) }}>Add Friend</button>
+                        placeholder="Enter your friend's email address"
+                        ref={email} />
+                    <button id="add-friend-btn" onClick={() => { props.toggleAddFriendModal(false); getEmail() }}>Add Friend</button>
                 </form>
             </div>
         </div>
