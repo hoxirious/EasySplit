@@ -15,6 +15,7 @@ export class ExpensesService {
     userID: string
   ): Promise<ExpenseInfoSchema[]> {
     const ToReturn: ExpenseInfoSchema[] = [];
+
     const expenseIDList = (await UsersRepository.getUser(userID)).expenseList;
     for (const expenseID of expenseIDList) {
       const expenseInfo = await this.getExpenseByID(expenseID);
@@ -148,6 +149,7 @@ export class ExpensesService {
     userID: string,
     expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
+      
     const expenseInfo = await ExpensesRepository.getExpenseByID(expenseID);
 
     //* If group reference exists, delete the expenseID inside the group collection
