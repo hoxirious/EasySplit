@@ -35,6 +35,7 @@ function Dashboard(props) {
         <MiddleBar
           toggleAddExpenseModal={setAddExpense}
           toggleSettleUpModal={setSettleUp}
+          currentlyOn={currentlyOn}
         />
         <RightSidebar />
         <AddFriendModal

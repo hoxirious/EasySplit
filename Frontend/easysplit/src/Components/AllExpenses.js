@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getExpenseByUserID } from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
@@ -45,10 +45,21 @@ function AllExpenses(props) {
     return paidAmount;
   }
 
+  const balanceDetails = useRef();
+
+  useEffect(() => {
+    if (props.currentlyOn === "Dashboard") {
+      balanceDetails.current.style.display = 'flex';
+    }
+    else {
+      balanceDetails.current.style.display = 'none';
+    }
+  }, [props.currentlyOn])
+
   return (
     <div className="all-expenses-div">
       <div id="#center-topbar" className="topbar-group">
-        <h1 id="expenses-header">All Expenses</h1>
+        <h1 id="expenses-header">{props.currentlyOn === "AllExpenses" ? "All Expenses" : "Dashboard"}</h1>
         <div id="#topbar-actions" className="topbar-actions-group">
           <button
             id="add-expense-btn"
@@ -64,7 +75,7 @@ function AllExpenses(props) {
           </button>
         </div>
       </div>
-      <div className="balance-details-div">
+      <div className="balance-details-div" ref={balanceDetails}>
         <div id="total-balance">
           <p><b>Total Balance</b></p>
           <span>$40</span>

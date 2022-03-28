@@ -15,6 +15,7 @@ function MiddleBar(props) {
             <AllExpenses
               toggleAddExpenseModal={props.toggleAddExpenseModal}
               toggleSettleUpModal={props.toggleSettleUpModal}
+              currentlyOn={props.currentlyOn}
             />
           </Route>
           <Route path="/dashboard/groups/:groupID">
