@@ -12,7 +12,7 @@ function MiddleBar(props) {
         <Switch>
           <Route path="/dashboard/recent" component={RecentActivity} />
           <Route path="/dashboard/allExpenses">
-            <AllExpenses toggleAddExpenseModal={props.toggleAddExpenseModal} />
+            <AllExpenses toggleAddExpenseModal={props.toggleAddExpenseModal} currentlyOn={props.currentlyOn} />
           </Route>
           <Route path="/dashboard/groups/:groupID">
             <GroupExpense toggleAddExpenseModal={props.toggleAddExpenseModal} />

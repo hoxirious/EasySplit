@@ -30,7 +30,7 @@ function Dashboard(props) {
           toggleAddGroupModal={setAddGroup}
           changeCurrentlyOn={setCurrentlyOn}
         />
-        <MiddleBar toggleAddExpenseModal={setAddExpense} />
+        <MiddleBar toggleAddExpenseModal={setAddExpense} currentlyOn={currentlyOn} />
         <RightSidebar />
         <AddFriendModal
           isOpen={addFriend}
