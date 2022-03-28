@@ -503,6 +503,39 @@ body {
   background-color: #eee;
 }
 
+.balance-details-div{
+  background-color: #eee;
+  border-top: 1px solid #778381 ;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em; 
+}
+
+#total-balance, #you-owe, #owed-to-you{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#total-balance, #you-owe{
+  border-right: 1px solid #778381;
+  padding-right: 4.5em;
+}
+
+#total-balance{
+  padding-left: 2em;
+}
+
+#owed-to-you{
+  padding-right: 2em;
+}
+
+#you-owe{
+  padding-right: 3.7em;
+}
+
 @media only screen and (max-width: 920px) {
   .firstDiv {
     align-items: center;
