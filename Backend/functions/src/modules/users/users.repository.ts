@@ -2,7 +2,7 @@ import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { db } from "../../firebase/repository.firebase";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
-import { UserExpenseStateSchema, UserInfoSchema } from "../../schemas/users/userInfo.schema";
+import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { GroupsRepository } from "../groups/groups.repository";
 
 export class UsersRepository {
@@ -41,7 +41,7 @@ export class UsersRepository {
   }
 
   static async postUser(
-    user: UserInfoSchema,
+    user: UserInfoSchema
   ): Promise<FirebaseFirestore.WriteResult> {
     let empty: UserInfoSchema = {
       userID: "",
@@ -56,19 +56,20 @@ export class UsersRepository {
     else return await db.users.doc(user.userID).set(user);
   }
 
-
   //Get user name saved in friend list
   static async deleteFriend(myUserID: string, targetUserID: string) {
     const me = await UsersRepository.getUser(myUserID);
     const myFriendList = me.friendList;
-    const newFriendList = myFriendList.filter( value => value !== targetUserID);
+    const newFriendList = myFriendList.filter(
+      (value) => value !== targetUserID
+    );
     return await db.users.doc(myUserID).update({
       friendList: newFriendList,
     });
   }
   static async addFriend(
     id: string,
-    friendEmail: string,
+    friendEmail: string
   ): Promise<FirebaseFirestore.WriteResult> {
     const friend = await this.getUserByEmail(friendEmail);
     const user = await this.getUser(id);
@@ -100,17 +101,13 @@ export class UsersRepository {
   }
 
   // add expense to user's expense list
-  static async addExpenseInfo(
+  static async addExpenseToUser(
     expenseInfo: ExpenseInfoSchema,
     userID: string
-  ): Promise <FirebaseFirestore.WriteResult> {
-    let userExpense: UserExpenseStateSchema = {
-      expenseID: expenseInfo.expenseID,
-      expenseState: expenseInfo.expenseState
-    }
+  ): Promise<FirebaseFirestore.WriteResult> {
     const user = await this.getUser(userID);
 
-    user.expenseList.push(userExpense);
+    user.expenseList.push(expenseInfo.expenseID);
 
     return await db.users.doc(user.userID).update({
       expenseList: user.expenseList,
@@ -118,24 +115,35 @@ export class UsersRepository {
   }
 
   // delete expense from user's expense list
-  static async deleteUserExpense(
-    exp: ExpenseInfoSchema, 
+  static async deleteExpenseInUser(
+    expenseID: string,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-    let userExp: UserExpenseStateSchema = {
-      expenseID : exp.expenseID,
-      expenseState : exp.expenseState
-    }
     const user = await this.getUser(userID);
+    const expenseIndex = user.expenseList.indexOf(expenseID);
 
-    const expIndex = user.expenseList.indexOf(userExp);
-
-    if(expIndex > -1) {
-      user.expenseList.splice(expIndex, 1);
+    if (expenseIndex > -1) {
+      user.expenseList.splice(expenseIndex, 1);
     }
 
     return await db.users.doc(user.userID).update({
       expenseList: user.expenseList,
+    });
+  }
+
+  static async deleteGroupInUser(
+    groupID: string,
+    userID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const user = await this.getUser(userID);
+    const groupIndex = user.groupList.indexOf(groupID);
+
+    if (groupIndex > -1) {
+      user.groupList.splice(groupIndex, 1);
+    }
+
+    return await db.users.doc(user.userID).update({
+      groupList: user.groupList,
     });
   }
 }

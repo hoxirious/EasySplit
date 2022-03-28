@@ -12,11 +12,10 @@ const isExpenseType = (eventType: EventType): boolean =>
   eventType === EventType.ExpenseUpdate;
 
 export class EventsService {
-
   /**
-   * 
-   * @param eventType 
-   * @param userLentAmount 
+   *
+   * @param eventType
+   * @param userLentAmount
    * @returns the corresponding balance to the EventType
    */
   static billingAction(eventType: EventType, userLentAmount: number): number {
@@ -128,13 +127,15 @@ export class EventsService {
   static async createEvent(
     eventType: EventType,
     eventContent: GroupInfoSchema | ExpenseInfoSchema,
+    eventCreator: string,
     userID: string
-  ): Promise<FirebaseFirestore.WriteResult> {
+  ): Promise<FirebaseFirestore.WriteResult|void> {
     const timestamp = new Date().toLocaleString();
     const eventID = db.events.doc().id;
     const eventPayload: EventInfoSchema = {
       timestamp,
       eventID,
+      eventCreator,
       eventContent,
       eventType,
     };

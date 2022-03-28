@@ -56,7 +56,12 @@ function AllExpenses(props) {
           >
             Add an expense
           </button>
-          <button id="settleup-btn">Settle up</button>
+          <button
+            id="settleup-btn"
+            onClick={() => props.toggleSettleUpModal(true)}
+          >
+            Settle up
+          </button>
         </div>
       </div>
       <ul

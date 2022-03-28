@@ -1,8 +1,10 @@
+import { StreamInfoSchema } from "../../schemas/events/stream-info.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { UserInfoSchema } from "../../schemas/users/userInfo.schema";
 import { PostUserServiceDto } from "./dtos/post-user.dto";
 import { ReturnUserFriendsDto } from "./dtos/return-userfriends.dto";
 export declare class UsersService {
+    static getUserEvents(userID: string): Promise<StreamInfoSchema>;
     static getUser(id: string): Promise<UserInfoSchema>;
     static getUserByEmail(email: string): Promise<UserInfoSchema>;
     static createUser(user: PostUserServiceDto): Promise<FirebaseFirestore.WriteResult>;

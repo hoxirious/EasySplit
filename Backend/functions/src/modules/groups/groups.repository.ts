@@ -1,6 +1,7 @@
 import { QueryDocumentSnapshot } from "firebase-functions/v1/firestore";
 import { db } from "../../firebase/repository.firebase";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
+import { ExpensesService } from "../expenses/expenses.service";
 import { UsersRepository } from "../users/users.repository";
 
 export class GroupsRepository {
@@ -55,5 +56,40 @@ export class GroupsRepository {
         groupList: user.groupList,
       })
     );
+  }
+
+  static async deleteExpenseInGroup(
+    expenseID: string,
+    groupID: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const groupInfo = await this.getGroup(groupID);
+
+    const groupIndex = groupInfo.expenseList.indexOf(expenseID);
+
+    if (groupIndex > -1) {
+      groupInfo.expenseList.splice(groupIndex, 1);
+      return await db.groups.doc(groupID).update({
+        expenseList: groupInfo.expenseList,
+      });
+    } else throw new Error("expenseID not found");
+  }
+
+  //talks to firestore directly
+  static async deleteGroup(
+    userID: string,
+    groupId: string
+  ): Promise<FirebaseFirestore.WriteResult> {
+    const group = await GroupsRepository.getGroup(groupId);
+
+    //* check whether or not user is in group by checking member List
+    if (userID in group.memberList) {
+      //* loop through expenseList to delete every expense in the list
+      for (const expenseID of group.expenseList) {
+        ExpensesService.deleteExpenseByID(userID, expenseID);
+      }
+    }
+
+    //* Delete the group in Group collection
+    return await db.groups.doc(groupId).delete();
   }
 }

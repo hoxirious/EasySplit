@@ -8,6 +8,7 @@ export declare class UsersRepository {
     static deleteFriend(myUserID: string, targetUserID: string): Promise<FirebaseFirestore.WriteResult>;
     static addFriend(id: string, friendEmail: string): Promise<FirebaseFirestore.WriteResult>;
     static getUserGroupsInfo(id: string): Promise<GroupInfoSchema[]>;
-    static addExpenseInfo(expenseInfo: ExpenseInfoSchema, userID: string): Promise<FirebaseFirestore.WriteResult>;
-    static deleteUserExpense(exp: ExpenseInfoSchema, userID: string): Promise<FirebaseFirestore.WriteResult>;
+    static addExpenseToUser(expenseInfo: ExpenseInfoSchema, userID: string): Promise<FirebaseFirestore.WriteResult>;
+    static deleteExpenseInUser(expenseID: string, userID: string): Promise<FirebaseFirestore.WriteResult>;
+    static deleteGroupInUser(groupID: string, userID: string): Promise<FirebaseFirestore.WriteResult>;
 }

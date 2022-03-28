@@ -1,4 +1,3 @@
-import { ExpenseState } from "../../modules/expenses/definitions/expenses-info.definition";
 
 export interface UserInfoSchema {
     userID: string;
@@ -6,10 +5,5 @@ export interface UserInfoSchema {
     name: string;
     friendList: string[];
     groupList: string[];
-    expenseList: UserExpenseStateSchema[];
-}
-
-export interface UserExpenseStateSchema {
-    expenseID: string;
-    expenseState: ExpenseState;
+    expenseList: string[];
 }
