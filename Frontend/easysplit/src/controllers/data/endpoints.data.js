@@ -22,5 +22,6 @@ export const ENDPOINTS = {
     createExpense: "/expenses/expense/createExpense",
     splitExpense: "/expenses/expense/splitExpense",
     deleteExpenseByID: "/expenses/expense/delete/",
+    getFriendDebt: "/expenses/expense/friendDebt",
   },
 };

@@ -43,6 +43,7 @@ function AddExpenseModal(props) {
           splitDetail: splitDetail.result,
         };
         desc.current.value = "";
+        amount.current.value = "";
         return await createExpense(createExpenseData, userJWT);
       },
     }
@@ -214,7 +215,6 @@ function AddExpenseModal(props) {
     console.log(returnObj);
     modal.current.style.display = "none";
     shareWithInput.current.value = "";
-    amount.current.value = "";
     splitInfoDiv.current.innerHTML = "";
     paidAmountsDiv.current.innerHTML = "";
     splitBtn.current.style.display = "none";

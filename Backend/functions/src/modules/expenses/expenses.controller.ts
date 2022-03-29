@@ -1,15 +1,10 @@
-import {
-  Body,
-  Controller, Get,
-  Param,
-  Post,
-  Put
-} from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
-import { EventsService } from "../events/events.sevice";
+import { EventsService } from "../events/events.service";
+import { ReturnFriendDebtBodyDto } from "./dtos/get-friendDebt.dto";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { AddExpenseToGroupBodyDto } from "./dtos/put-AddExpenseToGroupBodyDto.dto";
@@ -106,5 +101,12 @@ export class ExpensesController {
       body.userID,
       body.friendID
     );
+  }
+
+  @Get("/friendDebt")
+  async getFriendDebt(
+    @FirebaseUser() user: UserRecord
+  ): Promise<ReturnFriendDebtBodyDto> {
+    return await EventsService.getFriendDebt(user.uid);
   }
 }
