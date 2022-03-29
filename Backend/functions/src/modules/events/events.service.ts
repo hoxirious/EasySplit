@@ -3,6 +3,8 @@ import { EventInfoSchema } from "../../schemas/events/event-info.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { ReturnFriendDebtBodyDto } from "../expenses/dtos/get-friendDebt.dto";
+import { ReturnGroupDebtBodyDto } from "../expenses/dtos/get-groupDebt.dto";
+import { GroupService } from "../groups/groups.service";
 import { UsersService } from "../users/users.service";
 import { EventType } from "./definitions/event-type.definition";
 import { EventsRepository } from "./events.repository";
@@ -31,11 +33,34 @@ export class EventsService {
     }
   }
 
+  static async getGroupDebt(groupID: string): Promise<ReturnGroupDebtBodyDto> {
+    const groupInfo = await GroupService.getGroup(groupID);
+    const memberIDList = groupInfo.memberList;
+    const ToReturn: ReturnGroupDebtBodyDto = {
+      oweList: [],
+    };
+
+    for (const memberID of memberIDList) {
+      const memberDebt = await this.getCurrentBalanceFromGroup(
+        memberID,
+        groupID
+      );
+      const memberName = (await UsersService.getUser(memberID)).name;
+      ToReturn.oweList.push({
+        userID: memberID,
+        name: memberName,
+        debtAmount: memberDebt,
+      });
+    }
+    console.log(ToReturn);
+    return ToReturn;
+  }
+
   static async getFriendDebt(userID: string): Promise<ReturnFriendDebtBodyDto> {
     const userInfo = await UsersService.getUser(userID);
     const friendIDList = userInfo.friendList;
 
-    let ToReturn: ReturnFriendDebtBodyDto = {
+    const ToReturn: ReturnFriendDebtBodyDto = {
       youOwe: [],
       friendOwe: [],
     };
@@ -45,7 +70,6 @@ export class EventsService {
         userID,
         friendID
       );
-      console.log("friendDebt: ");
       const friendName = (await UsersService.getUser(friendID)).name;
       if (friendDebt > 0) {
         ToReturn.friendOwe.push({
@@ -61,7 +85,6 @@ export class EventsService {
         });
       }
     }
-    console.log(ToReturn);
     return ToReturn;
   }
 
@@ -144,13 +167,11 @@ export class EventsService {
         const userBilling = eventContent.splitDetail.find(
           (user) => user.userID === userID
         );
-        console.log("user", userBilling);
 
         //*  Retrieve billing that relates to friendID
         const friendBilling = eventContent.splitDetail.find(
           (user) => user.userID === friendID
         );
-        console.log("friend", friendBilling);
         //* Increment the amount into currentBalance
         if (userBilling && friendBilling) {
           currentBalance += this.billingAction(

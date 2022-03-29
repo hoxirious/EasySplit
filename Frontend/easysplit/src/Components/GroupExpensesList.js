@@ -1,42 +1,51 @@
 import React, { useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { getGroupDebt } from "../controllers/apis/expense.api";
 
 function GroupExpensesList(props) {
-
-    const [groupMembers, setGroupMembers] = useState([
-        {
-            name: 'Nick',
-            balance: 40
-        },
-        {
-            name: 'Sarah',
-            balance: -80
-        }
-    ])
-
-    let listItems = []
-
-    for (let i = 0; i < groupMembers.length; i++) {
-        listItems.push(
-            <li>
-                <div className="">
-                    <p style={{ fontSize: '1.1em' }}>
-                        <b>{groupMembers[i].balance > 0 ? `${groupMembers[i].name} ows` : `${groupMembers[i].name} gets back`}</b>
-                        <p>
-                            <b>
-                                {groupMembers[i].balance > 0 ? <span style={{ color: '#e65c2a' }}>${groupMembers[i].balance}</span> : <span style={{ color: '#2bbbad' }}>${groupMembers[i].balance * (-1)}</span>}
-                            </b>
-                        </p>
-                    </p>
-                </div>
-            </li>
-        )
+  const { groupID } = useParams();
+  const { data: membersDebt, status: membersDebtStatus } = useQuery(
+    ["membersDebt", groupID],
+    () => getGroupDebt(groupID),
+    {
+      select: (membersDebt) => membersDebt.result,
     }
+  );
 
-    return (
-        <ul id="group-expenses-list">
-            {listItems}
-        </ul>
-    );
+  return (
+    <>
+      <h4 style={{ color: "black" }}>Group balances</h4>
+      <ul id="group-expenses-list">
+        {membersDebtStatus === "success" && (
+          <>
+            {membersDebt.oweList.map((each) => {
+              return (
+                <li>    
+                  <div style={{ marginLeft: "1em" }}>
+                    <p style={{ fontSize: "1.1em" }}>
+                      <b>{each.name}</b>
+                      <p style={{ fontSize: "0.85em" }}>
+                        {each.debtAmount > 0 ? (
+                          <span style={{ color: "#e65c2a" }}>
+                            owes ${each.debtAmount}
+                          </span>
+                        ) : (
+                          <span style={{ color: "#2bbbad" }}>
+                            gets back ${each.debtAmount * -1}
+                          </span>
+                        )}
+                      </p>
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </>
+        )}
+      </ul>
+    </>
+  );
 }
 
 export default GroupExpensesList;

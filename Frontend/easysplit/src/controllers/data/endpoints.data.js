@@ -23,5 +23,6 @@ export const ENDPOINTS = {
     splitExpense: "/expenses/expense/splitExpense",
     deleteExpenseByID: "/expenses/expense/delete/",
     getFriendDebt: "/expenses/expense/friendDebt",
+    getGroupDebt: "/expenses/expense/groupDebt/",
   },
 };
