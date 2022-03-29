@@ -14,6 +14,11 @@ import { UsersService } from "./users.service";
 @Controller("user")
 export class UsersController {
   @Get()
+  findAll(): string {
+    return "This action returns all cats";
+  }
+
+  @Get()
   async getUser(@FirebaseUser() user: UserRecord): Promise<UserInfoSchema> {
     console.log("Getting users...");
     return await UsersService.getUser(user.uid);
@@ -78,7 +83,6 @@ export class UsersController {
   async getUserGroupsInfo(
     @FirebaseUser() user: UserRecord
   ): Promise<GroupInfoSchema[]> {
-
     console.log("Getting user groups...");
     return await UsersService.getUserGroupsInfo(user.uid);
   }
