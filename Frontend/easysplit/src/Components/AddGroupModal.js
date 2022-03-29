@@ -16,6 +16,7 @@ function AddGroupModal(props) {
 
   const modal = useRef();
   const groupName = useRef();
+  const memberemail = useRef();
 
 
   useEffect(() => {
@@ -45,11 +46,19 @@ function AddGroupModal(props) {
             placeholder="Where money"
             ref={groupName}
           />
+          <input
+            type="text"
+            className="form-control"
+            id="memberemail"
+            placeholder="Add members via email"
+            ref={memberemail}
+          />
           <button
             id="save-group-btn"
             onClick={() => {
               props.toggleAddGroupModal(false);
               mutate(groupName.current.value);
+              mutate(memberemail.current.value);
             }}
           >
             Save
