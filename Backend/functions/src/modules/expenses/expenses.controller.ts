@@ -1,20 +1,20 @@
 import {
   Body,
-  Controller,
-  Delete,
-  Get,
+  Controller, Get,
   Param,
   Post,
-  Put,
+  Put
 } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
+import { EventsService } from "../events/events.sevice";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { AddExpenseToGroupBodyDto } from "./dtos/put-AddExpenseToGroupBodyDto.dto";
 import { PutExpenseBodyDto } from "./dtos/put-expense.dto";
+import { PutCurrentBalanceBodyDto } from "./dtos/putCurrentBalance.dto";
 import { ExpensesService } from "./expenses.service";
 
 @Controller("expense")
@@ -81,7 +81,7 @@ export class ExpensesController {
   }
 
   // Delete expense by ID
-  @Delete("/delete/:expenseID")
+  @Get("/delete/:expenseID")
   async deleteExpenseByID(
     @FirebaseUser() user: UserRecord,
     @Param("expenseID") expenseID: string
@@ -96,5 +96,15 @@ export class ExpensesController {
   ): Promise<BillingInfoSchema[]> {
     console.log(body);
     return await ExpensesService.splitExpense(body.userPayment);
+  }
+
+  @Put("/fromFriend")
+  async getCurrentBalanceFromFriend(
+    @Body() body: PutCurrentBalanceBodyDto
+  ): Promise<number> {
+    return await EventsService.getCurrentBalanceFromFriend(
+      body.userID,
+      body.friendID
+    );
   }
 }

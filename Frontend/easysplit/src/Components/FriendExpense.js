@@ -1,7 +1,12 @@
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import { getExpenseWithFriend } from "../controllers/apis/expense.api";
+import {
+  getExpenseWithFriend,
+  deleteExpenseByID,
+} from "../controllers/apis/expense.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
+import { getUser } from "../controllers/apis/user.api";
+import close from "../Resources/close.png";
 
 function FriendExpense(props) {
   const { friendID } = useParams();
@@ -11,11 +16,52 @@ function FriendExpense(props) {
   });
 
   const userJWT = jwt;
+
+  const { data: userInfo, status: userInfoStatus } = useQuery(
+    ["userInfo", userJWT],
+    () => getUser(userJWT),
+    {
+      // The query will not execute until the userJWT exists
+      enabled: !!userJWT,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { mutate: deleteExpenseMutation } = useMutation(async (expenseID) =>
+    deleteExpenseByID(userJWT, expenseID)
+  );
+
   const { data: friendsInfo, status: friendsInfoStatus } = useQuery(
     ["friendsInfo", friendID, userJWT],
     () => getExpenseWithFriend(friendID, userJWT),
     {
-      enabled: !!userJWT,
+      enabled: !!userJWT && !!userInfo,
+      refetchOnWindowFocus: false,
+      select: (friendsInfo) => {
+        const expenses = friendsInfo.result;
+        const ToReturn = [];
+        expenses.forEach((expense) => {
+          const myExpense = {
+            expenseID: expense.expenseID,
+            groupReference: expense.GroupExpense,
+            description: expense.description,
+            timeStamp: expense.timeStamp,
+            totalExpense: expense.totalExpense,
+            splitDetail: {},
+            expenseState: expense.expenseState,
+          };
+          for (let i = 0; i < expense.splitDetail.length; i++) {
+            console.log(expense.splitDetail[i].userID, userInfo.result.userID);
+            if (expense.splitDetail[i].userID === userInfo.result.userID) {
+              myExpense.splitDetail = expense.splitDetail[i];
+              break;
+            }
+          }
+          ToReturn.push(myExpense);
+        });
+        console.log(ToReturn);
+        return ToReturn;
+      },
     }
   );
 
@@ -38,26 +84,84 @@ function FriendExpense(props) {
           </button>
         </div>
       </div>
-      {friendsInfoStatus === "success" &&
-        friendsInfo.result.length !== 0 &&
-        friendsInfo.result.map((friendInfo) => {
-          return (
-            <div>
-              <div>Description: {friendInfo.description}</div>
-              <div>Total Expense: {friendInfo.totalExpense}</div>
-              {friendInfo.splitDetail.map((userBilling) => {
-                return (
-                  <div>
-                    <div>You paid: {userBilling.paidAmount}</div>
-                    <div>You lent: {userBilling.lentAmount}</div>
-                    <br></br>
+      {friendsInfoStatus === "success" && friendsInfo.length !== 0 && (
+        <>
+          {friendsInfo.map((expense) => {
+            return (
+              <li
+                key={expense.expenseID}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  border: "1px solid #b3b1b3",
+                  justifyContent: "space-around",
+                  color: "black",
+                  height: "4em",
+                  paddingBottom: "0.5em",
+                  paddingTop: "0.5em",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginLeft: "1em",
+                  }}
+                >
+                  <span style={{ color: "#2bbbad", fontWeight: "500" }}>
+                    {expense.date}
+                  </span>
+                  <span style={{ color: "black", fontWeight: "500" }}>
+                    {expense.description}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    marginLeft: "1em",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: "1em",
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>You paid </p>
+                    <span>${expense.splitDetail.paidAmount}</span>
                   </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      {friendsInfoStatus === "success" && friendsInfo.result.length === 0 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: "1em",
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>You lent</p>
+                    <span>${expense.splitDetail.lentAmount}</span>
+                  </div>
+                </div>
+                <img
+                  src={close}
+                  id="delete-expense"
+                  onClick={() => deleteExpenseMutation(expense.expenseID)}
+                />
+              </li>
+            );
+          })}
+        </>
+      )}
+      {friendsInfoStatus === "success" && friendsInfo.length === 0 && (
         <h1 style={{ color: "black", margin: 30 }}>
           You have not added any expenses yet
         </h1>
