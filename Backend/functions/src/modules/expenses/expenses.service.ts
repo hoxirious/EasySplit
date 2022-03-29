@@ -5,8 +5,9 @@ import { EventType } from "../events/definitions/event-type.definition";
 import { EventsService } from "../events/events.sevice";
 import { GroupsRepository } from "../groups/groups.repository";
 import { UsersRepository } from "../users/users.repository";
+import { UsersService } from "../users/users.service";
 import { ExpenseState } from "./definitions/expenses-info.definition";
-import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
+import { AmountPaymentInfo } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { ExpensesRepository } from "./expenses.repository";
 
@@ -43,18 +44,24 @@ export class ExpensesService {
     return ToReturn;
   }
 
-  static splitExpense(body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
+  static async splitExpense(
+    paymentsInfo: AmountPaymentInfo[]
+  ): Promise<BillingInfoSchema[]> {
     const billingReturn: BillingInfoSchema[] = [];
 
     //* Loop through the users payment information to calculate the lent amount
-    body.userPayment.forEach((user) => {
-      billingReturn.push({
-        userID: user.userID,
-        paidAmount: user.paidAmount,
-        lentAmount: user.paidAmount - user.splitAmount,
-      });
-    });
 
+    for (const key in paymentsInfo) {
+      const userID = (
+        await UsersService.getUserByEmail(paymentsInfo[key].email)
+      ).userID;
+      billingReturn.push({
+        userID,
+        paidAmount: paymentsInfo[key].paidAmount,
+        lentAmount:
+          paymentsInfo[key].paidAmount - paymentsInfo[key].splitAmount,
+      });
+    }
     return billingReturn;
   }
 
@@ -106,13 +113,6 @@ export class ExpensesService {
       ...body,
     };
 
-    //* If group reference exists, create the expenseID inside the group collection
-    if (expenseInfo.groupReference) {
-      await this.addExpenseToGroup(
-        expenseInfo.expenseID,
-        expenseInfo.groupReference
-      );
-    }
 
     //* For each participant, create an ExpenseCreate that includes userID as an EventCreator
     await Promise.all(
@@ -149,7 +149,6 @@ export class ExpensesService {
     userID: string,
     expenseID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-      
     const expenseInfo = await ExpensesRepository.getExpenseByID(expenseID);
 
     //* If group reference exists, delete the expenseID inside the group collection

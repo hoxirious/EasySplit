@@ -28,6 +28,7 @@ function MiddleBar(props) {
             <GroupExpense
               toggleAddExpenseModal={props.toggleAddExpenseModal}
               toggleSettleUpModal={props.toggleSettleUpModal}
+              setGroupID={props.setGroupID}
             />
           </Route>
           <Route path="/dashboard/friends/:friendID">

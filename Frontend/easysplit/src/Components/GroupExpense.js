@@ -17,7 +17,10 @@ function GroupExpense(props) {
             <div id="#topbar-actions" className="topbar-actions-group">
               <button
                 id="add-expense-btn"
-                onClick={() => props.toggleAddExpenseModal(true)}
+                onClick={() => {
+                  props.toggleAddExpenseModal(true);
+                  props.setGroupID(groupID);
+                }}
               >
                 Add an expense
               </button>

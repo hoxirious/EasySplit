@@ -50,7 +50,7 @@ export class ExpensesController {
   async createExpense(
     @FirebaseUser() user: UserRecord,
     @Body() body: PostExpenseBodyDto
-  ): Promise<FirebaseFirestore.WriteResult|void> {
+  ): Promise<FirebaseFirestore.WriteResult | void> {
     console.log("Creating expense...");
     return await ExpensesService.createExpense(user.uid, body);
   }
@@ -90,8 +90,11 @@ export class ExpensesController {
     return await ExpensesService.deleteExpenseByID(user.uid, expenseID);
   }
 
-  @Get("/splitExpense")
-  splitExpense(@Body() body: GetSplitBillingBodyPayment): BillingInfoSchema[] {
-    return ExpensesService.splitExpense(body);
+  @Post("/splitExpense")
+  async splitExpense(
+    @Body() body: GetSplitBillingBodyPayment
+  ): Promise<BillingInfoSchema[]> {
+    console.log(body);
+    return await ExpensesService.splitExpense(body.userPayment);
   }
 }

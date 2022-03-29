@@ -4,7 +4,7 @@ export class GetSplitBillingBodyPayment {
 }
 
 export interface AmountPaymentInfo {
-  userID: string;
+  email: string;
   paidAmount: number;
   splitAmount: number;
 }

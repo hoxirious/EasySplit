@@ -356,13 +356,13 @@ body {
   color: #778381;
 }
 
-.modal-content.addgroupcontent form h6 {
+.modal-content.addgroupcontent div h6 {
   margin: 1em 0 0.8em 0;
   text-align: left;
   font-weight: 400;
 }
 
-.modal-content.addgroupcontent form #save-group-btn {
+.modal-content.addgroupcontent div #save-group-btn {
   align-self: flex-end;
   margin: 0;
   margin-top: 0.6em;

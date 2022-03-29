@@ -25,3 +25,30 @@ export const getExpenseWithFriend = async (extraPath, jwt) => {
     extraPath,
   });
 };
+export const splitExpense = async (data) => {
+  console.log({
+    userPayment: data
+  });
+  return await sendRequest({
+    endpointInfo: ENDPOINTS.expenses.splitExpense,
+    data: {
+      userPayment: data,
+    },
+    useTokenInHeaders: false,
+    method: "post",
+  });
+};
+
+export const createExpense = async (data, jwt) => {
+  return await sendRequest({
+    endpointInfo: ENDPOINTS.expenses.createExpense,
+    token: jwt,
+    data: {
+      groupReference: data.groupReference,
+      description: data.description,
+      totalExpense: data.totalExpense,
+      splitDetail: data.splitDetail,
+    },
+    method: "post",
+  });
+};

@@ -12,7 +12,7 @@ function RouterManager(props) {
   const [addGroup, setAddGroup] = useState(false);
   const [addExpense, setAddExpense] = useState(false);
   const [settleUp, setSettleUp] = useState(false);
-  const [currentlyOn, setCurrentlyOn] = useState("Dashboard");
+  const [groupID, setGroupID] = useState();
   return (
     <div className="homeScreenDiv">
       <nav
@@ -29,12 +29,11 @@ function RouterManager(props) {
         <LeftSideBar
           toggleAddFriendModal={setAddFriend}
           toggleAddGroupModal={setAddGroup}
-          changeCurrentlyOn={setCurrentlyOn}
         />
         <MiddleBar
           toggleAddExpenseModal={setAddExpense}
           toggleSettleUpModal={setSettleUp}
-          currentlyOn={currentlyOn}
+          setGroupID={setGroupID}
         />
         <RightSidebar />
         <AddFriendModal
@@ -44,7 +43,9 @@ function RouterManager(props) {
         <AddGroupModal isOpen={addGroup} toggleAddGroupModal={setAddGroup} />
         <AddExpenseModal
           isOpen={addExpense}
+          groupID={groupID}
           toggleAddExpenseModal={setAddExpense}
+          setGroupID={setGroupID}
         />
         <SettleUpModal isOpen={settleUp} toggleSettleUpModal={setSettleUp} />
       </div>
