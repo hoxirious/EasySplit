@@ -1,3 +1,4 @@
-export class PostGroupBodyDto{
-    groupName: string;
+export class PostGroupBodyDto {
+  groupName: string;
+  emailList: string[];
 }

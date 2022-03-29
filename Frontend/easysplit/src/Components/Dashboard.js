@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { getFriendDebt } from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
-import { useEffect } from "react";
 
 export default function Dashboard(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt);
@@ -77,7 +76,7 @@ export default function Dashboard(props) {
         </div>
       </div>
       {debtInfoStatus === "success" &&
-        (debtInfo.friendOwe !== 0 || debtInfo.youOwe !== 0) && (
+        (debtInfo.friendOwe.length !== 0 || debtInfo.youOwe.length !== 0) && (
           <>
             <div className="balance-details-div">
               <div id="total-balance">
@@ -142,6 +141,13 @@ export default function Dashboard(props) {
               </div>
             </div>
           </>
+        )}
+      {debtInfoStatus === "success" &&
+        debtInfo.friendOwe.length === 0 &&
+        debtInfo.youOwe.length === 0 && (
+          <h3 style={{ color: "black", margin: 30 }}>
+            You have not added any expenses yet
+          </h3>
         )}
     </div>
   );

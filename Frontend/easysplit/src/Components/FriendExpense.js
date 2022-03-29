@@ -7,6 +7,7 @@ import {
 import { getUserJWt } from "../controllers/helpers/api.helper";
 import { getUser } from "../controllers/apis/user.api";
 import close from "../Resources/close.png";
+import { useEffect } from "react";
 
 function FriendExpense(props) {
   const { friendID } = useParams();
@@ -63,6 +64,9 @@ function FriendExpense(props) {
       },
     }
   );
+  useEffect(() => {
+    props.setFriendID(friendID);
+  }, [friendID]);
 
   return (
     <div style={{ color: "black" }}>

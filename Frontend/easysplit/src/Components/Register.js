@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../App";
-import { Link } from "react-router-dom";
+import { Link, useQuery } from "react-router-dom";
 import { createUser } from "../controllers/apis/user.api";
 import easysplitlogo from "../Resources/divided.png";
 
@@ -24,8 +24,8 @@ function Register() {
         email,
         friendList: [],
       };
-    } catch (error) {
-    }
+      await createUser(userInfo, jwt);
+    } catch (error) {}
   };
 
   return (

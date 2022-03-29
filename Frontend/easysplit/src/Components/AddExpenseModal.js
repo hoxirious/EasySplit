@@ -4,7 +4,14 @@ import equal from "../Resources/equal.png";
 import shares from "../Resources/graph.png";
 import exactamount from "../Resources/numbers.png";
 import percent from "../Resources/percent.png";
-import { createExpense, splitExpense } from "../controllers/apis/expense.api";
+import {
+  getExpenseWithFriend,
+  createExpense,
+  splitExpense,
+  getExpenseByUserID,
+  getExpenseByGroupID,
+  getGroupDebt,
+} from "../controllers/apis/expense.api";
 import { useMutation, useQuery } from "react-query";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 
@@ -15,7 +22,7 @@ function AddExpenseModal(props) {
   const [exactAmountsAfterSplit, setExactAmountsAfterSplit] = useState([]); // Stores the split amount for each person when the split method is "exact"
   const [amountsAfterPercentSplit, setAmountsAfterPercentSplit] = useState([]); // Stores the split amount for each person when the split method is "percent"
   const [finalSplitAmount, setFinalSplitAmount] = useState([]); // Stores the split amount for each person after they are done choosing a split method. i.e stores the latest split amounts
-
+  const [isUpdate, setIsUpdate] = useState(false);
   const modal = useRef(); // Refers to the addExpense modal that covers the entire screen
   const splitInfoDiv = useRef(); // Refers to the div that contains the list of emails and the respective split amount
   const shareWithInput = useRef(); // Refers to the input that takes in the emails
@@ -45,9 +52,22 @@ function AddExpenseModal(props) {
         desc.current.value = "";
         amount.current.value = "";
         await createExpense(createExpenseData, userJWT);
+        setIsUpdate(true);
+        setIsUpdate(false);
       },
     }
   );
+
+  useQuery(
+    ["membersDebt", props.groupID],
+    () => getExpenseByGroupID(props.groupID),
+    {
+      enabled: isUpdate,
+    }
+  );
+  useQuery(["allExpenses", userJWT], () => getExpenseByUserID(userJWT), {
+    enabled: isUpdate,
+  });
 
   function addEmails() {
     // Splits the email input into different emails with ',' being the delimitter
@@ -234,7 +254,7 @@ function AddExpenseModal(props) {
     } else {
       modal.current.style.display = "none";
     }
-  }, [props.isOpen]);
+  }, [props.isOpen, isUpdate]);
 
   return (
     <div className="modal-background" ref={modal}>

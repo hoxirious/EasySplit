@@ -3,6 +3,7 @@ import { db } from "../../firebase/repository.firebase";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { ExpensesService } from "../expenses/expenses.service";
 import { UsersRepository } from "../users/users.repository";
+import { UsersService } from "../users/users.service";
 
 export class GroupsRepository {
   static async getGroup(id: string): Promise<GroupInfoSchema> {
@@ -24,14 +25,22 @@ export class GroupsRepository {
     groupInfo: GroupInfoSchema,
     userID: string
   ): Promise<FirebaseFirestore.WriteResult> {
-    const user = await UsersRepository.getUser(userID);
-    user.groupList.push(groupInfo.groupID);
-    return (
-      await db.users.doc(userID).update({
-        groupList: user.groupList,
-      }),
-      await db.groups.doc(groupInfo.groupID).set(groupInfo)
+    const yourself = await UsersRepository.getUser(userID);
+    const users = await Promise.all(
+      groupInfo.memberList.map(async (email) => {
+        return await UsersService.getUserByEmail(email);
+      })
     );
+    users.push(yourself);
+    groupInfo.memberList = [];
+    for (const user of users) {
+      groupInfo.memberList.push(user.userID);
+      user.groupList.push(groupInfo.groupID);
+      await db.users.doc(user.userID).update({
+        groupList: user.groupList,
+      });
+    }
+    return await db.groups.doc(groupInfo.groupID).set(groupInfo);
   }
 
   static async addMember(

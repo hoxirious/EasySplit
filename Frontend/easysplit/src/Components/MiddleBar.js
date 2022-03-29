@@ -35,6 +35,7 @@ function MiddleBar(props) {
             <FriendExpense
               toggleAddExpenseModal={props.toggleAddExpenseModal}
               toggleSettleUpModal={props.toggleSettleUpModal}
+              setFriendID={props.setFriendID}
             />
           </Route>
         </Switch>

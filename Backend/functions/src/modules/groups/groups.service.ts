@@ -2,9 +2,9 @@ import { db } from "../../firebase/repository.firebase";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { EventType } from "../events/definitions/event-type.definition";
 import { EventsService } from "../events/events.service";
+import { UsersRepository } from "../users/users.repository";
 import { PostGroupBodyDto } from "./dtos/post-group.dto";
 import { GroupsRepository } from "./groups.repository";
-import { UsersRepository } from "../users/users.repository";
 
 export class GroupService {
   static async getGroup(id: string): Promise<GroupInfoSchema> {
@@ -16,10 +16,12 @@ export class GroupService {
     userID: string
   ): Promise<FirebaseFirestore.WriteResult | void> {
     const groupID = db.groups.doc().id;
+    const memberList = [...body.emailList];
+    console.log(memberList);
     const groupInfo: GroupInfoSchema = {
       groupID,
       expenseList: [],
-      memberList: [userID],
+      memberList,
       ...body,
     };
 

@@ -24,7 +24,7 @@ export class UsersController {
     return await UsersService.getUser(userID);
   }
 
-  @Put()
+  @Put("/createUser")
   async createUser(
     @FirebaseUser() user: UserRecord,
     @Body() body: PostUserBodyDto
