@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { seedStuff } from "../../loaders/mocking.loader";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
@@ -55,7 +55,7 @@ export class UsersController {
   //Not sure if we will remove friends one by one, or get them in a group
 
   // body is the email of the deleting target
-  @Delete("/delete/friend")
+  @Put("/delete/friend")
   async removeFriend(
     @FirebaseUser() user: UserRecord,
     @Body() body: DeleteFriendListDto
@@ -78,7 +78,6 @@ export class UsersController {
   async getUserGroupsInfo(
     @FirebaseUser() user: UserRecord
   ): Promise<GroupInfoSchema[]> {
-
     console.log("Getting user groups...");
     return await UsersService.getUserGroupsInfo(user.uid);
   }

@@ -2,6 +2,8 @@ import { db } from "../../firebase/repository.firebase";
 import { EventInfoSchema } from "../../schemas/events/event-info.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
+import { ReturnFriendDebtBodyDto } from "../expenses/dtos/get-friendDebt.dto";
+import { UsersService } from "../users/users.service";
 import { EventType } from "./definitions/event-type.definition";
 import { EventsRepository } from "./events.repository";
 
@@ -27,6 +29,40 @@ export class EventsService {
       default:
         throw new Error("event type does not support");
     }
+  }
+
+  static async getFriendDebt(userID: string): Promise<ReturnFriendDebtBodyDto> {
+    const userInfo = await UsersService.getUser(userID);
+    const friendIDList = userInfo.friendList;
+
+    let ToReturn: ReturnFriendDebtBodyDto = {
+      youOwe: [],
+      friendOwe: [],
+    };
+
+    for (const friendID of friendIDList) {
+      const friendDebt = await this.getCurrentBalanceFromFriend(
+        userID,
+        friendID
+      );
+      console.log("friendDebt: ");
+      const friendName = (await UsersService.getUser(friendID)).name;
+      if (friendDebt > 0) {
+        ToReturn.friendOwe.push({
+          friendID,
+          name: friendName,
+          debtAmount: friendDebt,
+        });
+      } else if (friendDebt < 0) {
+        ToReturn.youOwe.push({
+          friendID,
+          name: friendName,
+          debtAmount: -friendDebt,
+        });
+      }
+    }
+    console.log(ToReturn);
+    return ToReturn;
   }
 
   /**
@@ -101,24 +137,27 @@ export class EventsService {
     return userStream.eventList.reduce<number>((currentBalance, event) => {
       //* Assert event.eventContent type into ExpenseInfoSchema
       const eventContent = event.eventContent as ExpenseInfoSchema;
-
+      console.log(event.eventType);
       //* If event has groupReference and its type is expense
       if (isExpenseType(event.eventType)) {
         //*  Retrieve billing that relates to userID
         const userBilling = eventContent.splitDetail.find(
           (user) => user.userID === userID
         );
+        console.log("user", userBilling);
 
         //*  Retrieve billing that relates to friendID
         const friendBilling = eventContent.splitDetail.find(
           (user) => user.userID === friendID
         );
-
+        console.log("friend", friendBilling);
         //* Increment the amount into currentBalance
-        currentBalance += this.billingAction(
-          event.eventType,
-          userBilling.lentAmount + friendBilling.lentAmount
-        );
+        if (userBilling && friendBilling) {
+          currentBalance += this.billingAction(
+            event.eventType,
+            userBilling.lentAmount
+          );
+        } else currentBalance += 0;
       }
       return currentBalance;
     }, 0);
@@ -129,7 +168,7 @@ export class EventsService {
     eventContent: GroupInfoSchema | ExpenseInfoSchema,
     eventCreator: string,
     userID: string
-  ): Promise<FirebaseFirestore.WriteResult|void> {
+  ): Promise<FirebaseFirestore.WriteResult | void> {
     const timestamp = new Date().toLocaleString();
     const eventID = db.events.doc().id;
     const eventPayload: EventInfoSchema = {

@@ -42,6 +42,8 @@ function AddExpenseModal(props) {
           totalExpense: amount.current.value,
           splitDetail: splitDetail.result,
         };
+        desc.current.value = "";
+        amount.current.value = "";
         return await createExpense(createExpenseData, userJWT);
       },
     }
@@ -211,21 +213,19 @@ function AddExpenseModal(props) {
       returnObj.push(obj);
     }
     console.log(returnObj);
-    // modal.current.style.display = "none";
-    // shareWithInput.current.value = "";
-    // amount.current.value = "";
-    // desc.current.value = "";
-    // splitInfoDiv.current.innerHTML = "";
-    // paidAmountsDiv.current.innerHTML = "";
-    // splitBtn.current.style.display = "none";
-    // saveBtn.current.style.display = "none";
-    // setSplitWithArr([]);
-    // setAmountAfterSplit(0.0);
-    // setExactAmountsAfterSplit([]);
-    // setAmountsAfterPercentSplit([]);
-    // setFinalSplitAmount([]);
-    // addbtn.current.style.backgroundColor = "#ff652f";
-    // splitBtn.current.style.backgroundColor = "#ff652f";
+    modal.current.style.display = "none";
+    shareWithInput.current.value = "";
+    splitInfoDiv.current.innerHTML = "";
+    paidAmountsDiv.current.innerHTML = "";
+    splitBtn.current.style.display = "none";
+    saveBtn.current.style.display = "none";
+    setSplitWithArr([]);
+    setAmountAfterSplit(0.0);
+    setExactAmountsAfterSplit([]);
+    setAmountsAfterPercentSplit([]);
+    setFinalSplitAmount([]);
+    addbtn.current.style.backgroundColor = "#ff652f";
+    splitBtn.current.style.backgroundColor = "#ff652f";
     return returnObj;
   }
 
