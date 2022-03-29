@@ -28,7 +28,6 @@ function GroupExpense(props) {
     {
       enabled: !!userJWT && !!userInfo,
       refetchOnWindowFocus: false,
-      notifyOnChangeProps: ["groupsInfo"],
       select: (groupsInfo) => {
         const expenses = groupsInfo.result;
         const ToReturn = [];
