@@ -26,13 +26,13 @@ function GroupExpensesList(props) {
                     <p style={{ fontSize: "1.1em" }}>
                       <b>{each.name}</b>
                       <p style={{ fontSize: "0.85em" }}>
-                        {each.debtAmount > 0 ? (
+                        {each.debtAmount <= 0 ? (
                           <b style={{ color: "#e65c2a" }}>
-                            owes ${each.debtAmount}
+                            owes ${each.debtAmount * -1}
                           </b>
                         ) : (
                           <b style={{ color: "#2bbbad" }}>
-                            gets back ${each.debtAmount * -1}
+                            gets back ${each.debtAmount}
                           </b>
                         )}
                       </p>

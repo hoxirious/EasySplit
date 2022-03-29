@@ -5,7 +5,7 @@ export const ENDPOINTS = {
     getUser: "/users/user",
     getUserByID: "/users/user/getUserByID/",
     getUserEvents: "/users/user/allEvents",
-    createUser: "/users/user",
+    createUser: "/users/user/createUser",
     addFriend: "/users/user/addFriend",
     deleteFriend: "/users/user",
     getUserAllGroups: "/users/user/allGroups",

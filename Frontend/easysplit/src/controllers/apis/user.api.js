@@ -28,10 +28,12 @@ export const getUserEvents = async (jwt) => {
 
 export const createUser = async (user, jwt) => {
   return await sendRequest({
-    endpointInfo: ENDPOINTS.users.getUser,
+    endpointInfo: ENDPOINTS.users.createUser,
     token: jwt,
-    data: user,
+    data: {
+      email: user.email,
+      name: user.name,
+    },
     method: "put",
   });
 };
-

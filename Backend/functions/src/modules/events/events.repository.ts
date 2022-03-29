@@ -11,7 +11,12 @@ import { EventType } from "./definitions/event-type.definition";
 export class EventsRepository {
   static async getUserStream(userID: string): Promise<StreamInfoSchema> {
     try {
-      return (await db.events.doc(userID).get()).data();
+      return (
+        (await db.events.doc(userID).get()).data() ?? {
+          currentBalance: 0,
+          eventList: [],
+        }
+      );
     } catch (error) {
       throw new Error("error: cannot get user's stream");
     }

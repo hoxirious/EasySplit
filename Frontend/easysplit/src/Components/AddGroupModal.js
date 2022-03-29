@@ -18,7 +18,6 @@ function AddGroupModal(props) {
   const groupName = useRef();
   const memberemail = useRef();
 
-
   useEffect(() => {
     if (props.isOpen === true) {
       modal.current.style.display = "flex";
@@ -57,8 +56,10 @@ function AddGroupModal(props) {
             id="save-group-btn"
             onClick={() => {
               props.toggleAddGroupModal(false);
-              mutate(groupName.current.value);
-              mutate(memberemail.current.value);
+              mutate({
+                groupName: groupName.current.value,
+                emailList: memberemail.current.value.split(","),
+              });
             }}
           >
             Save

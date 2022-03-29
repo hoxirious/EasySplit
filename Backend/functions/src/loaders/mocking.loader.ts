@@ -78,6 +78,7 @@ const seedUserAndGroup = async () => {
 
       const groupInfo: PostGroupBodyDto = {
         groupName: userInfo.name,
+        emailList: [userInfo.email]
       };
       // Create group
       await GroupService.createGroup(groupInfo, uid);

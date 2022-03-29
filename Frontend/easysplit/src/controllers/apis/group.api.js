@@ -9,11 +9,11 @@ export const getUserGroups = async (jwt) => {
   });
 };
 
-export const createGroup = async (groupName, jwt) => {
+export const createGroup = async (groupInfo, jwt) => {
   return await sendRequest({
     endpointInfo: ENDPOINTS.groups.createGroup,
     token: jwt,
-    data: { groupName: groupName },
+    data: { groupName: groupInfo.groupName, emailList: groupInfo.emailList },
     method: "put",
   });
 };

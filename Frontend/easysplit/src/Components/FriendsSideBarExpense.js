@@ -41,17 +41,17 @@ function FriendsSideBarExpense(props) {
       {userDebtStatus === "success" && userInfoStatus === "success" && (
         <p style={{ fontSize: "1.1em" }}>
           <b>
-            {userDebt.debtAmount > 0
+            {userDebt.debtAmount <= 0
               ? `You owe ${userDebt.friendName}`
               : `${userDebt.friendName} owes You`}
           </b>
           <p style={{ fontSize: "1.6em" }}>
             <b>
-              {userDebt.debtAmount > 0 ? (
-                <span style={{ color: "#e65c2a" }}>${userDebt.debtAmount}</span>
+              {userDebt.debtAmount <= 0 ? (
+                <span style={{ color: "#e65c2a" }}>${(userDebt.debtAmount * -1).toFixed(2)}</span>
               ) : (
                 <span style={{ color: "#2bbbad" }}>
-                  ${(userDebt.debtAmount * -1).toFixed(2)}
+                  ${userDebt.debtAmount}
                 </span>
               )}
             </b>

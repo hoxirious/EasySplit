@@ -13,6 +13,7 @@ function RecentActivity(props) {
       // The query will not execute until the userJWT exists
       enabled: !!userJWT,
       refetchOnWindowFocus: false,
+      select: (allEvents) => allEvents.result,
     }
   );
 
@@ -83,7 +84,7 @@ function RecentActivity(props) {
   return (
     <div className="recent-activity-div">
       <h2 id="recent-activity-header">Recent Activity</h2>
-      {allEventsStatus === "success" && (
+      {allEventsStatus === "success" && allEvents !== undefined && (
         <ul
           style={{
             listStyleType: "none",
@@ -92,7 +93,7 @@ function RecentActivity(props) {
             paddingInlineStart: 0,
           }}
         >
-          {allEvents.result.eventList.map((event) => {
+          {allEvents.eventList.map((event) => {
             return (
               <Activity
                 key={event.eventID}
@@ -104,6 +105,12 @@ function RecentActivity(props) {
             );
           })}
         </ul>
+      )}
+
+      {allEventsStatus === "success" && allEvents.eventList.length === 0 && (
+        <h3 style={{ color: "black", margin: 30 }}>
+          You have not added any activity
+        </h3>
       )}
     </div>
   );
