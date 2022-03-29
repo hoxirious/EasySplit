@@ -7,6 +7,7 @@ import { GetUserByEmailDto } from "./dtos/get-user-by-email.dto";
 import { PostUserBodyDto } from "./dtos/post-user.dto";
 import { ReturnUserFriendsDto } from "./dtos/return-userfriends.dto";
 export declare class UsersController {
+    findAll(): string;
     getUser(user: UserRecord): Promise<UserInfoSchema>;
     getUserByID(userID: string): Promise<UserInfoSchema>;
     createUser(user: UserRecord, body: PostUserBodyDto): Promise<FirebaseFirestore.WriteResult>;
