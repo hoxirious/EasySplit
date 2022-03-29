@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { getFriendDebt } from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
-import { useEffect } from "react";
 
 export default function Dashboard(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt);

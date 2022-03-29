@@ -4,7 +4,14 @@ import equal from "../Resources/equal.png";
 import shares from "../Resources/graph.png";
 import exactamount from "../Resources/numbers.png";
 import percent from "../Resources/percent.png";
-import { createExpense, splitExpense } from "../controllers/apis/expense.api";
+import {
+  getExpenseWithFriend,
+  createExpense,
+  splitExpense,
+  getExpenseByUserID,
+  getExpenseByGroupID,
+  getGroupDebt,
+} from "../controllers/apis/expense.api";
 import { useMutation, useQuery } from "react-query";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 
@@ -45,10 +52,22 @@ function AddExpenseModal(props) {
         desc.current.value = "";
         amount.current.value = "";
         await createExpense(createExpenseData, userJWT);
-        setIsUpdate((prev) => !prev);
+        setIsUpdate(true);
+        setIsUpdate(false);
       },
     }
   );
+
+  useQuery(
+    ["membersDebt", props.groupID],
+    () => getExpenseByGroupID(props.groupID),
+    {
+      enabled: isUpdate,
+    }
+  );
+  useQuery(["allExpenses", userJWT], () => getExpenseByUserID(userJWT), {
+    enabled: isUpdate,
+  });
 
   function addEmails() {
     // Splits the email input into different emails with ',' being the delimitter

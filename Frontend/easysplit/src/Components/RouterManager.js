@@ -16,16 +16,17 @@ function RouterManager(props) {
   const [addExpense, setAddExpense] = useState(false);
   const [settleUp, setSettleUp] = useState(false);
   const [groupID, setGroupID] = useState();
+  const [friendID, setFriendID] = useState();
   return (
     <div className="homeScreenDiv">
       <nav
         id="mainNavbar"
         className="navbar navbar-dark bg-dark py-0 px-0 fixed-top flex"
       >
-        <NavLink className="nav-left" to="/dashboard">
+        <a className="nav-left" href="/dashboard">
           <img src={easysplitlogo} alt="easysplitlogo" className="nav-logo" />
           <b>Easy Split</b>
-        </NavLink>
+        </a>
         <div className="nav-btns">
           <NavLink
             to="/"
@@ -47,8 +48,9 @@ function RouterManager(props) {
           toggleAddExpenseModal={setAddExpense}
           toggleSettleUpModal={setSettleUp}
           setGroupID={setGroupID}
+          setFriendID={setFriendID}
         />
-        <RightSidebar />
+        <RightSidebar setGroupID={setGroupID} setFriendID={setFriendID} />
         <AddFriendModal
           isOpen={addFriend}
           toggleAddFriendModal={setAddFriend}
@@ -57,8 +59,10 @@ function RouterManager(props) {
         <AddExpenseModal
           isOpen={addExpense}
           groupID={groupID}
+          friendID={friendID}
           toggleAddExpenseModal={setAddExpense}
           setGroupID={setGroupID}
+          setFriendID={setFriendID}
         />
         <SettleUpModal isOpen={settleUp} toggleSettleUpModal={setSettleUp} />
       </div>

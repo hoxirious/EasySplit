@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getCurrentBalanceFromFriend } from "../controllers/apis/expense.api";
@@ -35,6 +35,10 @@ function FriendsSideBarExpense(props) {
     }
   );
 
+  useEffect(() => {
+    props.setFriendID(friendID);
+  }, [friendID]);
+
   return (
     <div className="">
       <h4 style={{ color: "black" }}>Group balances</h4>
@@ -48,11 +52,11 @@ function FriendsSideBarExpense(props) {
           <p style={{ fontSize: "1.6em" }}>
             <b>
               {userDebt.debtAmount <= 0 ? (
-                <span style={{ color: "#e65c2a" }}>${(userDebt.debtAmount * -1).toFixed(2)}</span>
-              ) : (
-                <span style={{ color: "#2bbbad" }}>
-                  ${userDebt.debtAmount}
+                <span style={{ color: "#e65c2a" }}>
+                  ${(userDebt.debtAmount * -1).toFixed(2)}
                 </span>
+              ) : (
+                <span style={{ color: "#2bbbad" }}>${userDebt.debtAmount}</span>
               )}
             </b>
           </p>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getGroupDebt } from "../controllers/apis/expense.api";
@@ -12,6 +12,10 @@ function GroupExpensesList(props) {
       select: (membersDebt) => membersDebt.result,
     }
   );
+
+  useEffect(() => {
+    props.setGroupID(groupID);
+  }, [groupID]);
 
   return (
     <>
