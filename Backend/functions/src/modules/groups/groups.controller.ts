@@ -1,13 +1,13 @@
-import { Body, Controller, Delete, Get, Put } from "@nestjs/common";
+import { Body, Controller, Get, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
-import { PostGroupBodyDto } from "./dtos/post-group.dto";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
-import { GroupService } from "./groups.service";
-import { AddMemberDto } from "./dtos/add-member.dto";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
-import { GetGroupDto } from "./dtos/get-group.dto";
-import { RemoveMemberDto } from "./dtos/remove-member.dto";
 import { DeleteGroupDto } from "../users/dtos/delete-group.dto";
+import { AddMemberDto } from "./dtos/add-member.dto";
+import { GetGroupDto } from "./dtos/get-group.dto";
+import { PostGroupBodyDto } from "./dtos/post-group.dto";
+import { RemoveMemberDto } from "./dtos/remove-member.dto";
+import { GroupService } from "./groups.service";
 
 @Controller("group")
 export class GroupsController {
@@ -48,7 +48,7 @@ export class GroupsController {
   }
 
   //deleteGroup fucntion, allows users to remove the group for all users in group
-  @Delete("/deleteGroup")
+  @Put("/deleteGroup")
   static async deleteGroup(
     @FirebaseUser() user: UserRecord,
     @Body() body: DeleteGroupDto
