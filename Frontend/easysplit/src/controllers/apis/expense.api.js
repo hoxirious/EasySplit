@@ -50,15 +50,12 @@ export const splitExpense = async (data) => {
     method: "post",
   });
 };
-export const getCurrentBalanceFromFriend = async (data, extraPath) => {
+export const getCurrentBalanceFromFriend = async (jwt,extraPath) => {
   return await sendRequest({
     endpointInfo: ENDPOINTS.expenses.getCurrentBalanceFromFriend,
-    data: {
-      userID: data.userID,
-      friendID: data.friendID,
-    },
-    useTokenInHeaders: false,
-    method: "put",
+    token: jwt,
+    extraPath: extraPath,
+    method: "get",
   });
 };
 export const deleteExpenseByID = async (jwt, extraPath) => {

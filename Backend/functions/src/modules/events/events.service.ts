@@ -8,6 +8,7 @@ import { GroupService } from "../groups/groups.service";
 import { UsersService } from "../users/users.service";
 import { EventType } from "./definitions/event-type.definition";
 import { EventsRepository } from "./events.repository";
+import { ReturnCurrentBalanceFromFriend } from "c:/Users/giahy/github/EasySplit/Backend/functions/src/modules/expenses/dtos/get-currentBalanceFromFriend.dto";
 
 const isExpenseType = (eventType: EventType): boolean =>
   eventType === EventType.ExpenseCreate ||
@@ -31,6 +32,20 @@ export class EventsService {
       default:
         throw new Error("event type does not support");
     }
+  }
+
+  static async getDebtFromFriend(
+    userID: string,
+    friendID: string
+  ): Promise<ReturnCurrentBalanceFromFriend> {
+    const friendName = (await UsersService.getUser(friendID)).name;
+    const debtAmount = await this.getCurrentBalanceFromFriend(userID, friendID);
+
+    return {
+      friendID,
+      friendName,
+      debtAmount,
+    };
   }
 
   static async getGroupDebt(groupID: string): Promise<ReturnGroupDebtBodyDto> {

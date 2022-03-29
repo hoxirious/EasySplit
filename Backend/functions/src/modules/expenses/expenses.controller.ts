@@ -4,13 +4,13 @@ import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
 import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { EventsService } from "../events/events.service";
+import { ReturnCurrentBalanceFromFriend } from "./dtos/get-currentBalanceFromFriend.dto";
 import { ReturnFriendDebtBodyDto } from "./dtos/get-friendDebt.dto";
 import { ReturnGroupDebtBodyDto } from "./dtos/get-groupDebt.dto";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { AddExpenseToGroupBodyDto } from "./dtos/put-AddExpenseToGroupBodyDto.dto";
 import { PutExpenseBodyDto } from "./dtos/put-expense.dto";
-import { PutCurrentBalanceBodyDto } from "./dtos/putCurrentBalance.dto";
 import { ExpensesService } from "./expenses.service";
 
 @Controller("expense")
@@ -94,14 +94,12 @@ export class ExpensesController {
     return await ExpensesService.splitExpense(body.userPayment);
   }
 
-  @Put("/fromFriend")
+  @Get("/fromFriend/:friendID")
   async getCurrentBalanceFromFriend(
-    @Body() body: PutCurrentBalanceBodyDto
-  ): Promise<number> {
-    return await EventsService.getCurrentBalanceFromFriend(
-      body.userID,
-      body.friendID
-    );
+    @FirebaseUser() user: UserRecord,
+    @Param("friendID") friendID: string
+  ): Promise<ReturnCurrentBalanceFromFriend> {
+    return await EventsService.getDebtFromFriend(user.uid, friendID);
   }
 
   @Get("/friendDebt")
