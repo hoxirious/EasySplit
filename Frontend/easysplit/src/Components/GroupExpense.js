@@ -1,6 +1,9 @@
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import { getExpenseByGroupID } from "../controllers/apis/expense.api";
+import {
+  getExpenseByGroupID,
+  deleteExpenseByID,
+} from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
 import close from "../Resources/close.png";
@@ -39,6 +42,7 @@ function GroupExpense(props) {
             expenseState: expense.expenseState,
           };
           for (let i = 0; i < expense.splitDetail.length; i++) {
+            console.log(expense.splitDetail[i].userID, userInfo.result.userID);
             if (expense.splitDetail[i].userID === userInfo.result.userID) {
               myExpense.splitDetail = expense.splitDetail[i];
               break;
@@ -52,102 +56,117 @@ function GroupExpense(props) {
     }
   );
 
-  return (
-    <>
-      {groupsInfoStatus === "success" && userInfoStatus === "success" && (
-        <>
-          <div id="#center-topbar" className="topbar-group">
-            <h1 id="expenses-header">Group</h1>
-            <div id="#topbar-actions" className="topbar-actions-group">
-              <button
-                id="add-expense-btn"
-                onClick={() => {
-                  props.toggleAddExpenseModal(true);
-                  props.setGroupID(groupID);
-                }}
-              >
-                Add an expense
-              </button>
-              <button
-                id="settleup-btn"
-                onClick={() => props.toggleSettleUpModal(true)}
-              >
-                Settle up
-              </button>
-            </div>
-          </div>
-          {groupsInfo.map((expense) => {
-            return (
-              <li
-                key={expense.expenseID}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  border: "1px solid #b3b1b3",
-                  justifyContent: "space-around",
-                  color: "black",
-                  height: "4em",
-                  paddingBottom: "0.5em",
-                  paddingTop: "0.5em",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginLeft: "1em",
-                  }}
-                >
-                  <span style={{ color: "#2bbbad", fontWeight: "500" }}>
-                    {expense.date}
-                  </span>
-                  <span style={{ color: "black", fontWeight: "500" }}>
-                    {expense.description}
-                  </span>
-                </div>
+  const { mutate: deleteExpenseMutation, data:deleteExpense } = useMutation(async (expenseID) =>
+    deleteExpenseByID(userJWT, expenseID)
+  );
 
-                <div
+  return (
+    <div style={{ color: "black" }}>
+      <div id="#center-topbar" className="topbar-group">
+        <h1 id="expenses-header">Group</h1>
+        <div id="#topbar-actions" className="topbar-actions-group">
+          <button
+            id="add-expense-btn"
+            onClick={() => {
+              props.toggleAddExpenseModal(true);
+              props.setGroupID(groupID);
+            }}
+          >
+            Add an expense
+          </button>
+          <button
+            id="settleup-btn"
+            onClick={() => props.toggleSettleUpModal(true)}
+          >
+            Settle up
+          </button>
+        </div>
+      </div>
+      {groupsInfoStatus === "success" &&
+        userInfoStatus === "success" &&
+        groupsInfo.length !== 0 && (
+          <>
+            {groupsInfo.map((expense) => {
+              return (
+                <li
+                  key={expense.expenseID}
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "flex-start",
-                    marginLeft: "1em",
+                    border: "1px solid #b3b1b3",
+                    justifyContent: "space-around",
+                    color: "black",
+                    height: "4em",
+                    paddingBottom: "0.5em",
+                    paddingTop: "0.5em",
                   }}
                 >
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      flexDirection: "row",
                       alignItems: "center",
-                      marginRight: "1em",
+                      justifyContent: "space-between",
+                      marginLeft: "1em",
                     }}
                   >
-                    <p style={{ margin: 0 }}>You paid </p>
-                    <span>${expense.splitDetail.paidAmount}</span>
+                    <span style={{ color: "#2bbbad", fontWeight: "500" }}>
+                      {expense.date}
+                    </span>
+                    <span style={{ color: "black", fontWeight: "500" }}>
+                      {expense.description}
+                    </span>
                   </div>
+
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginRight: "1em",
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      marginLeft: "1em",
                     }}
                   >
-                    <p style={{ margin: 0 }}>You lent</p>
-                    <span>${expense.splitDetail.lentAmount}</span>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginRight: "1em",
+                      }}
+                    >
+                      <p style={{ margin: 0 }}>You paid </p>
+                      <span>${expense.splitDetail.paidAmount}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginRight: "1em",
+                      }}
+                    >
+                      <p style={{ margin: 0 }}>You lent</p>
+                      <span>${expense.splitDetail.lentAmount}</span>
+                    </div>
                   </div>
-                </div>
-                <img src={close} id="delete-expense" />
-              </li>
-            );
-          })}
-        </>
+                  <img
+                    src={close}
+                    id="delete-expense"
+                    onClick={() => deleteExpenseMutation(expense.expenseID)}
+                  />
+                </li>
+              );
+            })}
+          </>
+        )}
+      {groupsInfoStatus === "success" && groupsInfo.length === 0 && (
+        <h1 style={{ color: "black", margin: 30 }}>
+          You have not added any expenses yet
+        </h1>
       )}
-    </>
+    </div>
   );
 }
 

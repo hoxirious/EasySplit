@@ -34,6 +34,7 @@ export class ExpensesService {
 
     for (const expenseID of expenseIDList) {
       const expenseInfo = await this.getExpenseByID(expenseID);
+      console.log(expenseInfo)
       let isWithFriend = false;
       expenseInfo.splitDetail.forEach((billing) => {
         if (billing.userID === friendID) isWithFriend = true;

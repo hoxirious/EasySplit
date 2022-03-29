@@ -1,9 +1,12 @@
 import React from "react";
-import { useQuery } from "react-query";
-import { getExpenseByUserID } from "../controllers/apis/expense.api";
+import { useQuery, useMutation } from "react-query";
+import {
+  deleteExpenseByID,
+  getExpenseByUserID,
+} from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
-import close from "../Resources/close.png"
+import close from "../Resources/close.png";
 function AllExpenses(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt, {});
 
@@ -25,6 +28,10 @@ function AllExpenses(props) {
       enabled: !!userJWT && !!userInfo,
       refetchOnWindowFocus: false,
     }
+  );
+
+  const { mutate: deleteExpenseMutation } = useMutation(async (expenseID) =>
+    deleteExpenseByID(userJWT, expenseID)
   );
 
   function getYourLentAmount(splitDetail, userID) {
@@ -49,7 +56,6 @@ function AllExpenses(props) {
   function deleteExpense() {
     console.log("Expense Deleted");
   }
-
 
   return (
     <div className="all-expenses-div">
@@ -157,11 +163,20 @@ function AllExpenses(props) {
                     </span>
                   </div>
                 </div>
-                <img src={close} id="delete-expense" onClick={deleteExpense}  />
+                <img
+                  src={close}
+                  id="delete-expense"
+                  onClick={() => deleteExpenseMutation(expense.expenseID)}
+                />
               </li>
             );
           })}
       </ul>
+      {allExpensesStatus === "success" && allExpenses.result.length === 0 && (
+        <h1 style={{ color: "black", margin: 30 }}>
+          You have not added any expenses yet
+        </h1>
+      )}
     </div>
   );
 }
