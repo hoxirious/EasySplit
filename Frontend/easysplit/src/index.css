@@ -245,7 +245,14 @@ body {
   color: black;
 }
 
-#add-expense-btn, #settleup-btn, #save-group-btn, #add-friend-btn, #add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn,  #settle-up-save-btn{
+#add-expense-btn,
+#settleup-btn,
+#save-group-btn,
+#add-friend-btn,
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn,
+#settle-up-save-btn {
   border: none;
   font: inherit;
   padding: 0.4em;
@@ -274,11 +281,13 @@ body {
   background-color: #e65c2a;
 }
 
-#settleup-btn, #settle-up-save-btn{
+#settleup-btn,
+#settle-up-save-btn {
   background-color: #5bc5a7;
 }
 
-#settleup-btn:hover,  #settle-up-save-btn:hover{
+#settleup-btn:hover,
+#settle-up-save-btn:hover {
   background-color: #54b499;
 }
 
@@ -374,10 +383,10 @@ body {
   flex-direction: column;
 }
 
-
 /*--Add Expense--*/
 
-.addExpenseHeader, .settle-up-header{
+.addExpenseHeader,
+.settle-up-header {
   display: flex;
   justify-content: space-between;
   background-color: #2bbbad;
@@ -386,19 +395,20 @@ body {
   border-radius: 6px;
 }
 
-.addExpenseHeader img, .settle-up-header img{
+.addExpenseHeader img,
+.settle-up-header img {
   width: 1em !important;
   height: 1em;
   align-self: flex-end;
   cursor: pointer;
 }
 
-.settle-up-header h5{
+.settle-up-header h5 {
   margin-bottom: 0;
   padding: 0.1em 0em 0.1em 0;
 }
 
-.split-method-img{
+.split-method-img {
   margin-left: 0.4em;
   margin-right: 0.4em;
   transition: all 0.5s;
@@ -459,7 +469,10 @@ body {
   width: 6em;
 }
 
-#add-emails-btn, #submit-exact-percentage-btn, #submit-paid-amounts-btn, #settle-up-save-btn{
+#add-emails-btn,
+#submit-exact-percentage-btn,
+#submit-paid-amounts-btn,
+#settle-up-save-btn {
   margin-left: 0.5em;
   margin-right: 0;
   padding-top: 0.2em;
@@ -511,16 +524,16 @@ body {
   margin-top: 1em;
 }
 
-.payment-div span{
+.payment-div span {
   margin-right: 0.5em;
 }
 
-.payment-div input{
+.payment-div input {
   width: 12em;
   height: 1.5em;
 }
 
-#swap{
+#swap {
   height: 2em;
   width: 2em;
   margin-top: 0.5em;
@@ -529,94 +542,100 @@ body {
   transition: all 0.4s;
 }
 
-#swap:hover{
+#swap:hover {
   transform: rotate(360deg);
 }
 
-#settle-up-amount{
+#settle-up-amount {
   margin-top: 0.5em;
   width: 4em;
   margin-left: 6.4em;
 }
 
-#date{
+#date {
   margin-top: 1em;
   width: 12em;
   margin-left: 2.4em;
 }
 
-#settle-up-group-name{
+#settle-up-group-name {
   margin-top: 1em;
 }
 
-#settle-up-save-btn{
+#settle-up-save-btn {
   margin-top: 1em;
   width: 4em;
   margin-left: 6.4em;
 }
 
-.balance-details-div{
+.balance-details-div {
   background-color: #eee;
-  border-top: 1px solid #778381 ;
+  border-top: 1px solid #778381;
   display: flex;
   justify-content: space-between;
   padding: 0.5em;
   padding-left: 1em;
-  padding-right: 1em; 
+  padding-right: 1em;
 }
 
-#total-balance, #you-owe, #owed-to-you{
+#total-balance,
+#you-owe,
+#owed-to-you {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#total-balance, #you-owe{
+#total-balance,
+#you-owe {
   border-right: 1px solid #778381;
   padding-right: 4.5em;
 }
 
-#total-balance{
+#total-balance {
   padding-left: 2em;
 }
 
-#owed-to-you{
+#owed-to-you {
   padding-right: 2em;
 }
 
-#you-owe{
+#you-owe {
   padding-right: 3.7em;
 }
 
-#delete-expense{
+#delete-expense {
   width: 0.8em;
   height: 0.8em;
   align-self: center;
   cursor: pointer;
 }
 
-.dashboard-expenses-div{
+.dashboard-expenses-div {
   margin-top: 1em;
 }
 
-.dashboard-expenses-heading{
+.dashboard-expenses-heading {
   padding-left: 1em;
   display: flex;
   justify-content: space-around;
 }
 
-.dashboard-expenses-lists{
+.dashboard-expenses-lists {
   padding-top: 0.2em;
   display: flex;
   justify-content: space-around;
 }
 
-#you-owe-list, #you-are-owed-list{
+#you-owe-list,
+#you-are-owed-list {
   color: black;
   list-style-type: none;
   padding-left: 0em;
   margin: 0;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
 }
 
 @media only screen and (max-width: 920px) {

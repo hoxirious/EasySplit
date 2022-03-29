@@ -1,7 +1,7 @@
 import { db } from "../../firebase/repository.firebase";
 import { GroupInfoSchema } from "../../schemas/groups/groupInfo.schema";
 import { EventType } from "../events/definitions/event-type.definition";
-import { EventsService } from "../events/events.sevice";
+import { EventsService } from "../events/events.service";
 import { PostGroupBodyDto } from "./dtos/post-group.dto";
 import { GroupsRepository } from "./groups.repository";
 import { UsersRepository } from "../users/users.repository";

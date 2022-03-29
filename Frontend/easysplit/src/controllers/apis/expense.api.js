@@ -16,6 +16,13 @@ export const getExpenseByUserID = async (jwt) => {
     token: jwt,
   });
 };
+export const getFriendDebt = async (jwt) => {
+  return await sendRequest({
+    endpointInfo: ENDPOINTS.expenses.getFriendDebt,
+    method: "get",
+    token: jwt,
+  });
+};
 
 export const getExpenseWithFriend = async (extraPath, jwt) => {
   return await sendRequest({

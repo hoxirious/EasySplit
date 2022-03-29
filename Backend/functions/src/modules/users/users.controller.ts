@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Put } from "@nestjs/common";
 import { UserRecord } from "firebase-functions/v1/auth";
 import { seedStuff } from "../../loaders/mocking.loader";
 import { FirebaseUser } from "../../nestjs/decorators/firebase-user.decorator";
@@ -13,11 +13,6 @@ import { UsersService } from "./users.service";
 
 @Controller("user")
 export class UsersController {
-  @Get()
-  findAll(): string {
-    return "This action returns all cats";
-  }
-
   @Get()
   async getUser(@FirebaseUser() user: UserRecord): Promise<UserInfoSchema> {
     console.log("Getting users...");
@@ -60,7 +55,7 @@ export class UsersController {
   //Not sure if we will remove friends one by one, or get them in a group
 
   // body is the email of the deleting target
-  @Delete("/delete/friend")
+  @Put("/delete/friend")
   async removeFriend(
     @FirebaseUser() user: UserRecord,
     @Body() body: DeleteFriendListDto
