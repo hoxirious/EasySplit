@@ -595,6 +595,30 @@ body {
   cursor: pointer;
 }
 
+.dashboard-expenses-div{
+  margin-top: 1em;
+}
+
+.dashboard-expenses-heading{
+  padding-left: 1em;
+  display: flex;
+  justify-content: space-around;
+}
+
+.dashboard-expenses-lists{
+  padding-top: 0.2em;
+  display: flex;
+  justify-content: space-around;
+}
+
+#you-owe-list, #you-are-owed-list{
+  color: black;
+  list-style-type: none;
+  padding-left: 0em;
+  margin: 0;
+  font-weight: 500;
+}
+
 @media only screen and (max-width: 920px) {
   .firstDiv {
     align-items: center;
