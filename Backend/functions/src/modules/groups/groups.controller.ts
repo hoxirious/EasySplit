@@ -24,7 +24,6 @@ export class GroupsController {
   ): Promise<FirebaseFirestore.WriteResult | void> {
     console.log("Creating group...");
     const userID = user.uid;
-    console.log(userID);
     const groupInfo = {
       ...body,
     };

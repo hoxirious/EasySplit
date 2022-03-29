@@ -38,7 +38,7 @@ function FriendsSideBarExpense(props) {
   return (
     <div className="">
       <h4 style={{ color: "black" }}>Group balances</h4>
-      {userDebtStatus === "success" && userInfoStatus == "success" && (
+      {userDebtStatus === "success" && userInfoStatus === "success" && (
         <p style={{ fontSize: "1.1em" }}>
           <b>
             {userDebt.debtAmount > 0

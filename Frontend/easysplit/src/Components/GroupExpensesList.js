@@ -21,19 +21,19 @@ function GroupExpensesList(props) {
           <>
             {membersDebt.oweList.map((each) => {
               return (
-                <li>    
+                <li>
                   <div style={{ marginLeft: "1em" }}>
                     <p style={{ fontSize: "1.1em" }}>
                       <b>{each.name}</b>
                       <p style={{ fontSize: "0.85em" }}>
                         {each.debtAmount > 0 ? (
-                          <span style={{ color: "#e65c2a" }}>
+                          <b style={{ color: "#e65c2a" }}>
                             owes ${each.debtAmount}
-                          </span>
+                          </b>
                         ) : (
-                          <span style={{ color: "#2bbbad" }}>
+                          <b style={{ color: "#2bbbad" }}>
                             gets back ${each.debtAmount * -1}
-                          </span>
+                          </b>
                         )}
                       </p>
                     </p>

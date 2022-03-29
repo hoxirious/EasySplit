@@ -22,42 +22,43 @@ function GroupExpense(props) {
     }
   );
 
-  const { data: groupsInfo, status: groupsInfoStatus } = useQuery(
-    ["groupsInfo", groupID],
-    () => getExpenseByGroupID(groupID),
-    {
-      enabled: !!userJWT && !!userInfo,
-      refetchOnWindowFocus: false,
-      select: (groupsInfo) => {
-        const expenses = groupsInfo.result;
-        const ToReturn = [];
-        expenses.forEach((expense) => {
-          const myExpense = {
-            expenseID: expense.expenseID,
-            groupReference: expense.GroupExpense,
-            description: expense.description,
-            timeStamp: expense.timeStamp,
-            totalExpense: expense.totalExpense,
-            splitDetail: {},
-            expenseState: expense.expenseState,
-          };
-          for (let i = 0; i < expense.splitDetail.length; i++) {
-            console.log(expense.splitDetail[i].userID, userInfo.result.userID);
-            if (expense.splitDetail[i].userID === userInfo.result.userID) {
-              myExpense.splitDetail = expense.splitDetail[i];
-              break;
-            }
+  const {
+    data: groupsInfo,
+    status: groupsInfoStatus,
+    refetch,
+  } = useQuery(["groupsInfo", groupID], () => getExpenseByGroupID(groupID), {
+    enabled: !!userJWT && !!userInfo,
+    refetchOnWindowFocus: false,
+    select: (groupsInfo) => {
+      const expenses = groupsInfo.result;
+      const ToReturn = [];
+      expenses.forEach((expense) => {
+        const myExpense = {
+          expenseID: expense.expenseID,
+          groupReference: expense.GroupExpense,
+          description: expense.description,
+          timeStamp: expense.timeStamp,
+          totalExpense: expense.totalExpense,
+          splitDetail: {},
+          expenseState: expense.expenseState,
+        };
+        for (let i = 0; i < expense.splitDetail.length; i++) {
+          if (expense.splitDetail[i].userID === userInfo.result.userID) {
+            myExpense.splitDetail = expense.splitDetail[i];
+            break;
           }
-          ToReturn.push(myExpense);
-        });
-        console.log(ToReturn);
-        return ToReturn;
-      },
-    }
-  );
+        }
+        ToReturn.push(myExpense);
+      });
+      return ToReturn;
+    },
+  });
 
-  const { mutate: deleteExpenseMutation, data:deleteExpense } = useMutation(async (expenseID) =>
-    deleteExpenseByID(userJWT, expenseID)
+  const { mutate: deleteExpenseMutation, data: deleteExpense } = useMutation(
+    async (expenseID) => deleteExpenseByID(userJWT, expenseID),
+    {
+      onSuccess: refetch
+    }
   );
 
   return (
@@ -162,9 +163,9 @@ function GroupExpense(props) {
           </>
         )}
       {groupsInfoStatus === "success" && groupsInfo.length === 0 && (
-        <h1 style={{ color: "black", margin: 30 }}>
+        <h3 style={{ color: "black", margin: 30 }}>
           You have not added any expenses yet
-        </h1>
+        </h3>
       )}
     </div>
   );

@@ -67,7 +67,6 @@ export class EventsService {
         debtAmount: memberDebt,
       });
     }
-    console.log(ToReturn);
     return ToReturn;
   }
 
@@ -175,7 +174,6 @@ export class EventsService {
     return userStream.eventList.reduce<number>((currentBalance, event) => {
       //* Assert event.eventContent type into ExpenseInfoSchema
       const eventContent = event.eventContent as ExpenseInfoSchema;
-      console.log(event.eventType);
       //* If event has groupReference and its type is expense
       if (isExpenseType(event.eventType)) {
         //*  Retrieve billing that relates to userID

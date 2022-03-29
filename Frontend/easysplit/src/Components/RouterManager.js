@@ -6,6 +6,9 @@ import LeftSideBar from "./LeftSidebar";
 import MiddleBar from "./MiddleBar";
 import RightSidebar from "./RightSidebar";
 import SettleUpModal from "./SettleUpModal";
+import { NavLink } from "react-router-dom";
+import { auth } from "../App";
+import easysplitlogo from "../Resources/divided.png";
 
 function RouterManager(props) {
   const [addFriend, setAddFriend] = useState(false);
@@ -17,12 +20,22 @@ function RouterManager(props) {
     <div className="homeScreenDiv">
       <nav
         id="mainNavbar"
-        className="navbar navbar-dark bg-dark py-0 px-0 fixed-top d-flex"
+        className="navbar navbar-dark bg-dark py-0 px-0 fixed-top flex"
       >
+        <NavLink className="nav-left" to="/dashboard">
+          <img src={easysplitlogo} alt="easysplitlogo" className="nav-logo" />
+          <b>Easy Split</b>
+        </NavLink>
         <div className="nav-btns">
-          <button className="btn btn-success my-2 mx-2 signup-btn">
-            Your Account
-          </button>
+          <NavLink
+            to="/"
+            className="btn btn-success my-2 mr-4 signup-btn"
+            onClick={async () => {
+              await auth.signOut();
+            }}
+          >
+            Log out
+          </NavLink>
         </div>
       </nav>
       <div className="dashBoardDiv">

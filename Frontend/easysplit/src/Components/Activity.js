@@ -32,6 +32,7 @@ export default function Activity(props) {
                 paddingBottom: 0.5 + "em",
                 paddingLeft: 0.5 + "em",
                 paddingTop: 0.5 + "em",
+                height: "3em",
               }}
             >
               <span style={{ color: "#2bbbad" }}>
@@ -46,7 +47,7 @@ export default function Activity(props) {
                 </b>{" "}
                 {props.actionType}
                 <b> {props.eventContent.description} </b>
-                in {props.eventContent.groupReference ?? ""}
+                expense
               </span>
             </li>
           )}
@@ -60,6 +61,7 @@ export default function Activity(props) {
                 paddingBottom: 0.5 + "em",
                 paddingLeft: 0.5 + "em",
                 paddingTop: 0.5 + "em",
+                height: "3em",
               }}
             >
               <span style={{ color: "#2bbbad" }}>
