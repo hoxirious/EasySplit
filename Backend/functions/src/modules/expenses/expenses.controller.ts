@@ -5,6 +5,7 @@ import { BillingInfoSchema } from "../../schemas/expenses/billingInfo.schema";
 import { ExpenseInfoSchema } from "../../schemas/expenses/expenseInfo.schema";
 import { EventsService } from "../events/events.service";
 import { ReturnFriendDebtBodyDto } from "./dtos/get-friendDebt.dto";
+import { ReturnGroupDebtBodyDto } from "./dtos/get-groupDebt.dto";
 import { GetSplitBillingBodyPayment } from "./dtos/get-splitBillingPayment.dto";
 import { PostExpenseBodyDto } from "./dtos/post-expense.dto";
 import { AddExpenseToGroupBodyDto } from "./dtos/put-AddExpenseToGroupBodyDto.dto";
@@ -108,5 +109,12 @@ export class ExpensesController {
     @FirebaseUser() user: UserRecord
   ): Promise<ReturnFriendDebtBodyDto> {
     return await EventsService.getFriendDebt(user.uid);
+  }
+
+  @Get("/groupDebt/:groupID")
+  async getGroupDebt(
+    @Param("groupID") groupID: string
+  ): Promise<ReturnGroupDebtBodyDto> {
+    return await EventsService.getGroupDebt(groupID);
   }
 }

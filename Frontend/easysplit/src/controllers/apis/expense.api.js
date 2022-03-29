@@ -23,6 +23,14 @@ export const getFriendDebt = async (jwt) => {
     token: jwt,
   });
 };
+export const getGroupDebt = async (extraPath) => {
+  return await sendRequest({
+    endpointInfo: ENDPOINTS.expenses.getGroupDebt,
+    method: "get",
+    useTokenInHeaders: false,
+    extraPath,
+  });
+};
 
 export const getExpenseWithFriend = async (extraPath, jwt) => {
   return await sendRequest({

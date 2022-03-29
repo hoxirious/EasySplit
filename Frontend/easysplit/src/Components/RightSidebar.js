@@ -1,15 +1,19 @@
-import React from "react"
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import GroupExpensesList from "./GroupExpensesList";
 function RightSidebar() {
-    return (
-
-        <div className="thirdDiv">
-            <h2 style={{ color: "black", marginTop: 10, marginLeft: 30 }}>Your Total Balance</h2>
-            <div style={{ color: "black", margin: 30 }}>
-                {/* Total balance will be added to the innerHtml of this div */}
-                You are all settled up
-            </div>
-        </div>
-    )
+  return (
+    <div className="thirdDiv">
+      
+      <div style={{ color: "black", margin: 30 }}>
+        <Switch>
+          <Route path="/dashboard/groups/:groupID">
+            <GroupExpensesList />
+          </Route>
+        </Switch>
+      </div>
+    </div>
+  );
 }
 
-export default RightSidebar
+export default RightSidebar;

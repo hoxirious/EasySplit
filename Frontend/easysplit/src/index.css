@@ -611,6 +611,12 @@ body {
   cursor: pointer;
 }
 
+#group-expenses-list{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 .dashboard-expenses-div {
   margin-top: 1em;
 }
