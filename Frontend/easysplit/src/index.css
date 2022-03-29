@@ -22,7 +22,6 @@ body {
 }
 
 .navbar {
-  justify-content: flex-end;
 }
 
 .login-btn,
@@ -611,7 +610,7 @@ body {
   cursor: pointer;
 }
 
-#group-expenses-list{
+#group-expenses-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -631,6 +630,23 @@ body {
   padding-top: 0.2em;
   display: flex;
   justify-content: space-around;
+}
+.navbar {
+  padding: 2em;
+  height: 3.7em;
+}
+.nav-left {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #5bc5a7;
+  font-size: 1.2em;
+  width: 7em;
+  margin-left: 10em;
+}
+.nav-logo {
+  width: 2em;
+  height: 2em;
 }
 
 #you-owe-list,

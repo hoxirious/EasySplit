@@ -90,7 +90,6 @@ export class ExpensesController {
   async splitExpense(
     @Body() body: GetSplitBillingBodyPayment
   ): Promise<BillingInfoSchema[]> {
-    console.log(body);
     return await ExpensesService.splitExpense(body.userPayment);
   }
 

@@ -17,18 +17,19 @@ function FriendExpense(props) {
 
   const userJWT = jwt;
 
-  const { data: userInfo, status: userInfoStatus } = useQuery(
-    ["userInfo", userJWT],
-    () => getUser(userJWT),
-    {
-      // The query will not execute until the userJWT exists
-      enabled: !!userJWT,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const {
+    data: userInfo,
+    status: userInfoStatus,
+    refetch,
+  } = useQuery(["userInfo", userJWT], () => getUser(userJWT), {
+    // The query will not execute until the userJWT exists
+    enabled: !!userJWT,
+    refetchOnWindowFocus: false,
+  });
 
-  const { mutate: deleteExpenseMutation } = useMutation(async (expenseID) =>
-    deleteExpenseByID(userJWT, expenseID)
+  const { mutate: deleteExpenseMutation } = useMutation(
+    async (expenseID) => deleteExpenseByID(userJWT, expenseID),
+    { onSuccess: refetch }
   );
 
   const { data: friendsInfo, status: friendsInfoStatus } = useQuery(
@@ -51,7 +52,6 @@ function FriendExpense(props) {
             expenseState: expense.expenseState,
           };
           for (let i = 0; i < expense.splitDetail.length; i++) {
-            console.log(expense.splitDetail[i].userID, userInfo.result.userID);
             if (expense.splitDetail[i].userID === userInfo.result.userID) {
               myExpense.splitDetail = expense.splitDetail[i];
               break;
@@ -59,7 +59,6 @@ function FriendExpense(props) {
           }
           ToReturn.push(myExpense);
         });
-        console.log(ToReturn);
         return ToReturn;
       },
     }
@@ -162,9 +161,9 @@ function FriendExpense(props) {
         </>
       )}
       {friendsInfoStatus === "success" && friendsInfo.length === 0 && (
-        <h1 style={{ color: "black", margin: 30 }}>
+        <h3 style={{ color: "black", margin: 30 }}>
           You have not added any expenses yet
-        </h1>
+        </h3>
       )}
     </div>
   );

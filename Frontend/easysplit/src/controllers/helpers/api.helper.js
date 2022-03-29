@@ -21,8 +21,6 @@ export const sendRequest = async ({
       headers["Content-Type"] = "application/json";
     }
 
-    console.log(headers)
-    console.log(baseURL + endpointInfo + `${extraPath ?? ""}`);
     const response = await axios({
       baseURL: baseURL + endpointInfo + `${extraPath ?? ""}`,
       headers,

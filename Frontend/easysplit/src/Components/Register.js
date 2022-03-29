@@ -24,9 +24,7 @@ function Register() {
         email,
         friendList: [],
       };
-      console.log(createUser(userInfo, jwt));
     } catch (error) {
-      console.log(error.message);
     }
   };
 

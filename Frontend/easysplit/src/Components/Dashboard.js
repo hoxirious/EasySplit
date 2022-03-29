@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getFriendDebt } from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
-import DashboardExpensesList from "./DashboardExpensesList";
+import { useEffect } from "react";
 
 export default function Dashboard(props) {
   const { data: jwt } = useQuery("jwt", getUserJWt);
@@ -18,44 +18,44 @@ export default function Dashboard(props) {
     }
   );
 
-  const { data: debtInfo, status: debtInfoStatus } = useQuery(
-    ["debtInfo", userJWT],
-    () => getFriendDebt(userJWT),
-    {
-      enabled: !!userJWT && !!userInfo,
-      refetchOnWindowFocus: false,
-      select: (debtInfo) => {
-        let ToReturn = {
-          totalBalance: 0,
-          totalYouOwe: 0,
-          totalFriendOwe: 0,
-          youOwe: debtInfo.result.youOwe,
-          friendOwe: debtInfo.result.friendOwe,
-        };
-        if (debtInfo.result.friendOwe.length !== 0) {
-          ToReturn.totalFriendOwe = debtInfo.result.friendOwe.reduce(
-            (current, value) => {
-              current += value.debtAmount;
-              return current;
-            },
-            0
-          );
-        }
-        if (debtInfo.result.youOwe.length !== 0) {
-          ToReturn.totalYouOwe = debtInfo.result.youOwe.reduce(
-            (current, value) => {
-              current += value.debtAmount;
-              return current;
-            },
-            0
-          );
-        }
-        ToReturn.totalBalance = ToReturn.totalFriendOwe - ToReturn.totalYouOwe;
+  const {
+    data: debtInfo,
+    status: debtInfoStatus,
+    refetch,
+  } = useQuery(["debtInfo", userJWT], () => getFriendDebt(userJWT), {
+    enabled: !!userJWT && !!userInfo,
+    refetchOnWindowFocus: false,
+    select: (debtInfo) => {
+      let ToReturn = {
+        totalBalance: 0,
+        totalYouOwe: 0,
+        totalFriendOwe: 0,
+        youOwe: debtInfo.result.youOwe,
+        friendOwe: debtInfo.result.friendOwe,
+      };
+      if (debtInfo.result.friendOwe.length !== 0) {
+        ToReturn.totalFriendOwe = debtInfo.result.friendOwe.reduce(
+          (current, value) => {
+            current += value.debtAmount;
+            return current;
+          },
+          0
+        );
+      }
+      if (debtInfo.result.youOwe.length !== 0) {
+        ToReturn.totalYouOwe = debtInfo.result.youOwe.reduce(
+          (current, value) => {
+            current += value.debtAmount;
+            return current;
+          },
+          0
+        );
+      }
+      ToReturn.totalBalance = ToReturn.totalFriendOwe - ToReturn.totalYouOwe;
 
-        return ToReturn;
-      },
-    }
-  );
+      return ToReturn;
+    },
+  });
 
   return (
     <div className="all-expenses-div">

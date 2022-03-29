@@ -20,7 +20,11 @@ function AllExpenses(props) {
       refetchOnWindowFocus: false,
     }
   );
-  const { data: allExpenses, status: allExpensesStatus } = useQuery(
+  const {
+    data: allExpenses,
+    status: allExpensesStatus,
+    refetch,
+  } = useQuery(
     ["allExpenses", userJWT, userInfo],
     () => getExpenseByUserID(userJWT),
     {
@@ -30,8 +34,9 @@ function AllExpenses(props) {
     }
   );
 
-  const { mutate: deleteExpenseMutation } = useMutation(async (expenseID) =>
-    deleteExpenseByID(userJWT, expenseID)
+  const { mutate: deleteExpenseMutation } = useMutation(
+    async (expenseID) => deleteExpenseByID(userJWT, expenseID),
+    { onSuccess: refetch }
   );
 
   function getYourLentAmount(splitDetail, userID) {
@@ -51,10 +56,6 @@ function AllExpenses(props) {
       }
     });
     return paidAmount;
-  }
-
-  function deleteExpense() {
-    console.log("Expense Deleted");
   }
 
   return (
@@ -173,9 +174,9 @@ function AllExpenses(props) {
           })}
       </ul>
       {allExpensesStatus === "success" && allExpenses.result.length === 0 && (
-        <h1 style={{ color: "black", margin: 30 }}>
+        <h3 style={{ color: "black", margin: 30 }}>
           You have not added any expenses yet
-        </h1>
+        </h3>
       )}
     </div>
   );

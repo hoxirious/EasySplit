@@ -44,7 +44,7 @@ function AddExpenseModal(props) {
         };
         desc.current.value = "";
         amount.current.value = "";
-        return await createExpense(createExpenseData, userJWT);
+        await createExpense(createExpenseData, userJWT);
       },
     }
   );
@@ -212,7 +212,6 @@ function AddExpenseModal(props) {
       };
       returnObj.push(obj);
     }
-    console.log(returnObj);
     modal.current.style.display = "none";
     shareWithInput.current.value = "";
     splitInfoDiv.current.innerHTML = "";
