@@ -13,10 +13,6 @@ function GroupExpensesList(props) {
     }
   );
 
-  useEffect(() => {
-    props.setGroupID(groupID);
-  }, [groupID]);
-
   return (
     <>
       <h4 style={{ color: "black" }}>Group balances</h4>

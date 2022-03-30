@@ -8,10 +8,10 @@ function RightSidebar(props) {
       <div style={{ color: "black", margin: 30 }}>
         <Switch>
           <Route path="/dashboard/groups/:groupID">
-            <GroupExpensesList setGroupID={props.setGroupID} />
+            <GroupExpensesList />
           </Route>
           <Route path="/dashboard/friends/:friendID">
-            <FriendsSideBarExpense setFriendID={props.setFriendID} />
+            <FriendsSideBarExpense />
           </Route>
         </Switch>
       </div>

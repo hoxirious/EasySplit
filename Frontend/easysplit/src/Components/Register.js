@@ -17,12 +17,12 @@ function Register() {
         registerEmail,
         registerPassword
       );
+      console.log(user);
       const email = user.user.email;
       const jwt = await user.user.getIdToken();
       const userInfo = {
         name: registerName,
         email,
-        friendList: [],
       };
       await createUser(userInfo, jwt);
     } catch (error) {}

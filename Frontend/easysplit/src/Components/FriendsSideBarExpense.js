@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import { getCurrentBalanceFromFriend } from "../controllers/apis/expense.api";
 import { getUser } from "../controllers/apis/user.api";
 import { getUserJWt } from "../controllers/helpers/api.helper";
@@ -35,9 +35,6 @@ function FriendsSideBarExpense(props) {
     }
   );
 
-  useEffect(() => {
-    props.setFriendID(friendID);
-  }, [friendID]);
 
   return (
     <div className="">

@@ -1,23 +1,17 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import React, { useState } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import {
+  BrowserRouter as Router,
+  Redirect, Route, Switch
+} from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
-import { UserApi } from "./controllers/apis/user.api";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
-import Dashboard from "./Components/RouterManager";
-import { useState, useEffect } from "react";
-import {
-  Switch,
-  Route,
-  BrowserRouter as Router,
-  Redirect,
-} from "react-router-dom";
-import React from "react";
-import GroupExpense from "./Components/GroupExpense";
 import RouterManager from "./Components/RouterManager";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuqfN8W85SXnYiG-7dL3TVw8lBT49UelY",
@@ -30,7 +24,6 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-connectAuthEmulator(auth, "http://localhost:9099");
 
 const authentication = auth.onAuthStateChanged((user) => user);
 const queryClient = new QueryClient();
